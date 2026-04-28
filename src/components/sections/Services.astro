@@ -1,0 +1,384 @@
+---
+import Section from "../common/Section.astro";
+
+const featuredService = {
+    title: "Business Intelligence",
+    description:
+        "Convertimos tus datos en decisiones. Dashboards interactivos, KPIs en tiempo real y reportes automáticos accesibles desde cualquier navegador. Dejá de mirar planillas — empezá a ver tu negocio.",
+    features: [
+        "Dashboards en vivo",
+        "KPIs · Métricas",
+        "Reportes automáticos",
+        "Integración con tus datos",
+    ],
+};
+
+const services = [
+    {
+        title: "Sitios Web",
+        description:
+            "Landings y sitios corporativos con diseño a medida, optimizados para velocidad, SEO y conversión real.",
+        features: ["Diseño UI/UX", "Performance pro", "SEO técnico"],
+    },
+    {
+        title: "Apps Web",
+        description:
+            "Sistemas a medida: paneles, gestores y plataformas internas que automatizan tu operación.",
+        features: ["Dashboards", "Autenticación", "APIs · Bases de datos"],
+    },
+    {
+        title: "Consultoría",
+        description:
+            "Te acompañamos en decisiones de producto, tecnología y estrategia digital con criterio real.",
+        features: ["Auditoría técnica", "Estrategia digital", "Roadmap"],
+    },
+];
+---
+
+<Section
+    id="services"
+    class="!h-auto flex-col rounded-4xl px-6 md:px-12 lg:px-20 !py-32"
+>
+    <div class="max-w-6xl mx-auto w-full">
+        <!-- Encabezado -->
+        <div class="grid md:grid-cols-12 gap-10 md:gap-16 items-end mb-20">
+            <div class="md:col-span-7">
+                <span
+                    data-services-eyebrow
+                    class="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-gray-500"
+                >
+                    <span class="w-6 h-px bg-gray-400"></span>
+                    Servicios
+                </span>
+
+                <h2
+                    data-services-heading
+                    class="mt-6 text-4xl md:text-6xl font-semibold leading-[1.05] tracking-tight"
+                >
+                    Lo que hacemos por <span
+                        class="italic font-light text-gray-500">tu marca.</span
+                    >
+                </h2>
+            </div>
+
+            <div class="md:col-span-5">
+                <p
+                    data-services-paragraph
+                    class="text-base md:text-lg text-gray-600 leading-relaxed"
+                >
+                    Desde la primera idea hasta el último deploy: combinamos
+                    diseño, ingeniería y estrategia para crear productos
+                    digitales que realmente funcionan. Cada servicio se adapta a
+                    tu proyecto — no al revés.
+                </p>
+            </div>
+        </div>
+
+        <!-- Servicio destacado: BI -->
+        <div
+            data-services-featured
+            class="relative bg-black text-white rounded-3xl overflow-hidden p-8 md:p-12 lg:p-16 mb-px"
+        >
+            <div class="grid md:grid-cols-12 gap-10 md:gap-12 items-center">
+                <div class="md:col-span-7 relative z-10">
+                    <div class="flex items-center gap-3 mb-8">
+                        <span
+                            class="text-xs uppercase tracking-[0.2em] text-white/50 font-mono"
+                        >
+                            Destacado · 01
+                        </span>
+                        <span
+                            class="px-3 py-1 text-[10px] uppercase tracking-wider bg-white/10 border border-white/20 rounded-full"
+                        >
+                            Nuestra especialidad
+                        </span>
+                    </div>
+
+                    <h3
+                        class="text-3xl md:text-5xl font-semibold mb-5 tracking-tight leading-[1.05]"
+                    >
+                        {featuredService.title}
+                    </h3>
+                    <p
+                        class="text-white/70 leading-relaxed text-base md:text-lg max-w-xl mb-8"
+                    >
+                        {featuredService.description}
+                    </p>
+
+                    <ul class="flex flex-wrap gap-2 mb-10">
+                        {
+                            featuredService.features.map((f) => (
+                                <li class="text-xs uppercase tracking-wider text-white/70 border border-white/20 rounded-full px-3 py-1.5">
+                                    {f}
+                                </li>
+                            ))
+                        }
+                    </ul>
+
+                    <a
+                        href="#contacto"
+                        class="inline-flex items-center gap-3 bg-white text-black px-6 py-3 rounded-full hover:bg-gray-200 transition duration-300"
+                    >
+                        Quiero un dashboard
+                        <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 14 14"
+                            fill="none"
+                        >
+                            <path
+                                d="M1 13L13 1M13 1H3M13 1V11"
+                                stroke="currentColor"
+                                stroke-width="1.5"></path>
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- Mock visual de dashboard -->
+                <div
+                    data-services-chart
+                    class="md:col-span-5 relative aspect-square md:aspect-[4/5] bg-white/5 border border-white/10 rounded-2xl p-6 overflow-hidden"
+                >
+                    <div class="flex items-center justify-between mb-4">
+                        <span
+                            class="text-xs text-white/50 uppercase tracking-wider"
+                        >
+                            Ventas · Este mes
+                        </span>
+                        <span
+                            class="flex items-center gap-1.5 text-xs text-green-400"
+                        >
+                            <span
+                                class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"
+                            ></span>
+                            Live
+                        </span>
+                    </div>
+
+                    <div class="text-3xl md:text-4xl font-semibold mb-1">
+                        $48.2k
+                    </div>
+                    <div class="text-xs text-green-400 mb-6">
+                        ↑ 12.4% vs. mes anterior
+                    </div>
+
+                    <!-- Gráfico de barras -->
+                    <div class="flex items-end gap-1.5 h-24 md:h-32 mb-6">
+                        {
+                            [
+                                40, 65, 35, 80, 55, 90, 70, 95, 60, 85, 75, 100,
+                            ].map((h) => (
+                                <div
+                                    class="flex-1 bg-white/20 rounded-sm chart-bar"
+                                    style={`height: ${h}%`}
+                                />
+                            ))
+                        }
+                    </div>
+
+                    <div
+                        class="grid grid-cols-3 gap-3 pt-4 border-t border-white/10"
+                    >
+                        <div>
+                            <div class="text-xs text-white/50">Conversión</div>
+                            <div class="text-sm font-semibold mt-0.5">3.8%</div>
+                        </div>
+                        <div>
+                            <div class="text-xs text-white/50">Sesiones</div>
+                            <div class="text-sm font-semibold mt-0.5">
+                                12.4k
+                            </div>
+                        </div>
+                        <div>
+                            <div class="text-xs text-white/50">Ticket</div>
+                            <div class="text-sm font-semibold mt-0.5">$89</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Glow decorativo -->
+            <div
+                class="absolute -top-32 -right-32 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none"
+            >
+            </div>
+        </div>
+
+        <!-- Otros servicios -->
+        <div
+            class="grid md:grid-cols-3 gap-px bg-gray-200 rounded-3xl overflow-hidden border border-gray-200"
+        >
+            {
+                services.map((s, i) => (
+                    <div
+                        data-services-item
+                        class="bg-white p-8 md:p-10 group hover:bg-gray-50 transition-colors duration-300"
+                    >
+                        <div class="flex items-start justify-between mb-8">
+                            <span class="text-sm text-gray-400 font-mono">
+                                0{i + 2}
+                            </span>
+                            <span class="w-9 h-9 rounded-full border border-black/10 flex items-center justify-center group-hover:border-black/40 group-hover:rotate-45 transition-all duration-500">
+                                <svg
+                                    width="11"
+                                    height="11"
+                                    viewBox="0 0 10 10"
+                                    fill="none"
+                                >
+                                    <path
+                                        d="M1 9L9 1M9 1H2M9 1V8"
+                                        stroke="currentColor"
+                                        stroke-width="1.2"
+                                    />
+                                </svg>
+                            </span>
+                        </div>
+
+                        <h3 class="text-xl md:text-2xl font-semibold mb-3 tracking-tight">
+                            {s.title}
+                        </h3>
+                        <p class="text-gray-600 leading-relaxed mb-6 text-sm">
+                            {s.description}
+                        </p>
+
+                        <ul class="flex flex-wrap gap-2">
+                            {s.features.map((f) => (
+                                <li class="text-[10px] uppercase tracking-wider text-gray-500 border border-black/10 rounded-full px-2.5 py-1">
+                                    {f}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                ))
+            }
+        </div>
+
+        <!-- Nota al pie -->
+        <div
+            data-services-note
+            class="mt-16 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pt-12 border-t border-black/10"
+        >
+            <p class="text-gray-600 max-w-md">
+                ¿Necesitás algo distinto? Hablamos cualquier proyecto que tenga
+                sentido — escribinos y vemos cómo encararlo.
+            </p>
+            <a
+                href="#contacto"
+                class="shrink-0 inline-flex items-center gap-3 border border-black px-6 py-3 rounded-full hover:bg-black hover:text-white transition duration-300"
+            >
+                Contanos tu idea
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path
+                        d="M1 13L13 1M13 1H3M13 1V11"
+                        stroke="currentColor"
+                        stroke-width="1.5"></path>
+                </svg>
+            </a>
+        </div>
+    </div>
+</Section>
+
+<style>
+    :global(html:not(.services-ready)) [data-services-eyebrow],
+    :global(html:not(.services-ready)) [data-services-heading],
+    :global(html:not(.services-ready)) [data-services-paragraph],
+    :global(html:not(.services-ready)) [data-services-featured],
+    :global(html:not(.services-ready)) [data-services-item],
+    :global(html:not(.services-ready)) [data-services-note] {
+        opacity: 0;
+    }
+    [data-services-featured] .chart-bar {
+        transform-origin: bottom;
+    }
+</style>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const eyebrow = document.querySelector<HTMLElement>(
+        "[data-services-eyebrow]",
+    );
+    const heading = document.querySelector<HTMLElement>(
+        "[data-services-heading]",
+    );
+    const paragraph = document.querySelector<HTMLElement>(
+        "[data-services-paragraph]",
+    );
+    const featured = document.querySelector<HTMLElement>(
+        "[data-services-featured]",
+    );
+    const chartBars = document.querySelectorAll<HTMLElement>(
+        "[data-services-featured] .chart-bar",
+    );
+    const items = document.querySelectorAll<HTMLElement>(
+        "[data-services-item]",
+    );
+    const note = document.querySelector<HTMLElement>("[data-services-note]");
+
+    gsap.set([eyebrow, heading, paragraph], { opacity: 0, y: 30 });
+    gsap.set(featured, { opacity: 0, y: 40 });
+    gsap.set(chartBars, { scaleY: 0 });
+    gsap.set(items, { opacity: 0, y: 40 });
+    gsap.set(note, { opacity: 0, y: 20 });
+
+    document.documentElement.classList.add("services-ready");
+
+    const intro = gsap.timeline({
+        defaults: { ease: "power3.out", duration: 0.8 },
+        scrollTrigger: {
+            trigger: "#servicios",
+            start: "top 75%",
+        },
+    });
+
+    intro
+        .to(eyebrow, { opacity: 1, y: 0, duration: 0.5 })
+        .to(heading, { opacity: 1, y: 0 }, "-=0.2")
+        .to(paragraph, { opacity: 1, y: 0 }, "-=0.5");
+
+    gsap.to(featured, {
+        opacity: 1,
+        y: 0,
+        duration: 0.9,
+        ease: "power3.out",
+        scrollTrigger: {
+            trigger: featured,
+            start: "top 80%",
+            onEnter: () => {
+                gsap.to(chartBars, {
+                    scaleY: 1,
+                    duration: 0.8,
+                    stagger: 0.05,
+                    ease: "power3.out",
+                    delay: 0.3,
+                });
+            },
+        },
+    });
+
+    gsap.to(items, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        stagger: 0.12,
+        ease: "power3.out",
+        scrollTrigger: {
+            trigger: items[0],
+            start: "top 85%",
+        },
+    });
+
+    gsap.to(note, {
+        opacity: 1,
+        y: 0,
+        duration: 0.7,
+        ease: "power3.out",
+        scrollTrigger: {
+            trigger: note,
+            start: "top 90%",
+        },
+    });
+</script>

@@ -1,0 +1,228 @@
+---
+import Logo from "../Icons/Logo.astro";
+
+const navGroups = [
+    {
+        title: "Navegación",
+        links: [
+            { label: "Inicio", href: "#hero" },
+            { label: "Nosotros", href: "#about" },
+            { label: "Proyectos", href: "#portafolio" },
+            { label: "Contacto", href: "#contacto" },
+        ],
+    },
+    {
+        title: "Servicios",
+        links: [
+            { label: "Sitios Web", href: "#services" },
+            { label: "Apps Web", href: "#services" },
+            { label: "Business Intelligence", href: "#services" },
+            { label: "Consultoría", href: "#services" },
+        ],
+    },
+    {
+        title: "Contacto",
+        links: [
+            // {
+            //     label: "hola@stratecode.com",
+            //     href: "mailto:hola@stratecode.com",
+            // },
+            { label: "Instagram", href: "#" },
+            { label: "Facebook", href: "#" },
+            { label: "X", href: "#" },
+        ],
+    },
+];
+
+const year = new Date().getFullYear();
+---
+
+<footer
+    data-footer
+    class="relative rounded-4xl mx-2 md:mx-4 mb-2 md:mb-4 px-6 md:px-12 lg:px-20 py-16 md:py-20 overflow-hidden"
+>
+    <div class="max-w-6xl mx-auto w-full">
+        <!-- Encabezado -->
+        <div
+            class="grid md:grid-cols-12 gap-10 md:gap-16 pb-16 border-b border-black/10"
+        >
+            <div class="md:col-span-6">
+                <span
+                    data-footer-eyebrow
+                    class="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-gray-500"
+                >
+                    <span class="w-6 h-px bg-gray-400"></span>
+                    Hablemos
+                </span>
+
+                <h2
+                    data-footer-heading
+                    class="mt-6 text-4xl md:text-6xl font-semibold leading-[1.05] tracking-tight"
+                >
+                    Tu idea nosotros la<span
+                        class="italic font-light text-gray-500"
+                        >hacemos realidad.</span
+                    >
+                </h2>
+
+                <a
+                    data-footer-cta
+                    href="#contacto"
+                    class="mt-10 inline-flex items-center gap-3 bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition duration-300"
+                >
+                    Empezar un proyecto
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path
+                            d="M1 13L13 1M13 1H3M13 1V11"
+                            stroke="currentColor"
+                            stroke-width="1.5"></path>
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Grupos de enlaces -->
+            <div class="md:col-span-6 grid grid-cols-2 md:grid-cols-3 gap-8">
+                {
+                    navGroups.map((group) => (
+                        <div data-footer-group>
+                            <h3 class="text-sm font-semibold mb-5 tracking-tight">
+                                {group.title}
+                            </h3>
+                            <ul class="space-y-3">
+                                {group.links.map((link) => (
+                                    <li>
+                                        <a
+                                            href={link.href}
+                                            class="text-sm text-gray-500 hover:text-black transition-colors duration-300"
+                                        >
+                                            {link.label}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))
+                }
+            </div>
+        </div>
+
+        <!-- Marca grande -->
+        <div
+            data-footer-brand
+            class="flex items-center justify-center py-12 md:py-16 select-none"
+        >
+            <span
+                class="text-[18vw] md:text-[14vw] leading-none font-semibold tracking-tighter text-black/5"
+            >
+                StrateCode
+            </span>
+        </div>
+
+        <!-- Bottom bar -->
+        <div
+            class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pt-8 border-t border-black/10"
+        >
+            <div data-footer-bottom class="flex items-center gap-3">
+                <Logo class="w-8 h-8" />
+                <span class="text-sm text-gray-500">
+                    © {year} Strate Code. Todos los derechos reservados.
+                </span>
+            </div>
+
+            <div
+                data-footer-bottom
+                class="flex items-center gap-6 text-sm text-gray-500"
+            >
+                <a href="#" class="hover:text-black transition-colors"
+                    >Privacidad</a
+                >
+                <a href="#" class="hover:text-black transition-colors"
+                    >Términos</a
+                >
+                <span class="hidden md:inline-flex items-center gap-2">
+                    <span
+                        class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"
+                    ></span>
+                    Disponible para nuevos proyectos
+                </span>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<style>
+    :global(html:not(.footer-ready)) [data-footer-eyebrow],
+    :global(html:not(.footer-ready)) [data-footer-heading],
+    :global(html:not(.footer-ready)) [data-footer-cta],
+    :global(html:not(.footer-ready)) [data-footer-group],
+    :global(html:not(.footer-ready)) [data-footer-brand],
+    :global(html:not(.footer-ready)) [data-footer-bottom] {
+        opacity: 0;
+    }
+</style>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const eyebrow = document.querySelector<HTMLElement>(
+        "[data-footer-eyebrow]",
+    );
+    const heading = document.querySelector<HTMLElement>(
+        "[data-footer-heading]",
+    );
+    const cta = document.querySelector<HTMLElement>("[data-footer-cta]");
+    const groups = document.querySelectorAll<HTMLElement>(
+        "[data-footer-group]",
+    );
+    const brand = document.querySelector<HTMLElement>("[data-footer-brand]");
+    const bottom = document.querySelectorAll<HTMLElement>(
+        "[data-footer-bottom]",
+    );
+
+    gsap.set([eyebrow, heading, cta], { opacity: 0, y: 30 });
+    gsap.set(groups, { opacity: 0, y: 20 });
+    gsap.set(brand, { opacity: 0, scale: 0.95 });
+    gsap.set(bottom, { opacity: 0, y: 10 });
+
+    document.documentElement.classList.add("footer-ready");
+
+    const intro = gsap.timeline({
+        defaults: { ease: "power3.out", duration: 0.8 },
+        scrollTrigger: {
+            trigger: "[data-footer]",
+            start: "top 80%",
+        },
+    });
+
+    intro
+        .to(eyebrow, { opacity: 1, y: 0, duration: 0.5 })
+        .to(heading, { opacity: 1, y: 0 }, "-=0.2")
+        .to(cta, { opacity: 1, y: 0, duration: 0.6 }, "-=0.4")
+        .to(groups, { opacity: 1, y: 0, duration: 0.6, stagger: 0.1 }, "-=0.5");
+
+    gsap.to(brand, {
+        opacity: 1,
+        scale: 1,
+        duration: 1.2,
+        ease: "power3.out",
+        scrollTrigger: {
+            trigger: brand,
+            start: "top 90%",
+        },
+    });
+
+    gsap.to(bottom, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.1,
+        ease: "power3.out",
+        scrollTrigger: {
+            trigger: bottom[0],
+            start: "top 95%",
+        },
+    });
+</script>
