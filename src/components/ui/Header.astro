@@ -1,0 +1,134 @@
+---
+import Logo from "../Icons/Logo.astro";
+---
+
+<header
+    data-header
+    class="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-white/70 border-b border-black/5"
+>
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+        <!-- Logo -->
+        <div data-header-logo class="flex items-center">
+            <Logo class="w-10 h-10" />
+        </div>
+
+        <!-- Navegación -->
+        <nav class="hidden md:flex items-center gap-10 text-sm text-gray-600">
+            <a data-header-link href="#" class="hover:text-black transition"
+                >Nosotros</a
+            >
+            <a
+                data-header-link
+                href="#servicios"
+                class="hover:text-black transition">Servicios</a
+            >
+            <a
+                data-header-link
+                href="#portafolio"
+                class="hover:text-black transition">Proyectos</a
+            >
+            <a
+                data-header-link
+                href="#contacto"
+                class="hover:text-black transition">Contacto</a
+            >
+        </nav>
+
+        <!-- CTA -->
+        <div class="hidden md:block">
+            <a
+                data-header-cta
+                href="#contacto"
+                class="border border-black px-5 py-2 rounded-full text-sm hover:bg-black hover:text-white transition"
+            >
+                Empezar
+            </a>
+        </div>
+
+        <!-- Botón móvil -->
+        <button data-header-mobile class="md:hidden">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+    </div>
+</header>
+
+<style>
+    :global(html:not(.header-ready)) [data-header-logo],
+    :global(html:not(.header-ready)) [data-header-link],
+    :global(html:not(.header-ready)) [data-header-cta],
+    :global(html:not(.header-ready)) [data-header-mobile] {
+        visibility: hidden;
+    }
+</style>
+
+<script>
+    import { gsap } from "gsap";
+
+    const header = document.querySelector<HTMLElement>("[data-header]");
+    const logo = document.querySelector<HTMLElement>("[data-header-logo]");
+    const links = document.querySelectorAll<HTMLElement>("[data-header-link]");
+    const cta = document.querySelector<HTMLElement>("[data-header-cta]");
+    const mobile = document.querySelector<HTMLElement>("[data-header-mobile]");
+
+    gsap.set(header, { y: -80, opacity: 0 });
+    gsap.set(logo, { opacity: 0, scale: 0.6, rotate: -90 });
+    gsap.set(links, { opacity: 0, y: -12 });
+    gsap.set([cta, mobile].filter(Boolean), { opacity: 0, y: -12 });
+    document.documentElement.classList.add("header-ready");
+
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+    tl.to(header, { y: 0, opacity: 1, duration: 0.7 })
+        .to(
+            logo,
+            {
+                opacity: 1,
+                scale: 1,
+                rotate: 0,
+                duration: 0.8,
+                ease: "back.out(1.7)",
+            },
+            "-=0.4",
+        )
+        .to(links, { opacity: 1, y: 0, duration: 0.5, stagger: 0.08 }, "-=0.5")
+        .to(
+            [cta, mobile].filter(Boolean),
+            { opacity: 1, y: 0, duration: 0.5 },
+            "-=0.3",
+        );
+
+    let lastY = window.scrollY;
+    window.addEventListener("scroll", () => {
+        const y = window.scrollY;
+        if (!header) return;
+        if (y > 40) {
+            header.classList.add("is-scrolled");
+        } else {
+            header.classList.remove("is-scrolled");
+        }
+        if (y > lastY && y > 120) {
+            gsap.to(header, { y: -90, duration: 0.4, ease: "power2.out" });
+        } else {
+            gsap.to(header, { y: 0, duration: 0.4, ease: "power2.out" });
+        }
+        lastY = y;
+    });
+</script>
+
+<style is:global>
+    [data-header].is-scrolled {
+        background-color: rgba(255, 255, 255, 0.85);
+        box-shadow: 0 4px 20px -10px rgba(0, 0, 0, 0.1);
+    }
+</style>

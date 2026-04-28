@@ -1,0 +1,241 @@
+---
+import Section from "../common/Section.astro";
+
+const pillars = [
+    {
+        title: "Diseño con propósito",
+        description:
+            "Cada pixel responde a una decisión estratégica, no a una tendencia pasajera.",
+    },
+    {
+        title: "Código limpio y veloz",
+        description:
+            "Sitios optimizados que cargan rápido, escalan bien y se mantienen sin dolor.",
+    },
+    {
+        title: "Resultados medibles",
+        description:
+            "Trabajamos contra métricas reales: conversión, retención y crecimiento.",
+    },
+];
+
+const stats = [
+    { value: "100%", label: "Proyectos a medida" },
+    { value: "<2s", label: "Carga promedio" },
+    { value: "24h", label: "Tiempo de respuesta" },
+    { value: "1:1", label: "Atención personalizada" },
+];
+---
+
+<Section
+    id="about"
+    class="!h-auto flex-col rounded-4xl px-6 md:px-12 lg:px-20 !py-32"
+>
+    <div class="max-w-6xl mx-auto w-full">
+        <!-- Encabezado -->
+        <div class="grid md:grid-cols-12 gap-10 md:gap-16 items-end mb-20">
+            <div class="md:col-span-7">
+                <span
+                    data-about-eyebrow
+                    class="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-gray-500"
+                >
+                    <span class="w-6 h-px bg-gray-400"></span>
+                    Sobre nosotros
+                </span>
+
+                <h2
+                    data-about-heading
+                    class="mt-6 text-4xl md:text-6xl font-semibold leading-[1.05] tracking-tight"
+                >
+                    Construimos marcas digitales que <span
+                        class="italic font-light text-gray-500"
+                        >se sienten vivas.</span
+                    >
+                </h2>
+            </div>
+
+            <div class="md:col-span-5">
+                <p
+                    data-about-paragraph
+                    class="text-base md:text-lg text-gray-600 leading-relaxed"
+                >
+                    En <strong class="text-black font-semibold"
+                        >Strate Code</strong
+                    > somos un estudio joven y selectivo. Combinamos diseño, ingeniería
+                    y estrategia para crear productos web elegantes, rápidos y enfocados
+                    en resultados reales. Tomamos pocos proyectos a la vez para garantizar
+                    atención dedicada y calidad real — no hacemos plantillas.
+                </p>
+            </div>
+        </div>
+
+        <!-- Pilares -->
+        <div
+            class="grid md:grid-cols-3 gap-px bg-gray-200 rounded-3xl overflow-hidden border border-gray-200"
+        >
+            {
+                pillars.map((p, i) => (
+                    <div
+                        data-about-pillar
+                        class="bg-white p-8 md:p-10 group hover:bg-gray-50 transition-colors duration-300"
+                    >
+                        <div class="flex items-start justify-between mb-8">
+                            <span class="text-sm text-gray-400 font-mono">
+                                0{i + 1}
+                            </span>
+                            <span class="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center group-hover:border-black/40 group-hover:rotate-45 transition-all duration-500">
+                                <svg
+                                    width="10"
+                                    height="10"
+                                    viewBox="0 0 10 10"
+                                    fill="none"
+                                >
+                                    <path
+                                        d="M1 9L9 1M9 1H2M9 1V8"
+                                        stroke="currentColor"
+                                        stroke-width="1.2"
+                                    />
+                                </svg>
+                            </span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3 tracking-tight">
+                            {p.title}
+                        </h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            {p.description}
+                        </p>
+                    </div>
+                ))
+            }
+        </div>
+
+        <!-- Stats -->
+        <div
+            class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 border-t border-black/10 pt-12"
+        >
+            {
+                stats.map((s) => (
+                    <div data-about-stat class="text-left">
+                        <div class="text-4xl md:text-5xl font-semibold tracking-tight">
+                            {s.value}
+                        </div>
+                        <div class="mt-2 text-sm text-gray-500 uppercase tracking-wider">
+                            {s.label}
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+
+        <!-- CTA -->
+        <div
+            data-about-cta
+            class="mt-20 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 p-8 md:p-10 bg-black text-white rounded-3xl"
+        >
+            <div>
+                <h3 class="text-2xl md:text-3xl font-semibold tracking-tight">
+                    ¿Listo para empezar tu proyecto?
+                </h3>
+                <p class="mt-2 text-gray-400">
+                    Conversemos sobre cómo podemos ayudarte.
+                </p>
+            </div>
+            <a
+                href="#contacto"
+                class="shrink-0 inline-flex items-center gap-3 bg-white text-black px-6 py-3 rounded-full hover:bg-gray-200 transition duration-300"
+            >
+                Hablemos
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path
+                        d="M1 13L13 1M13 1H3M13 1V11"
+                        stroke="currentColor"
+                        stroke-width="1.5"></path>
+                </svg>
+            </a>
+        </div>
+    </div>
+</Section>
+
+<style>
+    :global(html:not(.about-ready)) [data-about-eyebrow],
+    :global(html:not(.about-ready)) [data-about-heading],
+    :global(html:not(.about-ready)) [data-about-paragraph],
+    :global(html:not(.about-ready)) [data-about-pillar],
+    :global(html:not(.about-ready)) [data-about-stat],
+    :global(html:not(.about-ready)) [data-about-cta] {
+        opacity: 0;
+    }
+</style>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const eyebrow = document.querySelector<HTMLElement>("[data-about-eyebrow]");
+    const heading = document.querySelector<HTMLElement>("[data-about-heading]");
+    const paragraph = document.querySelector<HTMLElement>(
+        "[data-about-paragraph]",
+    );
+    const pillars = document.querySelectorAll<HTMLElement>(
+        "[data-about-pillar]",
+    );
+    const stats = document.querySelectorAll<HTMLElement>("[data-about-stat]");
+    const cta = document.querySelector<HTMLElement>("[data-about-cta]");
+
+    gsap.set([eyebrow, heading, paragraph], { opacity: 0, y: 30 });
+    gsap.set(pillars, { opacity: 0, y: 40 });
+    gsap.set(stats, { opacity: 0, y: 20 });
+    gsap.set(cta, { opacity: 0, y: 30 });
+
+    document.documentElement.classList.add("about-ready");
+
+    const intro = gsap.timeline({
+        defaults: { ease: "power3.out", duration: 0.8 },
+        scrollTrigger: {
+            trigger: "#about",
+            start: "top 75%",
+        },
+    });
+
+    intro
+        .to(eyebrow, { opacity: 1, y: 0, duration: 0.5 })
+        .to(heading, { opacity: 1, y: 0 }, "-=0.2")
+        .to(paragraph, { opacity: 1, y: 0 }, "-=0.5");
+
+    gsap.to(pillars, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        stagger: 0.12,
+        ease: "power3.out",
+        scrollTrigger: {
+            trigger: pillars[0],
+            start: "top 85%",
+        },
+    });
+
+    gsap.to(stats, {
+        opacity: 1,
+        y: 0,
+        duration: 0.7,
+        stagger: 0.1,
+        ease: "power3.out",
+        scrollTrigger: {
+            trigger: stats[0],
+            start: "top 90%",
+        },
+    });
+
+    gsap.to(cta, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: {
+            trigger: cta,
+            start: "top 88%",
+        },
+    });
+</script>

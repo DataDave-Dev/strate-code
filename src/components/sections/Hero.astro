@@ -1,14 +1,178 @@
 ---
 import Section from "../common/Section.astro";
+import Logo from "../Icons/Logo.astro";
 ---
 
-<Section id="Hero">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="col-span-1">
-            <h1 class="text-4xl font-bold">
-                Potencia su Emprendimiento con nuestros mejores diseños.
+<Section
+    id="Hero"
+    class="relative text-black py-32 px-6 rounded-4xl overflow-hidden"
+>
+    <div
+        class="relative max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center"
+    >
+        <!-- Texto -->
+        <div>
+            <h1
+                data-hero-heading
+                class="text-3xl md:text-5xl font-semibold leading-tight tracking-tight"
+            >
+                Diseñamos experiencias digitales que elevan tu marca
             </h1>
+
+            <p data-hero-text class="mt-6 text-gray-600 text-lg max-w-md">
+                Desarrollo web elegante, rápido y enfocado en resultados reales.
+            </p>
+
+            <div class="mt-10 flex gap-6 items-center">
+                <a
+                    data-hero-cta
+                    href="#contacto"
+                    class="border border-black px-6 py-3 rounded-full hover:bg-black hover:text-white transition duration-300"
+                >
+                    Comenzar
+                </a>
+
+                <a
+                    data-hero-cta
+                    href="#proyectos"
+                    class="text-gray-500 hover:text-black transition duration-300"
+                >
+                    Ver proyectos
+                </a>
+            </div>
         </div>
-        <div class="col-span-1">Logo</div>
+
+        <!-- Logo -->
+        <div data-hero-logo class="flex justify-center">
+            <Logo class="w-48 h-48" />
+        </div>
     </div>
 </Section>
+
+<style>
+    [data-hero-heading] .word {
+        display: inline-block;
+        overflow: hidden;
+        vertical-align: top;
+        line-height: 1.1;
+        padding-bottom: 0.05em;
+    }
+    [data-hero-heading] .word > span {
+        display: inline-block;
+        will-change: transform;
+    }
+    /* hide until GSAP applies initial state, prevents FOUC */
+    :global(html:not(.hero-ready)) [data-hero-heading],
+    :global(html:not(.hero-ready)) [data-hero-text],
+    :global(html:not(.hero-ready)) [data-hero-cta],
+    :global(html:not(.hero-ready)) [data-hero-logo] svg {
+        visibility: hidden;
+    }
+</style>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const heading = document.querySelector<HTMLElement>("[data-hero-heading]");
+    const subtitle = document.querySelector<HTMLElement>("[data-hero-text]");
+    const ctas = document.querySelectorAll<HTMLElement>("[data-hero-cta]");
+    const logoWrap = document.querySelector<HTMLElement>("[data-hero-logo]");
+    const logoSvg = logoWrap?.querySelector<SVGElement>("svg");
+
+    if (heading) {
+        const words = heading.textContent?.trim().split(/\s+/) ?? [];
+        heading.innerHTML = words
+            .map((w) => `<span class="word"><span>${w}</span></span>`)
+            .join(" ");
+    }
+
+    gsap.set([subtitle, ...ctas], { opacity: 0, y: 24 });
+    gsap.set(logoSvg, { opacity: 0, scale: 0.4, rotate: -25 });
+    gsap.set("[data-hero-heading] .word > span", {
+        yPercent: 110,
+        rotate: 8,
+        filter: "blur(8px)",
+        opacity: 0,
+    });
+    document.documentElement.classList.add("hero-ready");
+
+    const run = () => {
+        const tl = gsap.timeline({
+            defaults: { ease: "power3.out" },
+            delay: 0.6,
+        });
+
+        tl.to("[data-hero-heading] .word > span", {
+            yPercent: 0,
+            rotate: 0,
+            filter: "blur(0px)",
+            opacity: 1,
+            duration: 1.1,
+            stagger: 0.09,
+            ease: "expo.out",
+        })
+            .to(
+                subtitle,
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.7,
+                },
+                "-=0.5",
+            )
+            .to(
+                ctas,
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.6,
+                    stagger: 0.1,
+                },
+                "-=0.4",
+            )
+            .to(
+                logoSvg,
+                {
+                    opacity: 1,
+                    scale: 1,
+                    rotate: 0,
+                    duration: 1.1,
+                    ease: "back.out(1.5)",
+                },
+                "-=1.1",
+            )
+            .add(() => {
+                if (logoSvg) {
+                    gsap.to(logoSvg, {
+                        y: -14,
+                        duration: 2.6,
+                        repeat: -1,
+                        yoyo: true,
+                        ease: "sine.inOut",
+                    });
+                }
+            });
+
+        if (logoWrap) {
+            gsap.to(logoWrap, {
+                yPercent: -25,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#Hero",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true,
+                },
+            });
+        }
+    };
+
+    if (document.fonts && "ready" in document.fonts) {
+        document.fonts.ready.then(run);
+    } else {
+        run();
+    }
+</script>
