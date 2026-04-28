@@ -19,18 +19,21 @@ const services = [
         description:
             "Landings y sitios corporativos con diseño a medida, optimizados para velocidad, SEO y conversión real.",
         features: ["Diseño UI/UX", "Performance pro", "SEO técnico"],
+        icon: "browser",
     },
     {
         title: "Apps Web",
         description:
             "Sistemas a medida: paneles, gestores y plataformas internas que automatizan tu operación.",
         features: ["Dashboards", "Autenticación", "APIs · Bases de datos"],
+        icon: "dashboard",
     },
     {
         title: "Consultoría",
         description:
             "Te acompañamos en decisiones de producto, tecnología y estrategia digital con criterio real.",
         features: ["Auditoría técnica", "Estrategia digital", "Roadmap"],
+        icon: "network",
     },
 ];
 ---
@@ -139,6 +142,11 @@ const services = [
                     data-services-chart
                     class="md:col-span-5 relative aspect-square md:aspect-[4/5] bg-white/5 border border-white/10 rounded-2xl p-6 overflow-hidden"
                 >
+                    <!-- Línea de scan -->
+                    <div
+                        data-chart-scan
+                        class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-green-400/60 to-transparent pointer-events-none"
+                    ></div>
                     <div class="flex items-center justify-between mb-4">
                         <span
                             class="text-xs text-white/50 uppercase tracking-wider"
@@ -155,10 +163,16 @@ const services = [
                         </span>
                     </div>
 
-                    <div class="text-3xl md:text-4xl font-semibold mb-1">
+                    <div
+                        data-chart-kpi
+                        class="text-3xl md:text-4xl font-semibold mb-1 tabular-nums"
+                    >
                         $48.2k
                     </div>
-                    <div class="text-xs text-green-400 mb-6">
+                    <div
+                        data-chart-trend
+                        class="text-xs text-green-400 mb-6 tabular-nums"
+                    >
                         ↑ 12.4% vs. mes anterior
                     </div>
 
@@ -181,17 +195,42 @@ const services = [
                     >
                         <div>
                             <div class="text-xs text-white/50">Conversión</div>
-                            <div class="text-sm font-semibold mt-0.5">3.8%</div>
+                            <div
+                                data-chart-mini
+                                data-min="3"
+                                data-max="5"
+                                data-suffix="%"
+                                data-decimals="1"
+                                class="text-sm font-semibold mt-0.5 tabular-nums"
+                            >
+                                3.8%
+                            </div>
                         </div>
                         <div>
                             <div class="text-xs text-white/50">Sesiones</div>
-                            <div class="text-sm font-semibold mt-0.5">
+                            <div
+                                data-chart-mini
+                                data-min="11"
+                                data-max="14"
+                                data-suffix="k"
+                                data-decimals="1"
+                                class="text-sm font-semibold mt-0.5 tabular-nums"
+                            >
                                 12.4k
                             </div>
                         </div>
                         <div>
                             <div class="text-xs text-white/50">Ticket</div>
-                            <div class="text-sm font-semibold mt-0.5">$89</div>
+                            <div
+                                data-chart-mini
+                                data-min="80"
+                                data-max="100"
+                                data-prefix="$"
+                                data-decimals="0"
+                                class="text-sm font-semibold mt-0.5 tabular-nums"
+                            >
+                                $89
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -212,7 +251,8 @@ const services = [
                 services.map((s, i) => (
                     <div
                         data-services-item
-                        class="bg-white p-8 md:p-10 group hover:bg-gray-50 transition-colors duration-300"
+                        data-icon={s.icon}
+                        class="relative bg-white p-8 md:p-10 group hover:bg-gray-50 transition-colors duration-300 overflow-hidden"
                     >
                         <div class="flex items-start justify-between mb-8">
                             <span class="text-sm text-gray-400 font-mono">
@@ -232,6 +272,221 @@ const services = [
                                     />
                                 </svg>
                             </span>
+                        </div>
+
+                        {/* Ícono temático animado */}
+                        <div
+                            data-services-icon
+                            class="w-14 h-14 mb-7 rounded-2xl bg-gray-50 group-hover:bg-black group-hover:text-white transition-colors duration-500 flex items-center justify-center text-black"
+                        >
+                            {s.icon === "browser" && (
+                                <svg
+                                    width="28"
+                                    height="28"
+                                    viewBox="0 0 28 28"
+                                    fill="none"
+                                    class="icon-browser"
+                                >
+                                    <rect
+                                        x="3"
+                                        y="5"
+                                        width="22"
+                                        height="18"
+                                        rx="2"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                    />
+                                    <line
+                                        x1="3"
+                                        y1="10"
+                                        x2="25"
+                                        y2="10"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                    />
+                                    <circle cx="6.5" cy="7.5" r="0.7" fill="currentColor" />
+                                    <circle cx="9" cy="7.5" r="0.7" fill="currentColor" />
+                                    <circle cx="11.5" cy="7.5" r="0.7" fill="currentColor" />
+                                    <line
+                                        class="browser-line browser-line-1"
+                                        x1="6"
+                                        y1="14"
+                                        x2="18"
+                                        y2="14"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                        stroke-linecap="round"
+                                    />
+                                    <line
+                                        class="browser-line browser-line-2"
+                                        x1="6"
+                                        y1="17.5"
+                                        x2="22"
+                                        y2="17.5"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                        stroke-linecap="round"
+                                    />
+                                    <line
+                                        class="browser-line browser-line-3"
+                                        x1="6"
+                                        y1="21"
+                                        x2="14"
+                                        y2="21"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                        stroke-linecap="round"
+                                    />
+                                </svg>
+                            )}
+                            {s.icon === "dashboard" && (
+                                <svg
+                                    width="28"
+                                    height="28"
+                                    viewBox="0 0 28 28"
+                                    fill="none"
+                                    class="icon-dashboard"
+                                >
+                                    <rect
+                                        x="3"
+                                        y="4"
+                                        width="22"
+                                        height="20"
+                                        rx="2"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                    />
+                                    <line
+                                        x1="3"
+                                        y1="9"
+                                        x2="25"
+                                        y2="9"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                    />
+                                    <line
+                                        x1="11"
+                                        y1="9"
+                                        x2="11"
+                                        y2="24"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                    />
+                                    <rect
+                                        class="dash-bar dash-bar-1"
+                                        x="14"
+                                        y="20"
+                                        width="2.5"
+                                        height="2"
+                                        fill="currentColor"
+                                    />
+                                    <rect
+                                        class="dash-bar dash-bar-2"
+                                        x="18"
+                                        y="17"
+                                        width="2.5"
+                                        height="5"
+                                        fill="currentColor"
+                                    />
+                                    <rect
+                                        class="dash-bar dash-bar-3"
+                                        x="22"
+                                        y="14"
+                                        width="2.5"
+                                        height="8"
+                                        fill="currentColor"
+                                    />
+                                    <circle
+                                        class="dash-pulse"
+                                        cx="7"
+                                        cy="16"
+                                        r="2.5"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                    />
+                                </svg>
+                            )}
+                            {s.icon === "network" && (
+                                <svg
+                                    width="28"
+                                    height="28"
+                                    viewBox="0 0 28 28"
+                                    fill="none"
+                                    class="icon-network"
+                                >
+                                    <line
+                                        class="net-line net-line-1"
+                                        x1="14"
+                                        y1="14"
+                                        x2="6"
+                                        y2="6"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                    />
+                                    <line
+                                        class="net-line net-line-2"
+                                        x1="14"
+                                        y1="14"
+                                        x2="22"
+                                        y2="6"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                    />
+                                    <line
+                                        class="net-line net-line-3"
+                                        x1="14"
+                                        y1="14"
+                                        x2="6"
+                                        y2="22"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                    />
+                                    <line
+                                        class="net-line net-line-4"
+                                        x1="14"
+                                        y1="14"
+                                        x2="22"
+                                        y2="22"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                    />
+                                    <circle
+                                        class="net-node net-node-center"
+                                        cx="14"
+                                        cy="14"
+                                        r="2.5"
+                                        fill="currentColor"
+                                    />
+                                    <circle
+                                        class="net-node"
+                                        cx="6"
+                                        cy="6"
+                                        r="1.8"
+                                        fill="currentColor"
+                                    />
+                                    <circle
+                                        class="net-node"
+                                        cx="22"
+                                        cy="6"
+                                        r="1.8"
+                                        fill="currentColor"
+                                    />
+                                    <circle
+                                        class="net-node"
+                                        cx="6"
+                                        cy="22"
+                                        r="1.8"
+                                        fill="currentColor"
+                                    />
+                                    <circle
+                                        class="net-node"
+                                        cx="22"
+                                        cy="22"
+                                        r="1.8"
+                                        fill="currentColor"
+                                    />
+                                </svg>
+                            )}
                         </div>
 
                         <h3 class="text-xl md:text-2xl font-semibold mb-3 tracking-tight">
@@ -289,6 +544,106 @@ const services = [
     }
     [data-services-featured] .chart-bar {
         transform-origin: bottom;
+        transition: height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    [data-services-featured] [data-chart-kpi],
+    [data-services-featured] [data-chart-trend],
+    [data-services-featured] [data-chart-mini] {
+        transition: filter 0.3s ease;
+    }
+    /* Browser icon — líneas escribiéndose */
+    [data-services-item] .browser-line {
+        stroke-dasharray: 24;
+        stroke-dashoffset: 24;
+    }
+    [data-services-item][data-icon="browser"]:hover .browser-line {
+        animation: browser-type 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    [data-services-item][data-icon="browser"]:hover .browser-line-2 {
+        animation-delay: 0.15s;
+    }
+    [data-services-item][data-icon="browser"]:hover .browser-line-3 {
+        animation-delay: 0.3s;
+    }
+    @keyframes browser-type {
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+    /* Dashboard icon — barras pulsantes + nodo */
+    [data-services-item] .dash-bar {
+        transform-origin: bottom;
+    }
+    [data-services-item][data-icon="dashboard"]:hover .dash-bar {
+        animation: dash-pulse 1.2s ease-in-out infinite;
+    }
+    [data-services-item][data-icon="dashboard"]:hover .dash-bar-2 {
+        animation-delay: 0.15s;
+    }
+    [data-services-item][data-icon="dashboard"]:hover .dash-bar-3 {
+        animation-delay: 0.3s;
+    }
+    @keyframes dash-pulse {
+        0%, 100% {
+            transform: scaleY(1);
+        }
+        50% {
+            transform: scaleY(0.55);
+        }
+    }
+    [data-services-item] .dash-pulse {
+        transform-origin: center;
+        transform-box: fill-box;
+    }
+    [data-services-item][data-icon="dashboard"]:hover .dash-pulse {
+        animation: dash-ring 1.6s ease-out infinite;
+    }
+    @keyframes dash-ring {
+        0% {
+            transform: scale(0.6);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(1.3);
+            opacity: 0;
+        }
+    }
+    /* Network icon — líneas que viajan + nodos pulsantes */
+    [data-services-item] .net-line {
+        stroke-dasharray: 18;
+        stroke-dashoffset: 18;
+    }
+    [data-services-item][data-icon="network"]:hover .net-line {
+        animation: net-travel 1.5s ease-out forwards;
+    }
+    [data-services-item][data-icon="network"]:hover .net-line-2 {
+        animation-delay: 0.1s;
+    }
+    [data-services-item][data-icon="network"]:hover .net-line-3 {
+        animation-delay: 0.2s;
+    }
+    [data-services-item][data-icon="network"]:hover .net-line-4 {
+        animation-delay: 0.3s;
+    }
+    @keyframes net-travel {
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+    [data-services-item] .net-node {
+        transform-origin: center;
+        transform-box: fill-box;
+    }
+    [data-services-item][data-icon="network"]:hover .net-node-center {
+        animation: net-pulse 1.4s ease-in-out infinite;
+    }
+    @keyframes net-pulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.4);
+        }
     }
 </style>
 
@@ -355,9 +710,102 @@ const services = [
                     ease: "power3.out",
                     delay: 0.3,
                 });
+                startLiveDashboard();
             },
         },
     });
+
+    // Dashboard "vivo": KPI, barras y mini-stats se actualizan periódicamente
+    const kpiEl = document.querySelector<HTMLElement>("[data-chart-kpi]");
+    const trendEl = document.querySelector<HTMLElement>("[data-chart-trend]");
+    const miniStats = document.querySelectorAll<HTMLElement>("[data-chart-mini]");
+    const scanEl = document.querySelector<HTMLElement>("[data-chart-scan]");
+    const barEls = Array.from(chartBars);
+
+    const formatKpi = (n: number) => `$${n.toFixed(1)}k`;
+
+    let liveStarted = false;
+    const startLiveDashboard = () => {
+        if (liveStarted) return;
+        liveStarted = true;
+
+        // Línea de scan en loop
+        if (scanEl) {
+            const parent = scanEl.parentElement;
+            const updateScan = () => {
+                const h = parent?.clientHeight ?? 400;
+                gsap.killTweensOf(scanEl);
+                gsap.set(scanEl, { y: 0, opacity: 0 });
+                gsap.to(scanEl, {
+                    y: h,
+                    opacity: 1,
+                    duration: 2.4,
+                    ease: "power1.inOut",
+                    repeat: -1,
+                    repeatDelay: 1.6,
+                    yoyo: false,
+                    onRepeat: () => gsap.set(scanEl, { y: 0 }),
+                });
+            };
+            updateScan();
+            window.addEventListener("resize", updateScan);
+        }
+
+        // KPI principal: cuenta hacia arriba con pequeñas variaciones
+        const kpiState = { value: 48.2 };
+        const tickKpi = () => {
+            const target = 47 + Math.random() * 5;
+            gsap.to(kpiState, {
+                value: target,
+                duration: 1.2,
+                ease: "power2.out",
+                onUpdate: () => {
+                    if (kpiEl) kpiEl.textContent = formatKpi(kpiState.value);
+                },
+                onComplete: () => {
+                    if (trendEl) {
+                        const pct = (8 + Math.random() * 8).toFixed(1);
+                        trendEl.textContent = `↑ ${pct}% vs. mes anterior`;
+                    }
+                },
+            });
+        };
+        gsap.delayedCall(2, tickKpi);
+        setInterval(tickKpi, 4500);
+
+        // Barras: nuevas alturas cada cierto tiempo
+        const tickBars = () => {
+            barEls.forEach((bar) => {
+                const next = 30 + Math.random() * 70;
+                (bar as HTMLElement).style.height = `${next}%`;
+            });
+        };
+        setInterval(tickBars, 3500);
+
+        // Mini stats: animan sus valores
+        miniStats.forEach((el) => {
+            const min = parseFloat(el.dataset.min ?? "0");
+            const max = parseFloat(el.dataset.max ?? "100");
+            const decimals = parseInt(el.dataset.decimals ?? "1");
+            const prefix = el.dataset.prefix ?? "";
+            const suffix = el.dataset.suffix ?? "";
+            const state = { value: (min + max) / 2 };
+
+            const tickMini = () => {
+                const target = min + Math.random() * (max - min);
+                gsap.to(state, {
+                    value: target,
+                    duration: 1.4,
+                    ease: "power2.out",
+                    onUpdate: () => {
+                        el.textContent = `${prefix}${state.value.toFixed(decimals)}${suffix}`;
+                    },
+                });
+            };
+            gsap.delayedCall(1 + Math.random() * 2, tickMini);
+            setInterval(tickMini, 4000 + Math.random() * 2000);
+        });
+    };
 
     gsap.to(items, {
         opacity: 1,
