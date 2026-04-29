@@ -48,7 +48,7 @@ const projectTypes = [
                     data-contact-heading
                     class="mt-4 sm:mt-6 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold leading-[1.05] tracking-tight"
                 >
-                    Contanos tu idea, <span
+                    Cuéntenos su idea, <span
                         class="italic font-light text-gray-500"
                         >la hacemos realidad.</span
                     >
@@ -60,9 +60,10 @@ const projectTypes = [
                     data-contact-paragraph
                     class="text-sm sm:text-base md:text-lg text-gray-600 leading-relaxed"
                 >
-                    Respondemos en menos de 24 horas. Si tu proyecto encaja con
-                    lo que hacemos, agendamos una llamada gratuita para entender
-                    qué necesitás — sin compromiso, sin presión de venta.
+                    Respondemos en menos de 24 horas. Si su proyecto se alinea
+                    con lo que hacemos, agendamos una llamada gratuita para
+                    entender lo que necesita — sin compromiso, sin presión de
+                    venta.
                 </p>
             </div>
         </div>
@@ -153,7 +154,7 @@ const projectTypes = [
                             id="name"
                             name="name"
                             required
-                            placeholder="Tu nombre"
+                            placeholder="Su nombre"
                             class="bg-transparent border-b border-black/15 focus:border-black py-2 text-sm sm:text-base outline-none transition-colors placeholder:text-gray-300"
                         />
                     </div>
@@ -169,7 +170,7 @@ const projectTypes = [
                             id="email"
                             name="email"
                             required
-                            placeholder="tu@email.com"
+                            placeholder="correo@ejemplo.com"
                             class="bg-transparent border-b border-black/15 focus:border-black py-2 text-sm sm:text-base outline-none transition-colors placeholder:text-gray-300"
                         />
                     </div>
@@ -206,14 +207,14 @@ const projectTypes = [
                         for="message"
                         class="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-gray-500"
                     >
-                        Contanos sobre tu proyecto
+                        Cuéntenos sobre su proyecto
                     </label>
                     <textarea
                         id="message"
                         name="message"
                         rows="4"
                         required
-                        placeholder="¿Qué tenés en mente? Cuanto más detalle, mejor."
+                        placeholder="¿Qué tiene en mente? Cuanto más detalle, mejor."
                         class="bg-transparent border-b border-black/15 focus:border-black py-2 text-sm sm:text-base outline-none transition-colors placeholder:text-gray-300 resize-none"
                     ></textarea>
                 </div>
@@ -223,8 +224,8 @@ const projectTypes = [
                     class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-3 sm:pt-4"
                 >
                     <p class="text-[11px] sm:text-xs text-gray-400 max-w-xs">
-                        Al enviar aceptás que te contactemos por email.
-                        Respetamos tu privacidad.
+                        Al enviar acepta que lo contactemos por correo
+                        electrónico. Respetamos su privacidad.
                     </p>
                     <button
                         type="submit"
@@ -333,7 +334,7 @@ const projectTypes = [
         e.preventDefault();
         const formData = new FormData(form as HTMLFormElement);
         console.log("Contact form submitted:", Object.fromEntries(formData));
-        alert("¡Gracias! Te contactaremos pronto.");
+        alert("¡Gracias! Lo contactaremos pronto.");
         (form as HTMLFormElement).reset();
     });
 </script>
