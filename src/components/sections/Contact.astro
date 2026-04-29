@@ -30,23 +30,23 @@ const projectTypes = [
 
 <Section
     id="contact"
-    class="!h-auto flex-col rounded-4xl px-6 md:px-12 lg:px-20 !py-32"
+    class="!min-h-0 flex-col rounded-3xl sm:rounded-4xl px-5 sm:px-6 md:px-10 lg:px-16 xl:px-20 !py-20 sm:!py-24 md:!py-28 lg:!py-32"
 >
     <div class="max-w-6xl mx-auto w-full">
         <!-- Encabezado -->
-        <div class="grid md:grid-cols-12 gap-10 md:gap-16 items-end mb-20">
+        <div class="grid md:grid-cols-12 gap-6 sm:gap-8 md:gap-12 lg:gap-16 items-end mb-12 sm:mb-16 md:mb-20">
             <div class="md:col-span-7">
                 <span
                     data-contact-eyebrow
-                    class="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-gray-500"
+                    class="inline-flex items-center gap-2 text-[10px] sm:text-xs uppercase tracking-[0.2em] text-gray-500"
                 >
-                    <span class="w-6 h-px bg-gray-400"></span>
+                    <span class="w-5 sm:w-6 h-px bg-gray-400"></span>
                     Contacto
                 </span>
 
                 <h2
                     data-contact-heading
-                    class="mt-6 text-4xl md:text-6xl font-semibold leading-[1.05] tracking-tight"
+                    class="mt-4 sm:mt-6 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold leading-[1.05] tracking-tight"
                 >
                     Contanos tu idea, <span
                         class="italic font-light text-gray-500"
@@ -58,7 +58,7 @@ const projectTypes = [
             <div class="md:col-span-5">
                 <p
                     data-contact-paragraph
-                    class="text-base md:text-lg text-gray-600 leading-relaxed"
+                    class="text-sm sm:text-base md:text-lg text-gray-600 leading-relaxed"
                 >
                     Respondemos en menos de 24 horas. Si tu proyecto encaja con
                     lo que hacemos, agendamos una llamada gratuita para entender
@@ -69,29 +69,29 @@ const projectTypes = [
 
         <!-- Cuerpo: canales + formulario -->
         <div
-            class="grid md:grid-cols-12 gap-px bg-gray-200 rounded-3xl overflow-hidden border border-gray-200"
+            class="grid md:grid-cols-12 gap-px bg-gray-200 rounded-2xl sm:rounded-3xl overflow-hidden border border-gray-200"
         >
             <!-- Canales -->
             <div
                 data-contact-channels
-                class="md:col-span-5 bg-white p-8 md:p-12 flex flex-col justify-between gap-12"
+                class="md:col-span-5 bg-white p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col justify-between gap-8 sm:gap-10 md:gap-12"
             >
                 <div>
-                    <h3 class="text-xl font-semibold mb-8 tracking-tight">
+                    <h3 class="text-lg sm:text-xl font-semibold mb-6 sm:mb-8 tracking-tight">
                         Canales directos
                     </h3>
 
-                    <ul class="space-y-7">
+                    <ul class="space-y-5 sm:space-y-6 md:space-y-7">
                         {
                             channels.map((c) => (
                                 <li data-contact-channel>
-                                    <span class="block text-xs uppercase tracking-[0.2em] text-gray-400 mb-2">
+                                    <span class="block text-[10px] sm:text-xs uppercase tracking-[0.2em] text-gray-400 mb-1.5 sm:mb-2">
                                         {c.label}
                                     </span>
                                     {c.href ? (
                                         <a
                                             href={c.href}
-                                            class="group inline-flex items-center gap-2 text-base md:text-lg font-medium hover:text-gray-500 transition-colors"
+                                            class="group inline-flex items-center gap-2 text-sm sm:text-base md:text-lg font-medium hover:text-gray-500 transition-colors break-all sm:break-normal"
                                         >
                                             {c.value}
                                             <svg
@@ -99,7 +99,7 @@ const projectTypes = [
                                                 height="14"
                                                 viewBox="0 0 14 14"
                                                 fill="none"
-                                                class="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
+                                                class="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 shrink-0"
                                             >
                                                 <path
                                                     d="M1 13L13 1M13 1H3M13 1V11"
@@ -109,7 +109,7 @@ const projectTypes = [
                                             </svg>
                                         </a>
                                     ) : (
-                                        <span class="text-base md:text-lg font-medium">
+                                        <span class="text-sm sm:text-base md:text-lg font-medium">
                                             {c.value}
                                         </span>
                                     )}
@@ -120,16 +120,16 @@ const projectTypes = [
                 </div>
 
                 <!-- Estado de disponibilidad -->
-                <div class="border-t border-black/10 pt-6">
-                    <div class="flex items-center gap-2 text-sm">
+                <div class="border-t border-black/10 pt-5 sm:pt-6">
+                    <div class="flex items-center gap-2 text-xs sm:text-sm">
                         <span
-                            class="w-2 h-2 rounded-full bg-green-500 animate-pulse"
+                            class="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0"
                         ></span>
                         <span class="text-gray-600">
                             Disponible para nuevos proyectos
                         </span>
                     </div>
-                    <p class="text-xs text-gray-400 mt-2">
+                    <p class="text-[11px] sm:text-xs text-gray-400 mt-1.5 sm:mt-2">
                         Cupos limitados este trimestre
                     </p>
                 </div>
@@ -138,13 +138,13 @@ const projectTypes = [
             <!-- Formulario -->
             <form
                 data-contact-form
-                class="md:col-span-7 bg-white p-8 md:p-12 flex flex-col gap-6"
+                class="md:col-span-7 bg-white p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col gap-5 sm:gap-6"
             >
-                <div data-contact-field class="grid md:grid-cols-2 gap-6">
+                <div data-contact-field class="grid sm:grid-cols-2 gap-5 sm:gap-6">
                     <div class="flex flex-col gap-2">
                         <label
                             for="name"
-                            class="text-xs uppercase tracking-[0.2em] text-gray-500"
+                            class="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-gray-500"
                         >
                             Nombre
                         </label>
@@ -154,13 +154,13 @@ const projectTypes = [
                             name="name"
                             required
                             placeholder="Tu nombre"
-                            class="bg-transparent border-b border-black/15 focus:border-black py-2 outline-none transition-colors placeholder:text-gray-300"
+                            class="bg-transparent border-b border-black/15 focus:border-black py-2 text-sm sm:text-base outline-none transition-colors placeholder:text-gray-300"
                         />
                     </div>
                     <div class="flex flex-col gap-2">
                         <label
                             for="email"
-                            class="text-xs uppercase tracking-[0.2em] text-gray-500"
+                            class="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-gray-500"
                         >
                             Email
                         </label>
@@ -170,18 +170,18 @@ const projectTypes = [
                             name="email"
                             required
                             placeholder="tu@email.com"
-                            class="bg-transparent border-b border-black/15 focus:border-black py-2 outline-none transition-colors placeholder:text-gray-300"
+                            class="bg-transparent border-b border-black/15 focus:border-black py-2 text-sm sm:text-base outline-none transition-colors placeholder:text-gray-300"
                         />
                     </div>
                 </div>
 
-                <div data-contact-field class="flex flex-col gap-3">
+                <div data-contact-field class="flex flex-col gap-2.5 sm:gap-3">
                     <span
-                        class="text-xs uppercase tracking-[0.2em] text-gray-500"
+                        class="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-gray-500"
                     >
                         Tipo de proyecto
                     </span>
-                    <div class="flex flex-wrap gap-2">
+                    <div class="flex flex-wrap gap-1.5 sm:gap-2">
                         {
                             projectTypes.map((type, i) => (
                                 <label class="cursor-pointer">
@@ -192,7 +192,7 @@ const projectTypes = [
                                         class="peer sr-only"
                                         checked={i === 0}
                                     />
-                                    <span class="inline-block text-xs uppercase tracking-wider px-4 py-2 rounded-full border border-black/15 text-gray-600 peer-checked:bg-black peer-checked:text-white peer-checked:border-black hover:border-black/40 transition-all">
+                                    <span class="inline-block text-[10px] sm:text-xs uppercase tracking-wider px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-black/15 text-gray-600 peer-checked:bg-black peer-checked:text-white peer-checked:border-black hover:border-black/40 transition-all">
                                         {type}
                                     </span>
                                 </label>
@@ -204,7 +204,7 @@ const projectTypes = [
                 <div data-contact-field class="flex flex-col gap-2">
                     <label
                         for="message"
-                        class="text-xs uppercase tracking-[0.2em] text-gray-500"
+                        class="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-gray-500"
                     >
                         Contanos sobre tu proyecto
                     </label>
@@ -214,21 +214,21 @@ const projectTypes = [
                         rows="4"
                         required
                         placeholder="¿Qué tenés en mente? Cuanto más detalle, mejor."
-                        class="bg-transparent border-b border-black/15 focus:border-black py-2 outline-none transition-colors placeholder:text-gray-300 resize-none"
+                        class="bg-transparent border-b border-black/15 focus:border-black py-2 text-sm sm:text-base outline-none transition-colors placeholder:text-gray-300 resize-none"
                     ></textarea>
                 </div>
 
                 <div
                     data-contact-field
-                    class="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-4"
+                    class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-3 sm:pt-4"
                 >
-                    <p class="text-xs text-gray-400 max-w-xs">
+                    <p class="text-[11px] sm:text-xs text-gray-400 max-w-xs">
                         Al enviar aceptás que te contactemos por email.
                         Respetamos tu privacidad.
                     </p>
                     <button
                         type="submit"
-                        class="group inline-flex items-center justify-center gap-3 bg-black text-white px-8 py-3.5 rounded-full hover:bg-gray-800 transition duration-300"
+                        class="group inline-flex items-center justify-center gap-2 sm:gap-3 bg-black text-white px-6 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base hover:bg-gray-800 transition duration-300"
                     >
                         Enviar mensaje
                         <svg

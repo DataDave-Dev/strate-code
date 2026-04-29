@@ -1,0 +1,817 @@
+---
+const sources = [
+    {
+        id: "crm",
+        label: "CRM",
+        sub: "Clientes · Leads",
+    },
+    {
+        id: "analytics",
+        label: "Web Analytics",
+        sub: "Sesiones · Conversión",
+    },
+    {
+        id: "sheets",
+        label: "Hojas de cálculo",
+        sub: "Inventario · Costos",
+    },
+];
+
+const bars = [55, 70, 45, 80, 60, 92, 75, 100];
+---
+
+<section
+    data-pipeline
+    class="relative bg-transparent mx-2 sm:mx-3 md:mx-4 my-2 md:my-4"
+>
+    <!-- Wrapper que define la altura total del scroll para la animación (desktop) -->
+    <div data-pipeline-track class="relative md:h-[400vh]">
+        <!-- Sticky: el contenido visible se queda fijo mientras se scrollea -->
+        <div
+            data-pipeline-pin
+            class="relative md:sticky md:top-0 w-full md:h-screen bg-black text-white rounded-3xl sm:rounded-4xl overflow-hidden"
+        >
+            <div class="relative max-w-6xl mx-auto px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 py-16 sm:py-20 md:py-12 lg:py-16 min-h-[70vh] md:h-full md:min-h-0 flex flex-col">
+            <!-- Encabezado -->
+            <div class="grid md:grid-cols-12 gap-6 sm:gap-8 md:gap-12 lg:gap-16 mb-10 sm:mb-12 md:mb-16">
+                <div class="md:col-span-7">
+                    <span
+                        data-pipeline-eyebrow
+                        class="inline-flex items-center gap-2 text-[10px] sm:text-xs uppercase tracking-[0.2em] text-white/50"
+                    >
+                        <span class="w-5 sm:w-6 h-px bg-white/40"></span>
+                        Cómo trabajamos · En vivo
+                    </span>
+
+                    <h2
+                        data-pipeline-heading
+                        class="mt-4 sm:mt-6 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold leading-[1.05] tracking-tight"
+                    >
+                        Tus datos, <span
+                            class="italic font-light text-white/50"
+                            >en una sola vista.</span
+                        >
+                    </h2>
+                </div>
+                <div class="md:col-span-5">
+                    <p
+                        data-pipeline-paragraph
+                        class="text-sm sm:text-base md:text-lg text-white/60 leading-relaxed"
+                    >
+                        Conectamos las fuentes de datos que ya usás y las
+                        convertimos en un dashboard único, en tiempo real.
+                        Esto es lo que verías en el primer demo.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Pipeline visual -->
+            <div
+                data-pipeline-stage
+                class="relative grid md:grid-cols-12 gap-5 sm:gap-6 md:gap-8 items-center"
+            >
+                <!-- Cajas-fuente -->
+                <div class="md:col-span-4 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-1 gap-3 sm:gap-4 relative z-10">
+                    {
+                        sources.map((s, i) => (
+                            <div
+                                data-pipeline-source
+                                data-source-id={s.id}
+                                class="relative bg-white/5 border border-white/10 rounded-2xl p-3 sm:p-4 md:p-5 backdrop-blur-sm"
+                            >
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-white/40 font-mono">
+                                        Fuente · 0{i + 1}
+                                    </span>
+                                    <span class="flex items-center gap-1.5 text-[9px] sm:text-[10px] text-green-400">
+                                        <span
+                                            data-source-pulse
+                                            class="w-1.5 h-1.5 rounded-full bg-green-400"
+                                        />
+                                        LIVE
+                                    </span>
+                                </div>
+                                <div class="flex items-center gap-2 sm:gap-3">
+                                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/80 shrink-0">
+                                        {s.id === "crm" && (
+                                            <svg
+                                                width="20"
+                                                height="20"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                            >
+                                                <circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.5"/>
+                                                <path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                            </svg>
+                                        )}
+                                        {s.id === "analytics" && (
+                                            <svg
+                                                width="20"
+                                                height="20"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                            >
+                                                <path d="M3 17l5-5 4 4 8-8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M14 8h6v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        )}
+                                        {s.id === "sheets" && (
+                                            <svg
+                                                width="20"
+                                                height="20"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                            >
+                                                <rect x="3.5" y="4.5" width="17" height="15" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+                                                <line x1="3.5" y1="9.5" x2="20.5" y2="9.5" stroke="currentColor" stroke-width="1.5"/>
+                                                <line x1="3.5" y1="14.5" x2="20.5" y2="14.5" stroke="currentColor" stroke-width="1.5"/>
+                                                <line x1="9" y1="4.5" x2="9" y2="19.5" stroke="currentColor" stroke-width="1.5"/>
+                                            </svg>
+                                        )}
+                                    </div>
+                                    <div class="min-w-0">
+                                        <div class="text-sm sm:text-base font-semibold truncate">
+                                            {s.label}
+                                        </div>
+                                        <div class="text-[11px] sm:text-xs text-white/50 truncate">
+                                            {s.sub}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    }
+                </div>
+
+                <!-- SVG líneas + partículas (desktop) -->
+                <svg
+                    data-pipeline-lines
+                    class="hidden md:block absolute inset-0 w-full h-full pointer-events-none z-0"
+                    fill="none"
+                >
+                    <defs>
+                        <linearGradient id="line-gradient" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#22c55e" stop-opacity="0.2"/>
+                            <stop offset="60%" stop-color="#22c55e" stop-opacity="0.7"/>
+                            <stop offset="100%" stop-color="#22c55e" stop-opacity="0.3"/>
+                        </linearGradient>
+                    </defs>
+                    <path
+                        data-pipeline-path
+                        data-path-id="crm"
+                        stroke="url(#line-gradient)"
+                        stroke-width="1.5"
+                        fill="none"
+                    />
+                    <path
+                        data-pipeline-path
+                        data-path-id="analytics"
+                        stroke="url(#line-gradient)"
+                        stroke-width="1.5"
+                        fill="none"
+                    />
+                    <path
+                        data-pipeline-path
+                        data-path-id="sheets"
+                        stroke="url(#line-gradient)"
+                        stroke-width="1.5"
+                        fill="none"
+                    />
+                    <circle data-pipeline-particle data-particle-id="crm" r="3" fill="#22c55e" opacity="0"/>
+                    <circle data-pipeline-particle data-particle-id="analytics" r="3" fill="#22c55e" opacity="0"/>
+                    <circle data-pipeline-particle data-particle-id="sheets" r="3" fill="#22c55e" opacity="0"/>
+                </svg>
+
+                <!-- Espacio del medio (solo layout) -->
+                <div class="hidden md:block md:col-span-2"></div>
+
+                <!-- Dashboard target -->
+                <div class="md:col-span-6 relative z-10">
+                    <div
+                        data-pipeline-dashboard
+                        class="relative bg-white/5 border border-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-5 md:p-6 lg:p-7 backdrop-blur-sm"
+                    >
+                        <div class="flex items-center justify-between mb-4 sm:mb-5">
+                            <span class="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-white/40 font-mono">
+                                Dashboard unificado
+                            </span>
+                            <span class="flex items-center gap-1.5 text-[9px] sm:text-[10px] text-green-400">
+                                <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+                                EN VIVO
+                            </span>
+                        </div>
+
+                        <div class="text-[11px] sm:text-xs text-white/40 uppercase tracking-wider mb-1">
+                            Ingreso total · este trimestre
+                        </div>
+                        <div
+                            data-pipeline-kpi
+                            class="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-semibold tabular-nums mb-1"
+                        >
+                            $0.0k
+                        </div>
+                        <div data-pipeline-trend class="text-[11px] sm:text-xs text-green-400 mb-5 sm:mb-6">
+                            ↑ 0.0% vs. trimestre anterior
+                        </div>
+
+                        <!-- Gráfico -->
+                        <div class="relative h-24 sm:h-28 md:h-32 mb-5 sm:mb-6">
+                            <div class="flex items-end gap-1.5 h-full">
+                                {
+                                    bars.map((h) => (
+                                        <div
+                                            data-pipeline-bar
+                                            data-bar-target={h}
+                                            class="flex-1 bg-white/20 rounded-sm origin-bottom"
+                                            style="height: 0%"
+                                        />
+                                    ))
+                                }
+                            </div>
+                            <!-- Línea de tendencia -->
+                            <svg
+                                data-pipeline-trendline
+                                class="absolute inset-0 w-full h-full pointer-events-none"
+                            >
+                                <path
+                                    stroke="#22c55e"
+                                    stroke-width="1.5"
+                                    stroke-linecap="round"
+                                    fill="none"
+                                />
+                            </svg>
+                        </div>
+
+                        <!-- Mini stats -->
+                        <div class="grid grid-cols-3 gap-2 sm:gap-3 pt-3 sm:pt-4 border-t border-white/10">
+                            <div data-pipeline-mini class="min-w-0">
+                                <div class="text-[11px] sm:text-xs text-white/50 truncate">Conversión</div>
+                                <div class="text-sm sm:text-base font-semibold mt-0.5 tabular-nums">3.8%</div>
+                            </div>
+                            <div data-pipeline-mini class="min-w-0">
+                                <div class="text-[11px] sm:text-xs text-white/50 truncate">Sesiones</div>
+                                <div class="text-sm sm:text-base font-semibold mt-0.5 tabular-nums">12.4k</div>
+                            </div>
+                            <div data-pipeline-mini class="min-w-0">
+                                <div class="text-[11px] sm:text-xs text-white/50 truncate">Ticket</div>
+                                <div class="text-sm sm:text-base font-semibold mt-0.5 tabular-nums">$89</div>
+                            </div>
+                        </div>
+
+                        <!-- Toast de insight -->
+                        <div
+                            data-pipeline-toast
+                            class="absolute -bottom-3 -right-3 sm:-bottom-4 sm:-right-4 md:-bottom-6 md:-right-6 bg-white text-black px-3 py-2 sm:px-4 sm:py-3 rounded-xl sm:rounded-2xl shadow-2xl flex items-center gap-2 sm:gap-3 max-w-[200px] sm:max-w-[260px]"
+                        >
+                            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0"></span>
+                            <div class="min-w-0">
+                                <div class="text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-400">Insight detectado</div>
+                                <div class="text-xs sm:text-sm font-medium leading-tight mt-0.5">
+                                    Ventas +18% miércoles 14h
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA final -->
+            <div
+                data-pipeline-cta
+                class="mt-10 sm:mt-12 md:mt-16 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-6"
+            >
+                <p class="text-white/60 max-w-md text-sm md:text-base">
+                    Esto que ves no es una maqueta. Es lo que entregamos.
+                </p>
+                <a
+                    href="#services"
+                    class="inline-flex items-center gap-2 sm:gap-3 bg-white text-black px-5 sm:px-6 py-2.5 sm:py-3 rounded-full text-sm sm:text-base hover:bg-gray-200 transition duration-300"
+                >
+                    Esto es lo que hacemos
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path
+                            d="M1 13L13 1M13 1H3M13 1V11"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                        />
+                    </svg>
+                </a>
+            </div>
+
+                <!-- Glow decorativo -->
+                <div
+                    class="absolute -top-32 -right-32 sm:-top-40 sm:-right-40 w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] md:w-[500px] md:h-[500px] bg-green-500/5 rounded-full blur-3xl pointer-events-none"
+                ></div>
+                <div
+                    class="absolute -bottom-32 -left-32 sm:-bottom-40 sm:-left-40 w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] md:w-[500px] md:h-[500px] bg-white/5 rounded-full blur-3xl pointer-events-none"
+                ></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    :global(html:not(.pipeline-ready)) [data-pipeline-eyebrow],
+    :global(html:not(.pipeline-ready)) [data-pipeline-heading],
+    :global(html:not(.pipeline-ready)) [data-pipeline-paragraph],
+    :global(html:not(.pipeline-ready)) [data-pipeline-source],
+    :global(html:not(.pipeline-ready)) [data-pipeline-dashboard],
+    :global(html:not(.pipeline-ready)) [data-pipeline-toast],
+    :global(html:not(.pipeline-ready)) [data-pipeline-cta] {
+        opacity: 0;
+    }
+    /* Las paths se inicializan con valor neutro; el JS calcula la longitud real */
+    [data-pipeline-path],
+    [data-pipeline-trendline] path {
+        opacity: 0;
+    }
+</style>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+    import { MotionPathPlugin } from "gsap/MotionPathPlugin";
+
+    gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+
+    const eyebrow = document.querySelector<HTMLElement>("[data-pipeline-eyebrow]");
+    const heading = document.querySelector<HTMLElement>("[data-pipeline-heading]");
+    const paragraph = document.querySelector<HTMLElement>("[data-pipeline-paragraph]");
+    const sources = document.querySelectorAll<HTMLElement>("[data-pipeline-source]");
+    const dashboard = document.querySelector<HTMLElement>("[data-pipeline-dashboard]");
+    const kpi = document.querySelector<HTMLElement>("[data-pipeline-kpi]");
+    const trend = document.querySelector<HTMLElement>("[data-pipeline-trend]");
+    const bars = document.querySelectorAll<HTMLElement>("[data-pipeline-bar]");
+    const trendline = document.querySelector<SVGPathElement>("[data-pipeline-trendline] path");
+    const minis = document.querySelectorAll<HTMLElement>("[data-pipeline-mini]");
+    const toast = document.querySelector<HTMLElement>("[data-pipeline-toast]");
+    const cta = document.querySelector<HTMLElement>("[data-pipeline-cta]");
+    const linesSvg = document.querySelector<SVGSVGElement>("[data-pipeline-lines]");
+    const paths = document.querySelectorAll<SVGPathElement>("[data-pipeline-path]");
+    const particles = document.querySelectorAll<SVGCircleElement>("[data-pipeline-particle]");
+    const pinTarget = document.querySelector<HTMLElement>("[data-pipeline-pin]");
+    const section = document.querySelector<HTMLElement>("[data-pipeline]");
+
+    // Estados iniciales comunes
+    gsap.set([eyebrow, heading, paragraph], { opacity: 0, y: 20 });
+    gsap.set(sources, { opacity: 0, y: 20, scale: 0.95 });
+    gsap.set(dashboard, { opacity: 0, y: 20 });
+    gsap.set(toast, { opacity: 0, y: 20, scale: 0.9 });
+    gsap.set(cta, { opacity: 0, y: 20 });
+    gsap.set(minis, { opacity: 0, y: 10 });
+
+    document.documentElement.classList.add("pipeline-ready");
+
+    /**
+     * Calcula y aplica las paths SVG dinámicamente conectando cada caja-fuente
+     * con el dashboard. Las coords se calculan en el sistema del SVG (que ocupa
+     * todo el contenedor data-pipeline-stage).
+     */
+    const recomputePaths = () => {
+        if (!linesSvg || !dashboard) return;
+        const svgRect = linesSvg.getBoundingClientRect();
+        if (svgRect.width === 0 || svgRect.height === 0) return;
+
+        // Setear viewBox al tamaño real del SVG (1:1 con pixels)
+        linesSvg.setAttribute(
+            "viewBox",
+            `0 0 ${svgRect.width} ${svgRect.height}`,
+        );
+
+        const dashRect = dashboard.getBoundingClientRect();
+        const dashLeft = dashRect.left - svgRect.left;
+        const dashCenterY = dashRect.top + dashRect.height / 2 - svgRect.top;
+
+        sources.forEach((source, i) => {
+            const path = paths[i];
+            if (!path) return;
+            const r = source.getBoundingClientRect();
+            const x1 = r.right - svgRect.left;
+            const y1 = r.top + r.height / 2 - svgRect.top;
+            const x2 = dashLeft;
+            const y2 = dashCenterY;
+            // Curva Bezier suave: control points a 1/2 del recorrido horizontal
+            const cx1 = x1 + (x2 - x1) * 0.5;
+            const cx2 = x1 + (x2 - x1) * 0.5;
+            const d = `M ${x1} ${y1} C ${cx1} ${y1}, ${cx2} ${y2}, ${x2} ${y2}`;
+            path.setAttribute("d", d);
+            // Recalcular dasharray para draw effect
+            const len = path.getTotalLength();
+            path.style.strokeDasharray = `${len}`;
+            path.style.strokeDashoffset = `${len}`;
+            path.style.opacity = "1";
+        });
+    };
+
+    /**
+     * Calcula el path de la trendline conectando los topes de las barras
+     * con una curva suave, usando coordenadas reales (px) del SVG contenedor.
+     */
+    const recomputeTrendline = () => {
+        if (!trendline) return;
+        const trendlineSvg = trendline.parentElement as SVGSVGElement | null;
+        if (!trendlineSvg) return;
+        const svgRect = trendlineSvg.getBoundingClientRect();
+        if (svgRect.width === 0 || svgRect.height === 0) return;
+
+        trendlineSvg.setAttribute(
+            "viewBox",
+            `0 0 ${svgRect.width} ${svgRect.height}`,
+        );
+
+        const points: { x: number; y: number }[] = [];
+        bars.forEach((bar) => {
+            const target = parseFloat(bar.dataset.barTarget ?? "50");
+            const r = bar.getBoundingClientRect();
+            const x = r.left + r.width / 2 - svgRect.left;
+            // El top de la barra cuando alcance su altura final
+            const containerHeight = svgRect.height;
+            const finalBarHeight = (target / 100) * containerHeight;
+            const y = containerHeight - finalBarHeight;
+            points.push({ x, y });
+        });
+
+        if (points.length < 2) return;
+
+        // Curva suave tipo Catmull-Rom: cada segmento es una Bezier cúbica
+        // con control points calculados desde puntos vecinos. Pasa por todos
+        // los puntos sin "joroba" entre ellos.
+        const smoothing = 0.2;
+        const getControlPoint = (
+            current: { x: number; y: number },
+            prev: { x: number; y: number } | undefined,
+            next: { x: number; y: number } | undefined,
+            reverse: boolean,
+        ) => {
+            const p = prev ?? current;
+            const n = next ?? current;
+            const dx = n.x - p.x;
+            const dy = n.y - p.y;
+            const factor = reverse ? -smoothing : smoothing;
+            return {
+                x: current.x + dx * factor,
+                y: current.y + dy * factor,
+            };
+        };
+
+        let d = `M ${points[0].x} ${points[0].y}`;
+        for (let i = 1; i < points.length; i++) {
+            const cp1 = getControlPoint(
+                points[i - 1],
+                points[i - 2],
+                points[i],
+                false,
+            );
+            const cp2 = getControlPoint(
+                points[i],
+                points[i - 1],
+                points[i + 1],
+                true,
+            );
+            d += ` C ${cp1.x} ${cp1.y}, ${cp2.x} ${cp2.y}, ${points[i].x} ${points[i].y}`;
+        }
+
+        trendline.setAttribute("d", d);
+        const len = trendline.getTotalLength();
+        if (len > 0) {
+            trendline.style.strokeDasharray = `${len}`;
+            trendline.style.strokeDashoffset = `${len}`;
+            trendline.style.opacity = "1";
+        }
+    };
+
+    // Helper: animar partícula a lo largo de un path en loop
+    const animateParticle = (
+        particle: SVGCircleElement,
+        path: SVGPathElement,
+    ) => {
+        gsap.to(particle, {
+            motionPath: {
+                path: path,
+                align: path,
+                autoRotate: false,
+                alignOrigin: [0.5, 0.5],
+            },
+            duration: 2.4,
+            repeat: -1,
+            ease: "power1.inOut",
+            opacity: 1,
+        });
+    };
+
+    // Recalcular paths cuando todo está listo
+    const initPaths = () => {
+        recomputePaths();
+        recomputeTrendline();
+        ScrollTrigger.refresh();
+    };
+    if (document.readyState === "complete") {
+        initPaths();
+    } else {
+        window.addEventListener("load", initPaths);
+    }
+    window.addEventListener("resize", () => {
+        recomputePaths();
+        recomputeTrendline();
+        ScrollTrigger.refresh();
+    });
+
+    // ==================
+    // matchMedia split
+    // ==================
+    const track = document.querySelector<HTMLElement>("[data-pipeline-track]");
+
+    ScrollTrigger.matchMedia({
+        // ============ DESKTOP ============
+        "(min-width: 768px)": () => {
+            // Sticky CSS hace el "pin"; ScrollTrigger solo controla progreso del timeline
+            // El timeline progresa a medida que el track (400vh) sale del viewport
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: track,
+                    start: "top top",
+                    end: "bottom bottom",
+                    scrub: 1,
+                    invalidateOnRefresh: true,
+                },
+            });
+
+            // 0 — 0.05: encabezado
+            tl.to(eyebrow, { opacity: 1, y: 0, duration: 0.5 }, 0)
+                .to(heading, { opacity: 1, y: 0, duration: 0.6 }, 0.1)
+                .to(paragraph, { opacity: 1, y: 0, duration: 0.6 }, 0.2);
+
+            // 0.05 — 0.30: cajas-fuente con stagger
+            tl.to(
+                sources,
+                {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    stagger: 0.2,
+                    duration: 0.6,
+                },
+                0.5,
+            );
+
+            // 0.30 — 0.55: líneas se dibujan
+            paths.forEach((path, i) => {
+                tl.to(
+                    path,
+                    {
+                        strokeDashoffset: 0,
+                        duration: 0.8,
+                        ease: "none",
+                    },
+                    1.4 + i * 0.15,
+                );
+            });
+
+            // Dashboard fade-in
+            tl.to(dashboard, { opacity: 1, y: 0, duration: 0.6 }, 1.8);
+
+            // KPI count-up
+            const kpiState = { v: 0 };
+            tl.to(
+                kpiState,
+                {
+                    v: 128.4,
+                    duration: 1.0,
+                    ease: "power2.out",
+                    onUpdate: () => {
+                        if (kpi) kpi.textContent = `$${kpiState.v.toFixed(1)}k`;
+                    },
+                },
+                2.2,
+            );
+
+            const trendState = { v: 0 };
+            tl.to(
+                trendState,
+                {
+                    v: 24.6,
+                    duration: 1.0,
+                    ease: "power2.out",
+                    onUpdate: () => {
+                        if (trend)
+                            trend.textContent = `↑ ${trendState.v.toFixed(1)}% vs. trimestre anterior`;
+                    },
+                },
+                2.2,
+            );
+
+            // Barras
+            bars.forEach((bar, i) => {
+                const target = bar.dataset.barTarget ?? "50";
+                tl.to(
+                    bar,
+                    {
+                        height: `${target}%`,
+                        duration: 0.5,
+                        ease: "power2.out",
+                    },
+                    2.6 + i * 0.06,
+                );
+            });
+
+            // Línea de tendencia
+            if (trendline) {
+                tl.to(
+                    trendline,
+                    {
+                        strokeDashoffset: 0,
+                        duration: 1.0,
+                        ease: "none",
+                    },
+                    3.2,
+                );
+            }
+
+            // Mini stats
+            tl.to(
+                minis,
+                {
+                    opacity: 1,
+                    y: 0,
+                    stagger: 0.15,
+                    duration: 0.5,
+                },
+                3.4,
+            );
+
+            // Toast
+            tl.to(
+                toast,
+                {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 0.6,
+                    ease: "back.out(1.5)",
+                },
+                3.9,
+            );
+
+            // CTA
+            tl.to(
+                cta,
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.6,
+                },
+                4.2,
+            );
+
+            // Partículas: arrancan SOLO cuando las líneas ya se dibujaron.
+            // Las líneas están animadas en el timeline entre tiempo 1.4 y ~2.0,
+            // así que disparamos las partículas cuando el progreso pasa el 50%.
+            let particlesStarted = false;
+            const startParticles = () => {
+                if (particlesStarted) return;
+                particlesStarted = true;
+                recomputePaths();
+                particles.forEach((particle, i) => {
+                    const path = paths[i];
+                    if (path) {
+                        gsap.delayedCall(0.2 * i, () =>
+                            animateParticle(particle, path),
+                        );
+                    }
+                });
+            };
+            const stopParticles = () => {
+                if (!particlesStarted) return;
+                particlesStarted = false;
+                particles.forEach((p) => {
+                    gsap.killTweensOf(p);
+                    gsap.set(p, { opacity: 0 });
+                });
+            };
+
+            ScrollTrigger.create({
+                trigger: track,
+                start: "top top+=50%", // 50% del progreso del track
+                end: "bottom bottom",
+                onEnter: startParticles,
+                onEnterBack: startParticles,
+                onLeaveBack: stopParticles,
+            });
+
+            return () => {
+                stopParticles();
+            };
+        },
+
+        // ============ MOBILE ============
+        "(max-width: 767px)": () => {
+            // Sin pin, sin scrub: fade-ups tradicionales
+            const intro = gsap.timeline({
+                defaults: { ease: "power3.out", duration: 0.7 },
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 75%",
+                },
+            });
+
+            intro
+                .to(eyebrow, { opacity: 1, y: 0, duration: 0.5 })
+                .to(heading, { opacity: 1, y: 0 }, "-=0.3")
+                .to(paragraph, { opacity: 1, y: 0 }, "-=0.4");
+
+            gsap.to(sources, {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                stagger: 0.12,
+                duration: 0.6,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: sources[0],
+                    start: "top 85%",
+                },
+            });
+
+            gsap.to(dashboard, {
+                opacity: 1,
+                y: 0,
+                duration: 0.7,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: dashboard,
+                    start: "top 85%",
+                    onEnter: () => {
+                        // KPI count-up
+                        const s = { v: 0 };
+                        gsap.to(s, {
+                            v: 128.4,
+                            duration: 1.4,
+                            ease: "power2.out",
+                            onUpdate: () => {
+                                if (kpi)
+                                    kpi.textContent = `$${s.v.toFixed(1)}k`;
+                            },
+                        });
+                        const t = { v: 0 };
+                        gsap.to(t, {
+                            v: 24.6,
+                            duration: 1.4,
+                            ease: "power2.out",
+                            onUpdate: () => {
+                                if (trend)
+                                    trend.textContent = `↑ ${t.v.toFixed(1)}% vs. trimestre anterior`;
+                            },
+                        });
+                        // Barras
+                        bars.forEach((bar) => {
+                            const target = bar.dataset.barTarget ?? "50";
+                            gsap.to(bar, {
+                                height: `${target}%`,
+                                duration: 0.8,
+                                ease: "power2.out",
+                                delay: 0.3,
+                            });
+                        });
+                        // Trendline
+                        if (trendline) {
+                            gsap.to(trendline, {
+                                strokeDashoffset: 0,
+                                duration: 1.2,
+                                ease: "power2.out",
+                                delay: 0.8,
+                            });
+                        }
+                        // Minis
+                        gsap.to(minis, {
+                            opacity: 1,
+                            y: 0,
+                            stagger: 0.1,
+                            duration: 0.5,
+                            delay: 1.0,
+                        });
+                        // Toast
+                        gsap.to(toast, {
+                            opacity: 1,
+                            y: 0,
+                            scale: 1,
+                            duration: 0.6,
+                            ease: "back.out(1.5)",
+                            delay: 1.4,
+                        });
+                    },
+                },
+            });
+
+            gsap.to(cta, {
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: cta,
+                    start: "top 90%",
+                },
+            });
+        },
+    });
+</script>

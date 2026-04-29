@@ -6,14 +6,14 @@ import Logo from "../Icons/Logo.astro";
     data-header
     class="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-white/70 border-b border-black/5"
 >
-    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div class="max-w-6xl mx-auto px-5 sm:px-6 md:px-8 py-3 sm:py-4 flex items-center justify-between">
         <!-- Logo -->
-        <div data-header-logo class="flex items-center">
-            <Logo class="w-10 h-10" />
-        </div>
+        <a href="#hero" data-header-logo class="flex items-center">
+            <Logo class="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10" />
+        </a>
 
-        <!-- Navegación -->
-        <nav class="hidden md:flex items-center gap-10 text-sm text-gray-600">
+        <!-- Navegación desktop -->
+        <nav class="hidden md:flex items-center gap-6 lg:gap-10 text-sm text-gray-600">
             <a
                 data-header-link
                 href="#about"
@@ -41,19 +41,25 @@ import Logo from "../Icons/Logo.astro";
             <a
                 data-header-cta
                 href="#contact"
-                class="border border-black px-5 py-2 rounded-full text-sm hover:bg-black hover:text-white transition"
+                class="border border-black px-4 lg:px-5 py-2 rounded-full text-sm hover:bg-black hover:text-white transition"
             >
                 Empezar
             </a>
         </div>
 
         <!-- Botón móvil -->
-        <button data-header-mobile class="md:hidden">
+        <button
+            data-header-mobile
+            aria-label="Abrir menú"
+            class="md:hidden w-10 h-10 flex items-center justify-center -mr-2"
+        >
             <svg
+                data-header-mobile-icon
                 xmlns="http://www.w3.org/2000/svg"
                 class="w-6 h-6"
                 fill="none"
                 stroke="currentColor"
+                viewBox="0 0 24 24"
             >
                 <path
                     stroke-linecap="round"
@@ -62,6 +68,46 @@ import Logo from "../Icons/Logo.astro";
                     d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
         </button>
+    </div>
+
+    <!-- Menú móvil expandible -->
+    <div
+        data-header-menu
+        class="md:hidden overflow-hidden max-h-0 transition-[max-height] duration-500 ease-out border-t border-transparent"
+    >
+        <nav class="px-5 sm:px-6 py-6 flex flex-col gap-1 text-base">
+            <a
+                data-header-menu-link
+                href="#about"
+                class="py-3 text-gray-700 hover:text-black border-b border-black/5 transition-colors"
+                >Nosotros</a
+            >
+            <a
+                data-header-menu-link
+                href="#services"
+                class="py-3 text-gray-700 hover:text-black border-b border-black/5 transition-colors"
+                >Servicios</a
+            >
+            <a
+                data-header-menu-link
+                href="#projects"
+                class="py-3 text-gray-700 hover:text-black border-b border-black/5 transition-colors"
+                >Proyectos</a
+            >
+            <a
+                data-header-menu-link
+                href="#contact"
+                class="py-3 text-gray-700 hover:text-black transition-colors"
+                >Contacto</a
+            >
+            <a
+                data-header-menu-link
+                href="#contact"
+                class="mt-4 inline-flex items-center justify-center bg-black text-white px-5 py-3 rounded-full text-sm hover:bg-gray-800 transition"
+            >
+                Empezar
+            </a>
+        </nav>
     </div>
 </header>
 
@@ -125,6 +171,44 @@ import Logo from "../Icons/Logo.astro";
             gsap.to(header, { y: 0, duration: 0.4, ease: "power2.out" });
         }
         lastY = y;
+    });
+
+    // Menú móvil
+    const menu = document.querySelector<HTMLElement>("[data-header-menu]");
+    const menuIcon = document.querySelector<SVGPathElement>(
+        "[data-header-mobile-icon] path",
+    );
+    const menuLinks = document.querySelectorAll<HTMLElement>(
+        "[data-header-menu-link]",
+    );
+    let menuOpen = false;
+
+    const setMenu = (open: boolean) => {
+        if (!menu) return;
+        menuOpen = open;
+        if (open) {
+            menu.style.maxHeight = `${menu.scrollHeight}px`;
+            menu.classList.add("border-black/5");
+            menu.classList.remove("border-transparent");
+            mobile?.setAttribute("aria-label", "Cerrar menú");
+            menuIcon?.setAttribute("d", "M6 18L18 6M6 6l12 12");
+        } else {
+            menu.style.maxHeight = "0px";
+            menu.classList.remove("border-black/5");
+            menu.classList.add("border-transparent");
+            mobile?.setAttribute("aria-label", "Abrir menú");
+            menuIcon?.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+        }
+    };
+
+    mobile?.addEventListener("click", () => setMenu(!menuOpen));
+    menuLinks.forEach((link) =>
+        link.addEventListener("click", () => setMenu(false)),
+    );
+
+    // Cerrar al redimensionar a desktop
+    window.addEventListener("resize", () => {
+        if (window.innerWidth >= 768 && menuOpen) setMenu(false);
     });
 </script>
 

@@ -39,27 +39,27 @@ const year = new Date().getFullYear();
 
 <footer
     data-footer
-    class="relative rounded-4xl mx-2 md:mx-4 mb-2 md:mb-4 px-6 md:px-12 lg:px-20 py-16 md:py-20 overflow-hidden"
+    class="relative rounded-3xl sm:rounded-4xl mx-2 sm:mx-3 md:mx-4 mb-2 md:mb-4 px-5 sm:px-6 md:px-10 lg:px-16 xl:px-20 py-12 sm:py-14 md:py-16 lg:py-20 overflow-hidden"
 >
     <div class="max-w-6xl mx-auto w-full">
         <!-- Encabezado -->
         <div
-            class="grid md:grid-cols-12 gap-10 md:gap-16 pb-16 border-b border-black/10"
+            class="grid md:grid-cols-12 gap-8 sm:gap-10 md:gap-12 lg:gap-16 pb-10 sm:pb-12 md:pb-16 border-b border-black/10"
         >
             <div class="md:col-span-6">
                 <span
                     data-footer-eyebrow
-                    class="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-gray-500"
+                    class="inline-flex items-center gap-2 text-[10px] sm:text-xs uppercase tracking-[0.2em] text-gray-500"
                 >
-                    <span class="w-6 h-px bg-gray-400"></span>
+                    <span class="w-5 sm:w-6 h-px bg-gray-400"></span>
                     Hablemos
                 </span>
 
                 <h2
                     data-footer-heading
-                    class="mt-6 text-4xl md:text-6xl font-semibold leading-[1.05] tracking-tight"
+                    class="mt-4 sm:mt-6 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold leading-[1.05] tracking-tight"
                 >
-                    Tu idea nosotros la<span
+                    Tu idea nosotros la <span
                         class="italic font-light text-gray-500"
                         >hacemos realidad.</span
                     >
@@ -68,7 +68,7 @@ const year = new Date().getFullYear();
                 <a
                     data-footer-cta
                     href="#contact"
-                    class="mt-10 inline-flex items-center gap-3 bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition duration-300"
+                    class="mt-8 sm:mt-10 inline-flex items-center gap-2 sm:gap-3 bg-black text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-full text-sm sm:text-base hover:bg-gray-800 transition duration-300"
                 >
                     Empezar un proyecto
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -81,19 +81,19 @@ const year = new Date().getFullYear();
             </div>
 
             <!-- Grupos de enlaces -->
-            <div class="md:col-span-6 grid grid-cols-2 md:grid-cols-3 gap-8">
+            <div class="md:col-span-6 grid grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
                 {
                     navGroups.map((group) => (
                         <div data-footer-group>
-                            <h3 class="text-sm font-semibold mb-5 tracking-tight">
+                            <h3 class="text-xs sm:text-sm font-semibold mb-3 sm:mb-5 tracking-tight">
                                 {group.title}
                             </h3>
-                            <ul class="space-y-3">
+                            <ul class="space-y-2 sm:space-y-3">
                                 {group.links.map((link) => (
                                     <li>
                                         <a
                                             href={link.href}
-                                            class="text-sm text-gray-500 hover:text-black transition-colors duration-300"
+                                            class="text-xs sm:text-sm text-gray-500 hover:text-black transition-colors duration-300"
                                         >
                                             {link.label}
                                         </a>
@@ -109,10 +109,10 @@ const year = new Date().getFullYear();
         <!-- Marca grande -->
         <div
             data-footer-brand
-            class="flex items-center justify-center py-12 md:py-16 select-none"
+            class="flex items-center justify-center py-8 sm:py-10 md:py-14 lg:py-16 select-none"
         >
             <span
-                class="text-[18vw] md:text-[14vw] leading-none font-semibold tracking-tighter text-black/5"
+                class="text-[22vw] sm:text-[20vw] md:text-[16vw] lg:text-[14vw] leading-none font-semibold tracking-tighter text-black/5"
             >
                 StrateCode
             </span>
@@ -120,18 +120,18 @@ const year = new Date().getFullYear();
 
         <!-- Bottom bar -->
         <div
-            class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pt-8 border-t border-black/10"
+            class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 sm:gap-6 pt-6 sm:pt-8 border-t border-black/10"
         >
-            <div data-footer-bottom class="flex items-center gap-3">
-                <Logo class="w-8 h-8" />
-                <span class="text-sm text-gray-500">
+            <div data-footer-bottom class="flex items-center gap-2 sm:gap-3">
+                <Logo class="w-7 h-7 sm:w-8 sm:h-8" />
+                <span class="text-xs sm:text-sm text-gray-500">
                     © {year} Strate Code. Todos los derechos reservados.
                 </span>
             </div>
 
             <div
                 data-footer-bottom
-                class="flex items-center gap-6 text-sm text-gray-500"
+                class="flex flex-wrap items-center gap-4 sm:gap-6 text-xs sm:text-sm text-gray-500"
             >
                 <a href="#" class="hover:text-black transition-colors"
                     >Privacidad</a
@@ -139,7 +139,7 @@ const year = new Date().getFullYear();
                 <a href="#" class="hover:text-black transition-colors"
                     >Términos</a
                 >
-                <span class="hidden md:inline-flex items-center gap-2">
+                <span class="hidden lg:inline-flex items-center gap-2">
                     <span
                         class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"
                     ></span>

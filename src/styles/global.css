@@ -18,3 +18,9 @@ body {
         "Helvetica Neue",
         sans-serif;
 }
+
+/* overflow-x hidden a nivel body causa que ScrollTrigger pin se rompa,
+   en su lugar uso clip en cada sección que pueda desbordarse */
+body {
+    overflow-x: clip;
+}
