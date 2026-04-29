@@ -1,16 +1,16 @@
 ---
 import Section from "../common/Section.astro";
 
-const channels = [
+const channels: { label: string; value: string; href: string | null }[] = [
     {
-        label: "Email",
-        value: "hola@stratecode.com",
-        href: "mailto:hola@stratecode.com",
+        label: "Correo",
+        value: "Próximamente",
+        href: null,
     },
     {
         label: "WhatsApp",
-        value: "+52 000 000 0000",
-        href: "https://wa.me/520000000000",
+        value: "Próximamente",
+        href: null,
     },
     {
         label: "Ubicación",
@@ -109,6 +109,10 @@ const projectTypes = [
                                                 />
                                             </svg>
                                         </a>
+                                    ) : c.value === "Próximamente" ? (
+                                        <span class="text-sm sm:text-base md:text-lg font-medium text-gray-400 italic">
+                                            {c.value}
+                                        </span>
                                     ) : (
                                         <span class="text-sm sm:text-base md:text-lg font-medium">
                                             {c.value}
