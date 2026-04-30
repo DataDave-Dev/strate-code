@@ -1,0 +1,861 @@
+---
+import ServiceMomentShell from "./ServiceMomentShell.astro";
+
+const sources = [
+    {
+        id: "crm",
+        label: "CRM",
+        sub: "Clientes · Leads",
+    },
+    {
+        id: "analytics",
+        label: "Web Analytics",
+        sub: "Sesiones · Conversión",
+    },
+    {
+        id: "sheets",
+        label: "Hojas de cálculo",
+        sub: "Inventario · Costos",
+    },
+];
+
+const bars = [55, 70, 45, 80, 60, 92, 75, 100];
+---
+
+<ServiceMomentShell
+    id="data-pipeline"
+    momentKey="bi"
+    index={1}
+    total={6}
+    eyebrow="Cómo trabajamos · En vivo"
+    title='Tus datos, <span class="italic font-light text-white/50">en una sola vista.</span>'
+    description="Conectamos las fuentes de datos que ya utiliza y las convertimos en un dashboard único, en tiempo real. Esto es lo que vería en la primera demostración."
+    bgClass="bg-black text-white"
+    ctaLabel="Quiero un dashboard"
+    trackHeight="400vh"
+>
+    <!-- Pipeline visual -->
+    <div
+        data-bi-stage
+        class="relative grid md:grid-cols-12 gap-5 sm:gap-6 md:gap-8 items-center"
+    >
+        <!-- Cajas-fuente -->
+        <div
+            class="md:col-span-4 grid grid-cols-1 gap-3 sm:gap-4 relative z-10"
+        >
+            {
+                sources.map((s, i) => (
+                    <div
+                        data-bi-source
+                        data-source-id={s.id}
+                        class="relative bg-white/5 border border-white/10 rounded-2xl p-3 sm:p-4 md:p-4 lg:p-5 backdrop-blur-sm"
+                    >
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-white/40 font-mono">
+                                Fuente · 0{i + 1}
+                            </span>
+                            <span class="flex items-center gap-1.5 text-[9px] sm:text-[10px] text-green-400">
+                                <span class="w-1.5 h-1.5 rounded-full bg-green-400" />
+                                LIVE
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-2 sm:gap-3">
+                            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/80 shrink-0">
+                                {s.id === "crm" && (
+                                    <svg
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                    >
+                                        <circle
+                                            cx="12"
+                                            cy="8"
+                                            r="3.5"
+                                            stroke="currentColor"
+                                            stroke-width="1.5"
+                                        />
+                                        <path
+                                            d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"
+                                            stroke="currentColor"
+                                            stroke-width="1.5"
+                                            stroke-linecap="round"
+                                        />
+                                    </svg>
+                                )}
+                                {s.id === "analytics" && (
+                                    <svg
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                    >
+                                        <path
+                                            d="M3 17l5-5 4 4 8-8"
+                                            stroke="currentColor"
+                                            stroke-width="1.5"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        />
+                                        <path
+                                            d="M14 8h6v6"
+                                            stroke="currentColor"
+                                            stroke-width="1.5"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        />
+                                    </svg>
+                                )}
+                                {s.id === "sheets" && (
+                                    <svg
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                    >
+                                        <rect
+                                            x="3.5"
+                                            y="4.5"
+                                            width="17"
+                                            height="15"
+                                            rx="1.5"
+                                            stroke="currentColor"
+                                            stroke-width="1.5"
+                                        />
+                                        <line
+                                            x1="3.5"
+                                            y1="9.5"
+                                            x2="20.5"
+                                            y2="9.5"
+                                            stroke="currentColor"
+                                            stroke-width="1.5"
+                                        />
+                                        <line
+                                            x1="3.5"
+                                            y1="14.5"
+                                            x2="20.5"
+                                            y2="14.5"
+                                            stroke="currentColor"
+                                            stroke-width="1.5"
+                                        />
+                                        <line
+                                            x1="9"
+                                            y1="4.5"
+                                            x2="9"
+                                            y2="19.5"
+                                            stroke="currentColor"
+                                            stroke-width="1.5"
+                                        />
+                                    </svg>
+                                )}
+                            </div>
+                            <div class="min-w-0">
+                                <div class="text-sm sm:text-base font-semibold truncate">
+                                    {s.label}
+                                </div>
+                                <div class="text-[11px] sm:text-xs text-white/50 truncate">
+                                    {s.sub}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+
+        <!-- SVG líneas + partículas (desktop) -->
+        <svg
+            data-bi-lines
+            class="hidden md:block absolute inset-0 w-full h-full pointer-events-none z-0"
+            fill="none"
+        >
+            <defs>
+                <linearGradient
+                    id="bi-line-gradient"
+                    x1="0"
+                    y1="0"
+                    x2="1"
+                    y2="0"
+                >
+                    <stop offset="0%" stop-color="#22c55e" stop-opacity="0.2" />
+                    <stop offset="60%" stop-color="#22c55e" stop-opacity="0.7" />
+                    <stop offset="100%" stop-color="#22c55e" stop-opacity="0.3" />
+                </linearGradient>
+            </defs>
+            <path
+                data-bi-path
+                data-path-id="crm"
+                stroke="url(#bi-line-gradient)"
+                stroke-width="1.5"
+                fill="none"
+            />
+            <path
+                data-bi-path
+                data-path-id="analytics"
+                stroke="url(#bi-line-gradient)"
+                stroke-width="1.5"
+                fill="none"
+            />
+            <path
+                data-bi-path
+                data-path-id="sheets"
+                stroke="url(#bi-line-gradient)"
+                stroke-width="1.5"
+                fill="none"
+            />
+            <circle
+                data-bi-particle
+                data-particle-id="crm"
+                r="3"
+                fill="#22c55e"
+                opacity="0"
+            />
+            <circle
+                data-bi-particle
+                data-particle-id="analytics"
+                r="3"
+                fill="#22c55e"
+                opacity="0"
+            />
+            <circle
+                data-bi-particle
+                data-particle-id="sheets"
+                r="3"
+                fill="#22c55e"
+                opacity="0"
+            />
+        </svg>
+
+        <!-- Espacio del medio (solo layout) -->
+        <div class="hidden md:block md:col-span-2"></div>
+
+        <!-- Dashboard target -->
+        <div class="md:col-span-6 relative z-10">
+            <!-- Toast de insight: en md+ flota arriba-derecha del dashboard sin tapar el contenido,
+                 en mobile aparece como bloque normal abajo (ver final de archivo) -->
+            <div
+                data-bi-toast
+                class="hidden md:flex md:absolute md:-top-3 md:right-2 lg:-top-4 lg:right-4 bg-white text-black px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl shadow-2xl items-center gap-2 sm:gap-2.5 max-w-[200px] lg:max-w-[240px] z-30"
+            >
+                <span
+                    class="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0"
+                ></span>
+                <div class="min-w-0">
+                    <div
+                        class="text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-400"
+                    >
+                        Insight detectado
+                    </div>
+                    <div
+                        class="text-xs sm:text-sm font-medium leading-tight mt-0.5"
+                    >
+                        Ventas +18% miércoles 14h
+                    </div>
+                </div>
+            </div>
+
+            <div
+                data-bi-dashboard
+                class="relative bg-white/5 border border-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-5 md:p-5 lg:p-6 backdrop-blur-sm"
+            >
+                <div class="flex items-center justify-between mb-3 sm:mb-4">
+                    <span
+                        class="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-white/40 font-mono"
+                    >
+                        Dashboard unificado
+                    </span>
+                    <span
+                        class="flex items-center gap-1.5 text-[9px] sm:text-[10px] text-green-400"
+                    >
+                        <span
+                            class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"
+                        ></span>
+                        EN VIVO
+                    </span>
+                </div>
+
+                <div
+                    class="text-[11px] sm:text-xs text-white/40 uppercase tracking-wider mb-1"
+                >
+                    Ingreso total · este trimestre
+                </div>
+                <div
+                    data-bi-kpi
+                    class="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-semibold tabular-nums mb-1"
+                >
+                    $0.0k
+                </div>
+                <div
+                    data-bi-trend
+                    class="text-[11px] sm:text-xs text-green-400 mb-3 sm:mb-4 md:mb-3 lg:mb-4"
+                >
+                    ↑ 0.0% vs. trimestre anterior
+                </div>
+
+                <!-- Gráfico -->
+                <div
+                    class="relative h-20 sm:h-24 md:h-20 lg:h-24 xl:h-28 mb-3 sm:mb-4 md:mb-3 lg:mb-4"
+                >
+                    <div class="flex items-end gap-1.5 h-full">
+                        {
+                            bars.map((h) => (
+                                <div
+                                    data-bi-bar
+                                    data-bar-target={h}
+                                    class="flex-1 bg-white/20 rounded-sm origin-bottom"
+                                    style="height: 0%"
+                                />
+                            ))
+                        }
+                    </div>
+                    <!-- Línea de tendencia -->
+                    <svg
+                        data-bi-trendline
+                        class="absolute inset-0 w-full h-full pointer-events-none"
+                    >
+                        <path
+                            stroke="#22c55e"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            fill="none"
+                        />
+                    </svg>
+                </div>
+
+                <!-- Mini stats -->
+                <div
+                    class="grid grid-cols-3 gap-2 sm:gap-3 pt-3 sm:pt-4 border-t border-white/10"
+                >
+                    <div data-bi-mini class="min-w-0">
+                        <div
+                            class="text-[11px] sm:text-xs text-white/50 truncate"
+                        >
+                            Conversión
+                        </div>
+                        <div
+                            class="text-sm sm:text-base font-semibold mt-0.5 tabular-nums"
+                        >
+                            3.8%
+                        </div>
+                    </div>
+                    <div data-bi-mini class="min-w-0">
+                        <div
+                            class="text-[11px] sm:text-xs text-white/50 truncate"
+                        >
+                            Sesiones
+                        </div>
+                        <div
+                            class="text-sm sm:text-base font-semibold mt-0.5 tabular-nums"
+                        >
+                            12.4k
+                        </div>
+                    </div>
+                    <div data-bi-mini class="min-w-0">
+                        <div
+                            class="text-[11px] sm:text-xs text-white/50 truncate"
+                        >
+                            Ticket
+                        </div>
+                        <div
+                            class="text-sm sm:text-base font-semibold mt-0.5 tabular-nums"
+                        >
+                            $89
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Toast de insight (mobile): bloque normal después del dashboard -->
+        <div
+            data-bi-toast-mobile
+            class="md:hidden mt-3 bg-white text-black px-3 py-2 rounded-xl shadow-2xl flex items-center gap-2 max-w-full"
+        >
+            <span
+                class="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0"
+            ></span>
+            <div class="min-w-0">
+                <div
+                    class="text-[9px] uppercase tracking-wider text-gray-400"
+                >
+                    Insight detectado
+                </div>
+                <div class="text-xs font-medium leading-tight mt-0.5">
+                    Ventas +18% miércoles 14h
+                </div>
+            </div>
+        </div>
+    </div>
+</ServiceMomentShell>
+
+<style>
+    [data-moment-key="bi"] [data-bi-path],
+    [data-moment-key="bi"] [data-bi-trendline] path {
+        opacity: 0;
+    }
+</style>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+    import { MotionPathPlugin } from "gsap/MotionPathPlugin";
+
+    gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+
+    const section = document.querySelector<HTMLElement>(
+        '[data-moment-key="bi"]',
+    );
+    if (section) {
+        const track = section.querySelector<HTMLElement>("[data-moment-track]");
+        const eyebrow = section.querySelector<HTMLElement>(
+            "[data-moment-eyebrow]",
+        );
+        const heading = section.querySelector<HTMLElement>(
+            "[data-moment-heading]",
+        );
+        const paragraph = section.querySelector<HTMLElement>(
+            "[data-moment-paragraph]",
+        );
+        const cta = section.querySelector<HTMLElement>("[data-moment-cta]");
+        const sources =
+            section.querySelectorAll<HTMLElement>("[data-bi-source]");
+        const dashboard =
+            section.querySelector<HTMLElement>("[data-bi-dashboard]");
+        const kpi = section.querySelector<HTMLElement>("[data-bi-kpi]");
+        const trend = section.querySelector<HTMLElement>("[data-bi-trend]");
+        const bars = section.querySelectorAll<HTMLElement>("[data-bi-bar]");
+        const trendline = section.querySelector<SVGPathElement>(
+            "[data-bi-trendline] path",
+        );
+        const minis = section.querySelectorAll<HTMLElement>("[data-bi-mini]");
+        // El toast tiene dos versiones: una desktop (visible md+) y una mobile.
+        // Animamos ambas con un solo selector que matchea las dos.
+        const toast = section.querySelectorAll<HTMLElement>(
+            "[data-bi-toast], [data-bi-toast-mobile]",
+        );
+        const linesSvg =
+            section.querySelector<SVGSVGElement>("[data-bi-lines]");
+        const paths = section.querySelectorAll<SVGPathElement>("[data-bi-path]");
+        const particles =
+            section.querySelectorAll<SVGCircleElement>("[data-bi-particle]");
+
+        // Estados iniciales
+        gsap.set([eyebrow, heading, paragraph], { opacity: 0, y: 20 });
+        gsap.set(sources, { opacity: 0, y: 20, scale: 0.95 });
+        gsap.set(dashboard, { opacity: 0, y: 20 });
+        gsap.set(toast, { opacity: 0, y: 20, scale: 0.9 });
+        gsap.set(cta, { opacity: 0, y: 20 });
+        gsap.set(minis, { opacity: 0, y: 10 });
+
+        const recomputePaths = () => {
+            if (!linesSvg || !dashboard) return;
+            const svgRect = linesSvg.getBoundingClientRect();
+            if (svgRect.width === 0 || svgRect.height === 0) return;
+
+            linesSvg.setAttribute(
+                "viewBox",
+                `0 0 ${svgRect.width} ${svgRect.height}`,
+            );
+
+            const dashRect = dashboard.getBoundingClientRect();
+            const dashLeft = dashRect.left - svgRect.left;
+            const dashCenterY = dashRect.top + dashRect.height / 2 - svgRect.top;
+
+            sources.forEach((source, i) => {
+                const path = paths[i];
+                if (!path) return;
+                const r = source.getBoundingClientRect();
+                const x1 = r.right - svgRect.left;
+                const y1 = r.top + r.height / 2 - svgRect.top;
+                const x2 = dashLeft;
+                const y2 = dashCenterY;
+                const cx1 = x1 + (x2 - x1) * 0.5;
+                const cx2 = x1 + (x2 - x1) * 0.5;
+                const d = `M ${x1} ${y1} C ${cx1} ${y1}, ${cx2} ${y2}, ${x2} ${y2}`;
+                path.setAttribute("d", d);
+                const len = path.getTotalLength();
+                path.style.strokeDasharray = `${len}`;
+                path.style.strokeDashoffset = `${len}`;
+                path.style.opacity = "1";
+            });
+        };
+
+        const recomputeTrendline = () => {
+            if (!trendline) return;
+            const trendlineSvg = trendline.parentElement as SVGSVGElement | null;
+            if (!trendlineSvg) return;
+            const svgRect = trendlineSvg.getBoundingClientRect();
+            if (svgRect.width === 0 || svgRect.height === 0) return;
+
+            trendlineSvg.setAttribute(
+                "viewBox",
+                `0 0 ${svgRect.width} ${svgRect.height}`,
+            );
+
+            const points: { x: number; y: number }[] = [];
+            bars.forEach((bar) => {
+                const target = parseFloat(bar.dataset.barTarget ?? "50");
+                const r = bar.getBoundingClientRect();
+                const x = r.left + r.width / 2 - svgRect.left;
+                const containerHeight = svgRect.height;
+                const finalBarHeight = (target / 100) * containerHeight;
+                const y = containerHeight - finalBarHeight;
+                points.push({ x, y });
+            });
+
+            if (points.length < 2) return;
+
+            const smoothing = 0.2;
+            const getControlPoint = (
+                current: { x: number; y: number },
+                prev: { x: number; y: number } | undefined,
+                next: { x: number; y: number } | undefined,
+                reverse: boolean,
+            ) => {
+                const p = prev ?? current;
+                const n = next ?? current;
+                const dx = n.x - p.x;
+                const dy = n.y - p.y;
+                const factor = reverse ? -smoothing : smoothing;
+                return {
+                    x: current.x + dx * factor,
+                    y: current.y + dy * factor,
+                };
+            };
+
+            let d = `M ${points[0].x} ${points[0].y}`;
+            for (let i = 1; i < points.length; i++) {
+                const cp1 = getControlPoint(
+                    points[i - 1],
+                    points[i - 2],
+                    points[i],
+                    false,
+                );
+                const cp2 = getControlPoint(
+                    points[i],
+                    points[i - 1],
+                    points[i + 1],
+                    true,
+                );
+                d += ` C ${cp1.x} ${cp1.y}, ${cp2.x} ${cp2.y}, ${points[i].x} ${points[i].y}`;
+            }
+
+            trendline.setAttribute("d", d);
+            const len = trendline.getTotalLength();
+            if (len > 0) {
+                trendline.style.strokeDasharray = `${len}`;
+                trendline.style.strokeDashoffset = `${len}`;
+                trendline.style.opacity = "1";
+            }
+        };
+
+        const animateParticle = (
+            particle: SVGCircleElement,
+            path: SVGPathElement,
+        ) => {
+            gsap.to(particle, {
+                motionPath: {
+                    path: path,
+                    align: path,
+                    autoRotate: false,
+                    alignOrigin: [0.5, 0.5],
+                },
+                duration: 2.4,
+                repeat: -1,
+                ease: "power1.inOut",
+                opacity: 1,
+            });
+        };
+
+        const initPaths = () => {
+            recomputePaths();
+            recomputeTrendline();
+            ScrollTrigger.refresh();
+        };
+        if (document.readyState === "complete") {
+            initPaths();
+        } else {
+            window.addEventListener("load", initPaths);
+        }
+        window.addEventListener("resize", () => {
+            recomputePaths();
+            recomputeTrendline();
+            ScrollTrigger.refresh();
+        });
+
+        ScrollTrigger.matchMedia({
+            "(min-width: 768px)": () => {
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: track,
+                        start: "top top",
+                        end: "bottom bottom",
+                        scrub: 1,
+                        invalidateOnRefresh: true,
+                    },
+                });
+
+                tl.to(eyebrow, { opacity: 1, y: 0, duration: 0.5 }, 0)
+                    .to(heading, { opacity: 1, y: 0, duration: 0.6 }, 0.1)
+                    .to(paragraph, { opacity: 1, y: 0, duration: 0.6 }, 0.2);
+
+                tl.to(
+                    sources,
+                    {
+                        opacity: 1,
+                        y: 0,
+                        scale: 1,
+                        stagger: 0.2,
+                        duration: 0.6,
+                    },
+                    0.5,
+                );
+
+                paths.forEach((path, i) => {
+                    tl.to(
+                        path,
+                        {
+                            strokeDashoffset: 0,
+                            duration: 0.8,
+                            ease: "none",
+                        },
+                        1.4 + i * 0.15,
+                    );
+                });
+
+                tl.to(dashboard, { opacity: 1, y: 0, duration: 0.6 }, 1.8);
+
+                const kpiState = { v: 0 };
+                tl.to(
+                    kpiState,
+                    {
+                        v: 128.4,
+                        duration: 1.0,
+                        ease: "power2.out",
+                        onUpdate: () => {
+                            if (kpi)
+                                kpi.textContent = `$${kpiState.v.toFixed(1)}k`;
+                        },
+                    },
+                    2.2,
+                );
+
+                const trendState = { v: 0 };
+                tl.to(
+                    trendState,
+                    {
+                        v: 24.6,
+                        duration: 1.0,
+                        ease: "power2.out",
+                        onUpdate: () => {
+                            if (trend)
+                                trend.textContent = `↑ ${trendState.v.toFixed(1)}% vs. trimestre anterior`;
+                        },
+                    },
+                    2.2,
+                );
+
+                bars.forEach((bar, i) => {
+                    const target = bar.dataset.barTarget ?? "50";
+                    tl.to(
+                        bar,
+                        {
+                            height: `${target}%`,
+                            duration: 0.5,
+                            ease: "power2.out",
+                        },
+                        2.6 + i * 0.06,
+                    );
+                });
+
+                if (trendline) {
+                    tl.to(
+                        trendline,
+                        {
+                            strokeDashoffset: 0,
+                            duration: 1.0,
+                            ease: "none",
+                        },
+                        3.2,
+                    );
+                }
+
+                tl.to(
+                    minis,
+                    {
+                        opacity: 1,
+                        y: 0,
+                        stagger: 0.15,
+                        duration: 0.5,
+                    },
+                    3.4,
+                );
+
+                tl.to(
+                    toast,
+                    {
+                        opacity: 1,
+                        y: 0,
+                        scale: 1,
+                        duration: 0.6,
+                        ease: "back.out(1.5)",
+                    },
+                    3.9,
+                );
+
+                tl.to(cta, { opacity: 1, y: 0, duration: 0.6 }, 4.2);
+
+                let particlesStarted = false;
+                const startParticles = () => {
+                    if (particlesStarted) return;
+                    particlesStarted = true;
+                    recomputePaths();
+                    particles.forEach((particle, i) => {
+                        const path = paths[i];
+                        if (path) {
+                            gsap.delayedCall(0.2 * i, () =>
+                                animateParticle(particle, path),
+                            );
+                        }
+                    });
+                };
+                const stopParticles = () => {
+                    if (!particlesStarted) return;
+                    particlesStarted = false;
+                    particles.forEach((p) => {
+                        gsap.killTweensOf(p);
+                        gsap.set(p, { opacity: 0 });
+                    });
+                };
+
+                ScrollTrigger.create({
+                    trigger: track,
+                    start: "top top+=50%",
+                    end: "bottom bottom",
+                    onEnter: startParticles,
+                    onEnterBack: startParticles,
+                    onLeaveBack: stopParticles,
+                });
+
+                return () => {
+                    stopParticles();
+                };
+            },
+
+            "(max-width: 767px)": () => {
+                const intro = gsap.timeline({
+                    defaults: { ease: "power3.out", duration: 0.7 },
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top 95%",
+                        toggleActions: "play none none reverse",
+                    },
+                });
+
+                intro
+                    .to(eyebrow, { opacity: 1, y: 0, duration: 0.5 })
+                    .to(heading, { opacity: 1, y: 0 }, "-=0.3")
+                    .to(paragraph, { opacity: 1, y: 0 }, "-=0.4");
+
+                gsap.to(sources, {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    stagger: 0.1,
+                    duration: 0.5,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: sources[0],
+                        start: "top 90%",
+                        toggleActions: "play none none reverse",
+                    },
+                });
+
+                gsap.to(dashboard, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.7,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: dashboard,
+                        start: "top 90%",
+                        toggleActions: "play none none reverse",
+                        onEnter: () => {
+                            const s = { v: 0 };
+                            gsap.to(s, {
+                                v: 128.4,
+                                duration: 1.4,
+                                ease: "power2.out",
+                                onUpdate: () => {
+                                    if (kpi)
+                                        kpi.textContent = `$${s.v.toFixed(1)}k`;
+                                },
+                            });
+                            const t = { v: 0 };
+                            gsap.to(t, {
+                                v: 24.6,
+                                duration: 1.4,
+                                ease: "power2.out",
+                                onUpdate: () => {
+                                    if (trend)
+                                        trend.textContent = `↑ ${t.v.toFixed(1)}% vs. trimestre anterior`;
+                                },
+                            });
+                            bars.forEach((bar) => {
+                                const target = bar.dataset.barTarget ?? "50";
+                                gsap.to(bar, {
+                                    height: `${target}%`,
+                                    duration: 0.8,
+                                    ease: "power2.out",
+                                    delay: 0.3,
+                                });
+                            });
+                            gsap.delayedCall(1.1, () => {
+                                recomputeTrendline();
+                                if (trendline) {
+                                    gsap.to(trendline, {
+                                        strokeDashoffset: 0,
+                                        duration: 1.2,
+                                        ease: "power2.out",
+                                    });
+                                }
+                            });
+                            gsap.to(minis, {
+                                opacity: 1,
+                                y: 0,
+                                stagger: 0.1,
+                                duration: 0.5,
+                                delay: 1.0,
+                            });
+                            gsap.to(toast, {
+                                opacity: 1,
+                                y: 0,
+                                scale: 1,
+                                duration: 0.6,
+                                ease: "back.out(1.5)",
+                                delay: 1.4,
+                            });
+                        },
+                    },
+                });
+
+                gsap.to(cta, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.6,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: cta,
+                        start: "top 95%",
+                        toggleActions: "play none none reverse",
+                    },
+                });
+            },
+        });
+
+        requestAnimationFrame(() => {
+            ScrollTrigger.refresh();
+        });
+    }
+</script>

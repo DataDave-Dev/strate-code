@@ -1,32 +1,52 @@
 ---
 import Section from "../common/Section.astro";
-
-const featuredService = {
-    title: "Business Intelligence",
-    description:
-        "Convertimos sus datos en decisiones. Dashboards interactivos, KPIs en tiempo real y reportes automáticos accesibles desde cualquier navegador. Deje de mirar hojas de cálculo — comience a ver su negocio.",
-    features: [
-        "Dashboards en vivo",
-        "KPIs · Métricas",
-        "Reportes automáticos",
-        "Integración con sus datos",
-    ],
-};
+import MomentBI from "./services/MomentBI.astro";
+import MomentSites from "./services/MomentSites.astro";
+import MomentAppsErps from "./services/MomentAppsErps.astro";
+import MomentDataConsolidation from "./services/MomentDataConsolidation.astro";
+import MomentAi from "./services/MomentAi.astro";
+import MomentConsulting from "./services/MomentConsulting.astro";
 
 const services = [
+    {
+        title: "Business Intelligence",
+        description:
+            "Convertimos sus datos en decisiones. Dashboards interactivos, KPIs en tiempo real y reportes automáticos accesibles desde cualquier navegador.",
+        features: ["Dashboards en vivo", "KPIs · Métricas", "Reportes automáticos"],
+        icon: "chart",
+        anchor: "#data-pipeline",
+    },
+    {
+        title: "Consolidación de datos",
+        description:
+            "Unificamos las fuentes que ya utiliza — varios ERPs, CRMs, hojas, APIs — en un único data layer limpio y consultable. Base sólida para reportes, dashboards o IA.",
+        features: ["Integraciones", "ETL · Pipelines", "Data warehouse"],
+        icon: "merge",
+        anchor: "#moment-data",
+    },
+    {
+        title: "Implementación de IA",
+        description:
+            "Llevamos IA a su negocio con criterio: chatbots, agentes que automatizan procesos, integraciones con OpenAI / Claude y modelos a medida según el caso.",
+        features: ["Chatbots · Agentes", "Automatizaciones", "OpenAI · Claude"],
+        icon: "ai",
+        anchor: "#moment-ai",
+    },
+    {
+        title: "Apps Web",
+        description:
+            "Sistemas a medida: ERPs, paneles administrativos, gestores y plataformas internas para automatizar la operación de pequeñas y medianas empresas.",
+        features: ["ERPs · CRMs", "Autenticación", "APIs · Bases de datos"],
+        icon: "dashboard",
+        anchor: "#moment-apps",
+    },
     {
         title: "Sitios Web",
         description:
             "Páginas de aterrizaje y sitios corporativos con diseño a medida, optimizados para velocidad, SEO y conversión real.",
         features: ["Diseño UI/UX", "Alto rendimiento", "SEO técnico"],
         icon: "browser",
-    },
-    {
-        title: "Apps Web",
-        description:
-            "Sistemas a medida: paneles, gestores y plataformas internas que automatizan su operación.",
-        features: ["Dashboards", "Autenticación", "APIs · Bases de datos"],
-        icon: "dashboard",
+        anchor: "#moment-sites",
     },
     {
         title: "Consultoría",
@@ -34,6 +54,7 @@ const services = [
             "Lo acompañamos en decisiones de producto, tecnología y estrategia digital con criterio profesional.",
         features: ["Auditoría técnica", "Estrategia digital", "Roadmap"],
         icon: "network",
+        anchor: "#moment-consulting",
     },
 ];
 ---
@@ -44,7 +65,9 @@ const services = [
 >
     <div class="max-w-6xl mx-auto w-full">
         <!-- Encabezado -->
-        <div class="grid md:grid-cols-12 gap-6 sm:gap-8 md:gap-12 lg:gap-16 items-end mb-12 sm:mb-16 md:mb-20">
+        <div
+            class="grid md:grid-cols-12 gap-6 sm:gap-8 md:gap-12 lg:gap-16 items-end mb-12 sm:mb-16 md:mb-20"
+        >
             <div class="md:col-span-7">
                 <span
                     data-services-eyebrow
@@ -71,192 +94,31 @@ const services = [
                 >
                     Desde la primera idea hasta el lanzamiento: combinamos
                     diseño, ingeniería y estrategia para crear productos
-                    digitales que realmente funcionan. Cada servicio se adapta
-                    a su proyecto — no al revés.
+                    digitales que realmente funcionan. Cada servicio se adapta a
+                    su proyecto — no al revés.
                 </p>
             </div>
         </div>
 
-        <!-- Servicio destacado: BI -->
+        <!-- Grid resumen — vista rápida (cards clickeables) -->
         <div
-            data-services-featured
-            class="relative bg-black text-white rounded-2xl sm:rounded-3xl overflow-hidden p-6 sm:p-8 md:p-10 lg:p-12 xl:p-16 mb-px"
-        >
-            <div class="grid md:grid-cols-12 gap-8 sm:gap-10 md:gap-8 lg:gap-12 items-center">
-                <div class="md:col-span-7 relative z-10">
-                    <div class="flex flex-wrap items-center gap-2 sm:gap-3 mb-6 sm:mb-8">
-                        <span
-                            class="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-white/50 font-mono"
-                        >
-                            Destacado · 01
-                        </span>
-                        <span
-                            class="px-2.5 sm:px-3 py-1 text-[9px] sm:text-[10px] uppercase tracking-wider bg-white/10 border border-white/20 rounded-full"
-                        >
-                            Nuestra especialidad
-                        </span>
-                    </div>
-
-                    <h3
-                        class="text-2xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold mb-4 sm:mb-5 tracking-tight leading-[1.05]"
-                    >
-                        {featuredService.title}
-                    </h3>
-                    <p
-                        class="text-white/70 leading-relaxed text-sm sm:text-base md:text-lg max-w-xl mb-6 sm:mb-8"
-                    >
-                        {featuredService.description}
-                    </p>
-
-                    <ul class="flex flex-wrap gap-1.5 sm:gap-2 mb-8 sm:mb-10">
-                        {
-                            featuredService.features.map((f) => (
-                                <li class="text-[10px] sm:text-xs uppercase tracking-wider text-white/70 border border-white/20 rounded-full px-2.5 sm:px-3 py-1 sm:py-1.5">
-                                    {f}
-                                </li>
-                            ))
-                        }
-                    </ul>
-
-                    <a
-                        href="#contact"
-                        class="inline-flex items-center gap-2 sm:gap-3 bg-white text-black px-5 sm:px-6 py-2.5 sm:py-3 rounded-full text-sm sm:text-base hover:bg-gray-200 transition duration-300"
-                    >
-                        Quiero un dashboard
-                        <svg
-                            width="14"
-                            height="14"
-                            viewBox="0 0 14 14"
-                            fill="none"
-                        >
-                            <path
-                                d="M1 13L13 1M13 1H3M13 1V11"
-                                stroke="currentColor"
-                                stroke-width="1.5"></path>
-                        </svg>
-                    </a>
-                </div>
-
-                <!-- Mock visual de dashboard -->
-                <div
-                    data-services-chart
-                    class="md:col-span-5 relative w-full bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-5 lg:p-6 overflow-hidden"
-                >
-                    <!-- Línea de scan -->
-                    <div
-                        data-chart-scan
-                        class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-green-400/60 to-transparent pointer-events-none"
-                    ></div>
-                    <div class="flex items-center justify-between mb-3 sm:mb-4">
-                        <span
-                            class="text-[10px] sm:text-xs text-white/50 uppercase tracking-wider"
-                        >
-                            Ventas · Este mes
-                        </span>
-                        <span
-                            class="flex items-center gap-1.5 text-[10px] sm:text-xs text-green-400"
-                        >
-                            <span
-                                class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"
-                            ></span>
-                            Live
-                        </span>
-                    </div>
-
-                    <div
-                        data-chart-kpi
-                        class="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-semibold mb-1 tabular-nums"
-                    >
-                        $48.2k
-                    </div>
-                    <div
-                        data-chart-trend
-                        class="text-[10px] sm:text-xs text-green-400 mb-4 sm:mb-6 tabular-nums"
-                    >
-                        ↑ 12.4% vs. mes anterior
-                    </div>
-
-                    <!-- Gráfico de barras -->
-                    <div class="flex items-end gap-1 sm:gap-1.5 h-20 sm:h-24 md:h-24 lg:h-28 xl:h-32 mb-4 sm:mb-5 md:mb-5 lg:mb-6">
-                        {
-                            [
-                                40, 65, 35, 80, 55, 90, 70, 95, 60, 85, 75, 100,
-                            ].map((h) => (
-                                <div
-                                    class="flex-1 bg-white/20 rounded-sm chart-bar"
-                                    style={`height: ${h}%`}
-                                />
-                            ))
-                        }
-                    </div>
-
-                    <div
-                        class="grid grid-cols-3 gap-2 sm:gap-3 pt-3 sm:pt-4 border-t border-white/10"
-                    >
-                        <div class="min-w-0">
-                            <div class="text-[10px] sm:text-xs text-white/50 truncate">Conversión</div>
-                            <div
-                                data-chart-mini
-                                data-min="3"
-                                data-max="5"
-                                data-suffix="%"
-                                data-decimals="1"
-                                class="text-xs sm:text-sm font-semibold mt-0.5 tabular-nums"
-                            >
-                                3.8%
-                            </div>
-                        </div>
-                        <div class="min-w-0">
-                            <div class="text-[10px] sm:text-xs text-white/50 truncate">Sesiones</div>
-                            <div
-                                data-chart-mini
-                                data-min="11"
-                                data-max="14"
-                                data-suffix="k"
-                                data-decimals="1"
-                                class="text-xs sm:text-sm font-semibold mt-0.5 tabular-nums"
-                            >
-                                12.4k
-                            </div>
-                        </div>
-                        <div class="min-w-0">
-                            <div class="text-[10px] sm:text-xs text-white/50 truncate">Ticket</div>
-                            <div
-                                data-chart-mini
-                                data-min="80"
-                                data-max="100"
-                                data-prefix="$"
-                                data-decimals="0"
-                                class="text-xs sm:text-sm font-semibold mt-0.5 tabular-nums"
-                            >
-                                $89
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Glow decorativo -->
-            <div
-                class="absolute -top-32 -right-32 w-72 h-72 sm:w-96 sm:h-96 bg-white/5 rounded-full blur-3xl pointer-events-none"
-            >
-            </div>
-        </div>
-
-        <!-- Otros servicios -->
-        <div
+            data-services-grid
             class="grid sm:grid-cols-2 md:grid-cols-3 gap-px bg-gray-200 rounded-2xl sm:rounded-3xl overflow-hidden border border-gray-200"
         >
             {
                 services.map((s, i) => (
-                    <div
+                    <a
+                        href={s.anchor}
                         data-services-item
                         data-icon={s.icon}
-                        class="relative bg-white p-6 sm:p-8 md:p-10 group hover:bg-gray-50 transition-colors duration-300 overflow-hidden"
+                        class="relative bg-white p-6 sm:p-8 md:p-10 group hover:bg-gray-50 transition-colors duration-300 overflow-hidden block"
                     >
-                        <div class="flex items-start justify-between mb-6 sm:mb-8">
+                        <div
+                            data-services-meta
+                            class="flex items-start justify-between mb-6 sm:mb-8"
+                        >
                             <span class="text-xs sm:text-sm text-gray-400 font-mono">
-                                0{i + 2}
+                                0{i + 1}
                             </span>
                             <span class="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-black/10 flex items-center justify-center group-hover:border-black/40 group-hover:rotate-45 transition-all duration-500">
                                 <svg
@@ -304,9 +166,24 @@ const services = [
                                         stroke="currentColor"
                                         stroke-width="1.4"
                                     />
-                                    <circle cx="6.5" cy="7.5" r="0.7" fill="currentColor" />
-                                    <circle cx="9" cy="7.5" r="0.7" fill="currentColor" />
-                                    <circle cx="11.5" cy="7.5" r="0.7" fill="currentColor" />
+                                    <circle
+                                        cx="6.5"
+                                        cy="7.5"
+                                        r="0.7"
+                                        fill="currentColor"
+                                    />
+                                    <circle
+                                        cx="9"
+                                        cy="7.5"
+                                        r="0.7"
+                                        fill="currentColor"
+                                    />
+                                    <circle
+                                        cx="11.5"
+                                        cy="7.5"
+                                        r="0.7"
+                                        fill="currentColor"
+                                    />
                                     <line
                                         class="browser-line browser-line-1"
                                         x1="6"
@@ -487,31 +364,277 @@ const services = [
                                     />
                                 </svg>
                             )}
+                            {s.icon === "merge" && (
+                                <svg
+                                    width="28"
+                                    height="28"
+                                    viewBox="0 0 28 28"
+                                    fill="none"
+                                    class="icon-merge"
+                                >
+                                    {/* 3 nodos de fuente a la izquierda */}
+                                    <circle
+                                        cx="4"
+                                        cy="6"
+                                        r="1.6"
+                                        fill="currentColor"
+                                    />
+                                    <circle
+                                        cx="4"
+                                        cy="14"
+                                        r="1.6"
+                                        fill="currentColor"
+                                    />
+                                    <circle
+                                        cx="4"
+                                        cy="22"
+                                        r="1.6"
+                                        fill="currentColor"
+                                    />
+                                    {/* 3 líneas que convergen */}
+                                    <path
+                                        class="merge-line merge-line-1"
+                                        d="M 4 6 C 12 6, 16 14, 22 14"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                        stroke-linecap="round"
+                                    />
+                                    <path
+                                        class="merge-line merge-line-2"
+                                        d="M 4 14 L 22 14"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                        stroke-linecap="round"
+                                    />
+                                    <path
+                                        class="merge-line merge-line-3"
+                                        d="M 4 22 C 12 22, 16 14, 22 14"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                        stroke-linecap="round"
+                                    />
+                                    {/* Nodo destino */}
+                                    <circle
+                                        class="merge-target"
+                                        cx="22"
+                                        cy="14"
+                                        r="2.6"
+                                        fill="currentColor"
+                                    />
+                                </svg>
+                            )}
+                            {s.icon === "ai" && (
+                                <svg
+                                    width="28"
+                                    height="28"
+                                    viewBox="0 0 28 28"
+                                    fill="none"
+                                    class="icon-ai"
+                                >
+                                    {/* Ondas concéntricas */}
+                                    <circle
+                                        class="ai-wave ai-wave-1"
+                                        cx="14"
+                                        cy="14"
+                                        r="4"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                    />
+                                    <circle
+                                        class="ai-wave ai-wave-2"
+                                        cx="14"
+                                        cy="14"
+                                        r="7"
+                                        stroke="currentColor"
+                                        stroke-width="1.2"
+                                        opacity="0.6"
+                                    />
+                                    <circle
+                                        class="ai-wave ai-wave-3"
+                                        cx="14"
+                                        cy="14"
+                                        r="10"
+                                        stroke="currentColor"
+                                        stroke-width="1"
+                                        opacity="0.3"
+                                    />
+                                    {/* Nodo central */}
+                                    <circle
+                                        cx="14"
+                                        cy="14"
+                                        r="2"
+                                        fill="currentColor"
+                                    />
+                                    {/* Destellos */}
+                                    <path
+                                        class="ai-spark ai-spark-1"
+                                        d="M 14 2 L 14 5 M 12.5 3.5 L 15.5 3.5"
+                                        stroke="currentColor"
+                                        stroke-width="1.2"
+                                        stroke-linecap="round"
+                                    />
+                                    <path
+                                        class="ai-spark ai-spark-2"
+                                        d="M 26 14 L 23 14 M 24.5 12.5 L 24.5 15.5"
+                                        stroke="currentColor"
+                                        stroke-width="1.2"
+                                        stroke-linecap="round"
+                                    />
+                                    <path
+                                        class="ai-spark ai-spark-3"
+                                        d="M 14 26 L 14 23 M 12.5 24.5 L 15.5 24.5"
+                                        stroke="currentColor"
+                                        stroke-width="1.2"
+                                        stroke-linecap="round"
+                                    />
+                                    <path
+                                        class="ai-spark ai-spark-4"
+                                        d="M 2 14 L 5 14 M 3.5 12.5 L 3.5 15.5"
+                                        stroke="currentColor"
+                                        stroke-width="1.2"
+                                        stroke-linecap="round"
+                                    />
+                                </svg>
+                            )}
+                            {s.icon === "chart" && (
+                                <svg
+                                    width="28"
+                                    height="28"
+                                    viewBox="0 0 28 28"
+                                    fill="none"
+                                    class="icon-chart"
+                                >
+                                    {/* Ejes */}
+                                    <line
+                                        x1="4"
+                                        y1="4"
+                                        x2="4"
+                                        y2="24"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                        stroke-linecap="round"
+                                    />
+                                    <line
+                                        x1="4"
+                                        y1="24"
+                                        x2="24"
+                                        y2="24"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                        stroke-linecap="round"
+                                    />
+                                    {/* Barras */}
+                                    <rect
+                                        class="chart-bar chart-bar-1"
+                                        x="7"
+                                        y="17"
+                                        width="3"
+                                        height="7"
+                                        fill="currentColor"
+                                    />
+                                    <rect
+                                        class="chart-bar chart-bar-2"
+                                        x="12"
+                                        y="13"
+                                        width="3"
+                                        height="11"
+                                        fill="currentColor"
+                                    />
+                                    <rect
+                                        class="chart-bar chart-bar-3"
+                                        x="17"
+                                        y="9"
+                                        width="3"
+                                        height="15"
+                                        fill="currentColor"
+                                    />
+                                    {/* Línea de tendencia */}
+                                    <path
+                                        class="chart-trend"
+                                        d="M 6 17 L 13 13 L 18 9 L 22 6"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        fill="none"
+                                    />
+                                    {/* Punto destacado */}
+                                    <circle
+                                        class="chart-dot"
+                                        cx="22"
+                                        cy="6"
+                                        r="1.6"
+                                        fill="currentColor"
+                                    />
+                                </svg>
+                            )}
                         </div>
 
-                        <h3 class="text-lg sm:text-xl md:text-2xl font-semibold mb-2 sm:mb-3 tracking-tight">
+                        <h3
+                            data-services-title
+                            class="text-lg sm:text-xl md:text-2xl font-semibold mb-2 sm:mb-3 tracking-tight"
+                        >
                             {s.title}
                         </h3>
-                        <p class="text-gray-600 leading-relaxed mb-5 sm:mb-6 text-xs sm:text-sm">
+                        <p
+                            data-services-desc
+                            class="text-gray-600 leading-relaxed mb-5 sm:mb-6 text-xs sm:text-sm"
+                        >
                             {s.description}
                         </p>
 
-                        <ul class="flex flex-wrap gap-1.5 sm:gap-2">
+                        <ul
+                            data-services-chips
+                            class="flex flex-wrap gap-1.5 sm:gap-2"
+                        >
                             {s.features.map((f) => (
                                 <li class="text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-500 border border-black/10 rounded-full px-2 sm:px-2.5 py-1">
                                     {f}
                                 </li>
                             ))}
                         </ul>
-                    </div>
+                    </a>
                 ))
             }
         </div>
 
-        <!-- Nota al pie -->
+        <!-- Separador "En detalle" -->
+        <div
+            data-services-divider
+            class="mt-14 sm:mt-16 md:mt-20 flex flex-col items-center text-center"
+        >
+            <span class="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-gray-500 mb-3">
+                En detalle
+            </span>
+            <p class="text-base sm:text-lg text-gray-600 max-w-md">
+                Cada servicio merece su propia historia.
+                <span class="block text-gray-400 text-sm mt-1">Siga bajando — o haga clic en el servicio que le interese.</span>
+            </p>
+            <span
+                class="mt-5 sm:mt-6 w-px h-12 sm:h-16 bg-gray-300"
+                aria-hidden="true"
+            ></span>
+        </div>
+    </div>
+</Section>
+
+<!-- Momentos épicos de cada servicio (orden 01→06) -->
+<MomentBI />
+<MomentDataConsolidation />
+<MomentAi />
+<MomentAppsErps />
+<MomentSites />
+<MomentConsulting />
+
+<!-- CTA final después de los momentos -->
+<Section
+    id="services-cta"
+    class="!min-h-0 flex-col rounded-3xl sm:rounded-4xl px-5 sm:px-6 md:px-10 lg:px-16 xl:px-20 !py-16 sm:!py-20 md:!py-24"
+>
+    <div class="max-w-6xl mx-auto w-full">
         <div
             data-services-note
-            class="mt-12 sm:mt-14 md:mt-16 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 sm:gap-6 pt-8 sm:pt-10 md:pt-12 border-t border-black/10"
+            class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 sm:gap-6"
         >
             <p class="text-sm sm:text-base text-gray-600 max-w-md">
                 ¿Necesita algo distinto? Conversamos cualquier proyecto que
@@ -537,19 +660,15 @@ const services = [
     :global(html:not(.services-ready)) [data-services-eyebrow],
     :global(html:not(.services-ready)) [data-services-heading],
     :global(html:not(.services-ready)) [data-services-paragraph],
-    :global(html:not(.services-ready)) [data-services-featured],
     :global(html:not(.services-ready)) [data-services-item],
+    :global(html:not(.services-ready)) [data-services-meta],
+    :global(html:not(.services-ready)) [data-services-icon],
+    :global(html:not(.services-ready)) [data-services-title],
+    :global(html:not(.services-ready)) [data-services-desc],
+    :global(html:not(.services-ready)) [data-services-chips],
+    :global(html:not(.services-ready)) [data-services-divider],
     :global(html:not(.services-ready)) [data-services-note] {
         opacity: 0;
-    }
-    [data-services-featured] .chart-bar {
-        transform-origin: bottom;
-        transition: height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    [data-services-featured] [data-chart-kpi],
-    [data-services-featured] [data-chart-trend],
-    [data-services-featured] [data-chart-mini] {
-        transition: filter 0.3s ease;
     }
     /* Browser icon — líneas escribiéndose */
     [data-services-item] .browser-line {
@@ -584,7 +703,8 @@ const services = [
         animation-delay: 0.3s;
     }
     @keyframes dash-pulse {
-        0%, 100% {
+        0%,
+        100% {
             transform: scaleY(1);
         }
         50% {
@@ -638,12 +758,240 @@ const services = [
         animation: net-pulse 1.4s ease-in-out infinite;
     }
     @keyframes net-pulse {
-        0%, 100% {
+        0%,
+        100% {
             transform: scale(1);
         }
         50% {
             transform: scale(1.4);
         }
+    }
+    /* Merge icon — líneas convergiendo + nodo destino pulsante */
+    [data-services-item] .merge-line {
+        stroke-dasharray: 24;
+        stroke-dashoffset: 24;
+    }
+    [data-services-item][data-icon="merge"]:hover .merge-line {
+        animation: merge-draw 1.4s ease-out forwards;
+    }
+    [data-services-item][data-icon="merge"]:hover .merge-line-2 {
+        animation-delay: 0.1s;
+    }
+    [data-services-item][data-icon="merge"]:hover .merge-line-3 {
+        animation-delay: 0.2s;
+    }
+    @keyframes merge-draw {
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+    [data-services-item] .merge-target {
+        transform-origin: center;
+        transform-box: fill-box;
+    }
+    [data-services-item][data-icon="merge"]:hover .merge-target {
+        animation: merge-pulse 1.6s ease-in-out infinite 0.4s;
+    }
+    @keyframes merge-pulse {
+        0%,
+        100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.3);
+        }
+    }
+    /* AI icon — ondas concéntricas + destellos parpadeando */
+    [data-services-item] .ai-wave {
+        transform-origin: center;
+        transform-box: fill-box;
+    }
+    [data-services-item][data-icon="ai"]:hover .ai-wave {
+        animation: ai-wave 1.8s ease-out infinite;
+    }
+    [data-services-item][data-icon="ai"]:hover .ai-wave-2 {
+        animation-delay: 0.3s;
+    }
+    [data-services-item][data-icon="ai"]:hover .ai-wave-3 {
+        animation-delay: 0.6s;
+    }
+    @keyframes ai-wave {
+        0% {
+            transform: scale(0.6);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(1.4);
+            opacity: 0;
+        }
+    }
+    [data-services-item] .ai-spark {
+        opacity: 0;
+    }
+    [data-services-item][data-icon="ai"]:hover .ai-spark {
+        animation: ai-spark 1.2s ease-in-out infinite;
+    }
+    [data-services-item][data-icon="ai"]:hover .ai-spark-2 {
+        animation-delay: 0.15s;
+    }
+    [data-services-item][data-icon="ai"]:hover .ai-spark-3 {
+        animation-delay: 0.3s;
+    }
+    [data-services-item][data-icon="ai"]:hover .ai-spark-4 {
+        animation-delay: 0.45s;
+    }
+    @keyframes ai-spark {
+        0%,
+        100% {
+            opacity: 0;
+        }
+        50% {
+            opacity: 1;
+        }
+    }
+
+    /* Chart icon — barras crecen + línea se traza + punto pulsa */
+    [data-services-item] .chart-bar {
+        transform-origin: bottom;
+        transform: scaleY(0.4);
+    }
+    [data-services-item][data-icon="chart"]:hover .chart-bar {
+        animation: chart-grow 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    [data-services-item][data-icon="chart"]:hover .chart-bar-2 {
+        animation-delay: 0.1s;
+    }
+    [data-services-item][data-icon="chart"]:hover .chart-bar-3 {
+        animation-delay: 0.2s;
+    }
+    @keyframes chart-grow {
+        to {
+            transform: scaleY(1);
+        }
+    }
+    [data-services-item] .chart-trend {
+        stroke-dasharray: 30;
+        stroke-dashoffset: 30;
+    }
+    [data-services-item][data-icon="chart"]:hover .chart-trend {
+        animation: chart-trace 1.2s ease-out forwards 0.4s;
+    }
+    @keyframes chart-trace {
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+    [data-services-item] .chart-dot {
+        transform-origin: center;
+        transform-box: fill-box;
+        opacity: 0;
+    }
+    [data-services-item][data-icon="chart"]:hover .chart-dot {
+        animation: chart-dot 1.4s ease-in-out infinite 1.4s;
+    }
+    @keyframes chart-dot {
+        0% {
+            opacity: 0;
+            transform: scale(0.6);
+        }
+        20% {
+            opacity: 1;
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.4);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    /* Auto-preview: dispara las mismas animaciones que :hover cuando la card
+       acaba de entrar al viewport, así el visitante descubre que es interactivo */
+    [data-services-item][data-icon="browser"].is-previewing .browser-line {
+        animation: browser-type 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    [data-services-item][data-icon="browser"].is-previewing .browser-line-2 {
+        animation-delay: 0.15s;
+    }
+    [data-services-item][data-icon="browser"].is-previewing .browser-line-3 {
+        animation-delay: 0.3s;
+    }
+    [data-services-item][data-icon="dashboard"].is-previewing .dash-bar {
+        animation: dash-pulse 1.2s ease-in-out infinite;
+    }
+    [data-services-item][data-icon="dashboard"].is-previewing .dash-bar-2 {
+        animation-delay: 0.15s;
+    }
+    [data-services-item][data-icon="dashboard"].is-previewing .dash-bar-3 {
+        animation-delay: 0.3s;
+    }
+    [data-services-item][data-icon="dashboard"].is-previewing .dash-pulse {
+        animation: dash-ring 1.6s ease-out infinite;
+    }
+    [data-services-item][data-icon="network"].is-previewing .net-line {
+        animation: net-travel 1.5s ease-out forwards;
+    }
+    [data-services-item][data-icon="network"].is-previewing .net-line-2 {
+        animation-delay: 0.1s;
+    }
+    [data-services-item][data-icon="network"].is-previewing .net-line-3 {
+        animation-delay: 0.2s;
+    }
+    [data-services-item][data-icon="network"].is-previewing .net-line-4 {
+        animation-delay: 0.3s;
+    }
+    [data-services-item][data-icon="network"].is-previewing .net-node-center {
+        animation: net-pulse 1.4s ease-in-out infinite;
+    }
+    [data-services-item][data-icon="merge"].is-previewing .merge-line {
+        animation: merge-draw 1.4s ease-out forwards;
+    }
+    [data-services-item][data-icon="merge"].is-previewing .merge-line-2 {
+        animation-delay: 0.1s;
+    }
+    [data-services-item][data-icon="merge"].is-previewing .merge-line-3 {
+        animation-delay: 0.2s;
+    }
+    [data-services-item][data-icon="merge"].is-previewing .merge-target {
+        animation: merge-pulse 1.6s ease-in-out infinite 0.4s;
+    }
+    [data-services-item][data-icon="ai"].is-previewing .ai-wave {
+        animation: ai-wave 1.8s ease-out infinite;
+    }
+    [data-services-item][data-icon="ai"].is-previewing .ai-wave-2 {
+        animation-delay: 0.3s;
+    }
+    [data-services-item][data-icon="ai"].is-previewing .ai-wave-3 {
+        animation-delay: 0.6s;
+    }
+    [data-services-item][data-icon="ai"].is-previewing .ai-spark {
+        animation: ai-spark 1.2s ease-in-out infinite;
+    }
+    [data-services-item][data-icon="ai"].is-previewing .ai-spark-2 {
+        animation-delay: 0.15s;
+    }
+    [data-services-item][data-icon="ai"].is-previewing .ai-spark-3 {
+        animation-delay: 0.3s;
+    }
+    [data-services-item][data-icon="ai"].is-previewing .ai-spark-4 {
+        animation-delay: 0.45s;
+    }
+    [data-services-item][data-icon="chart"].is-previewing .chart-bar {
+        animation: chart-grow 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    [data-services-item][data-icon="chart"].is-previewing .chart-bar-2 {
+        animation-delay: 0.1s;
+    }
+    [data-services-item][data-icon="chart"].is-previewing .chart-bar-3 {
+        animation-delay: 0.2s;
+    }
+    [data-services-item][data-icon="chart"].is-previewing .chart-trend {
+        animation: chart-trace 1.2s ease-out forwards 0.4s;
+    }
+    [data-services-item][data-icon="chart"].is-previewing .chart-dot {
+        animation: chart-dot 1.4s ease-in-out infinite 1.4s;
     }
 </style>
 
@@ -662,22 +1010,17 @@ const services = [
     const paragraph = document.querySelector<HTMLElement>(
         "[data-services-paragraph]",
     );
-    const featured = document.querySelector<HTMLElement>(
-        "[data-services-featured]",
-    );
-    const chartBars = document.querySelectorAll<HTMLElement>(
-        "[data-services-featured] .chart-bar",
-    );
     const items = document.querySelectorAll<HTMLElement>(
         "[data-services-item]",
     );
     const note = document.querySelector<HTMLElement>("[data-services-note]");
+    const divider = document.querySelector<HTMLElement>(
+        "[data-services-divider]",
+    );
 
     gsap.set([eyebrow, heading, paragraph], { opacity: 0, y: 30 });
-    gsap.set(featured, { opacity: 0, y: 40 });
-    gsap.set(chartBars, { scaleY: 0 });
-    gsap.set(items, { opacity: 0, y: 40 });
     gsap.set(note, { opacity: 0, y: 20 });
+    gsap.set(divider, { opacity: 0, y: 20 });
 
     document.documentElement.classList.add("services-ready");
 
@@ -694,131 +1037,127 @@ const services = [
         .to(heading, { opacity: 1, y: 0 }, "-=0.2")
         .to(paragraph, { opacity: 1, y: 0 }, "-=0.5");
 
-    gsap.to(featured, {
-        opacity: 1,
-        y: 0,
-        duration: 0.9,
-        ease: "power3.out",
-        scrollTrigger: {
-            trigger: featured,
-            start: "top 80%",
-            onEnter: () => {
-                gsap.to(chartBars, {
-                    scaleY: 1,
-                    duration: 0.8,
-                    stagger: 0.05,
-                    ease: "power3.out",
-                    delay: 0.3,
-                });
-                startLiveDashboard();
+    // ========== CARDS DE SERVICIOS — entrada cinematográfica ==========
+    items.forEach((item, idx) => {
+        const meta = item.querySelector<HTMLElement>("[data-services-meta]");
+        const icon = item.querySelector<HTMLElement>("[data-services-icon]");
+        const title = item.querySelector<HTMLElement>("[data-services-title]");
+        const desc = item.querySelector<HTMLElement>("[data-services-desc]");
+        const chipsContainer = item.querySelector<HTMLElement>(
+            "[data-services-chips]",
+        );
+        const chips = chipsContainer
+            ? chipsContainer.querySelectorAll<HTMLElement>("li")
+            : [];
+
+        // Estados iniciales: la card flota, los elementos internos están escondidos
+        gsap.set(item, {
+            opacity: 0,
+            y: 60,
+            scale: 0.94,
+            filter: "blur(8px)",
+        });
+        gsap.set([meta, icon, title, desc], { opacity: 0, y: 16 });
+        gsap.set(chips, { opacity: 0, scale: 0.6, y: 10 });
+
+        // Timeline por card: card entra → elementos internos en cascada
+        const cardTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: item,
+                start: "top 88%",
+                toggleActions: "play none none reverse",
             },
-        },
-    });
+        });
 
-    // Dashboard "vivo": KPI, barras y mini-stats se actualizan periódicamente
-    const kpiEl = document.querySelector<HTMLElement>("[data-chart-kpi]");
-    const trendEl = document.querySelector<HTMLElement>("[data-chart-trend]");
-    const miniStats = document.querySelectorAll<HTMLElement>("[data-chart-mini]");
-    const scanEl = document.querySelector<HTMLElement>("[data-chart-scan]");
-    const barEls = Array.from(chartBars);
+        // 1) Card aterriza con un pequeño retraso por índice (cascada visual)
+        cardTl.to(
+            item,
+            {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                filter: "blur(0px)",
+                duration: 0.9,
+                ease: "power3.out",
+            },
+            idx * 0.08,
+        );
 
-    const formatKpi = (n: number) => `$${n.toFixed(1)}k`;
+        // 2) Meta (número + flecha) aparece primero, sutil
+        cardTl.to(
+            meta,
+            { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
+            "-=0.55",
+        );
 
-    let liveStarted = false;
-    const startLiveDashboard = () => {
-        if (liveStarted) return;
-        liveStarted = true;
+        // 3) Ícono entra con bounce — el "corazón" visual de cada servicio
+        cardTl.to(
+            icon,
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                ease: "back.out(1.6)",
+            },
+            "-=0.4",
+        );
 
-        // Línea de scan en loop
-        if (scanEl) {
-            const parent = scanEl.parentElement;
-            const updateScan = () => {
-                const h = parent?.clientHeight ?? 400;
-                gsap.killTweensOf(scanEl);
-                gsap.set(scanEl, { y: 0, opacity: 0 });
-                gsap.to(scanEl, {
-                    y: h,
+        // 4) Título sube con suavidad
+        cardTl.to(
+            title,
+            { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
+            "-=0.35",
+        );
+
+        // 5) Descripción entra después
+        cardTl.to(
+            desc,
+            { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+            "-=0.3",
+        );
+
+        // 6) Chips con bounce stagger — el detalle final
+        if (chips.length) {
+            cardTl.to(
+                chips,
+                {
                     opacity: 1,
-                    duration: 2.4,
-                    ease: "power1.inOut",
-                    repeat: -1,
-                    repeatDelay: 1.6,
-                    yoyo: false,
-                    onRepeat: () => gsap.set(scanEl, { y: 0 }),
-                });
-            };
-            updateScan();
-            window.addEventListener("resize", updateScan);
+                    scale: 1,
+                    y: 0,
+                    duration: 0.45,
+                    stagger: 0.06,
+                    ease: "back.out(2)",
+                },
+                "-=0.25",
+            );
         }
 
-        // KPI principal: cuenta hacia arriba con pequeñas variaciones
-        const kpiState = { value: 48.2 };
-        const tickKpi = () => {
-            const target = 47 + Math.random() * 5;
-            gsap.to(kpiState, {
-                value: target,
-                duration: 1.2,
-                ease: "power2.out",
-                onUpdate: () => {
-                    if (kpiEl) kpiEl.textContent = formatKpi(kpiState.value);
-                },
-                onComplete: () => {
-                    if (trendEl) {
-                        const pct = (8 + Math.random() * 8).toFixed(1);
-                        trendEl.textContent = `↑ ${pct}% vs. mes anterior`;
-                    }
-                },
-            });
-        };
-        gsap.delayedCall(2, tickKpi);
-        setInterval(tickKpi, 4500);
-
-        // Barras: nuevas alturas cada cierto tiempo
-        const tickBars = () => {
-            barEls.forEach((bar) => {
-                const next = 30 + Math.random() * 70;
-                (bar as HTMLElement).style.height = `${next}%`;
-            });
-        };
-        setInterval(tickBars, 3500);
-
-        // Mini stats: animan sus valores
-        miniStats.forEach((el) => {
-            const min = parseFloat(el.dataset.min ?? "0");
-            const max = parseFloat(el.dataset.max ?? "100");
-            const decimals = parseInt(el.dataset.decimals ?? "1");
-            const prefix = el.dataset.prefix ?? "";
-            const suffix = el.dataset.suffix ?? "";
-            const state = { value: (min + max) / 2 };
-
-            const tickMini = () => {
-                const target = min + Math.random() * (max - min);
-                gsap.to(state, {
-                    value: target,
-                    duration: 1.4,
-                    ease: "power2.out",
-                    onUpdate: () => {
-                        el.textContent = `${prefix}${state.value.toFixed(decimals)}${suffix}`;
-                    },
-                });
-            };
-            gsap.delayedCall(1 + Math.random() * 2, tickMini);
-            setInterval(tickMini, 4000 + Math.random() * 2000);
-        });
-    };
-
-    gsap.to(items, {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.12,
-        ease: "power3.out",
-        scrollTrigger: {
-            trigger: items[0],
-            start: "top 85%",
-        },
+        // 7) Auto-preview del ícono: cuando termina la entrada, hacemos
+        // un "flash" del estado hover por ~1.4s para que el visitante
+        // descubra que es interactivo
+        cardTl.add(() => {
+            item.classList.add("is-previewing");
+            window.setTimeout(() => {
+                item.classList.remove("is-previewing");
+            }, 1400);
+        }, "+=0.1");
     });
 
+    // ========== SEPARADOR "EN DETALLE" ==========
+    if (divider) {
+        gsap.to(divider, {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: divider,
+                start: "top 90%",
+            },
+        });
+    }
+
+    // ========== NOTA AL PIE (después de los Moments) ==========
     gsap.to(note, {
         opacity: 1,
         y: 0,

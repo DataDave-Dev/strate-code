@@ -1,0 +1,414 @@
+---
+import ServiceMomentShell from "./ServiceMomentShell.astro";
+
+const sidebarItems = [
+    { label: "Ventas", icon: "sales" },
+    { label: "Inventario", icon: "box" },
+    { label: "Clientes", icon: "users" },
+    { label: "Reportes", icon: "chart" },
+    { label: "Config", icon: "cog" },
+];
+
+const orders = [
+    { id: "#A-2841", customer: "Comercial Ríos S.A.", total: "$4,820", status: "Pagado" },
+    { id: "#A-2842", customer: "Distribuidora Sur", total: "$1,290", status: "Pendiente" },
+    { id: "#A-2843", customer: "Logística Norte", total: "$8,150", status: "Pagado" },
+    { id: "#A-2844", customer: "Mayoreo García", total: "$3,470", status: "Pagado" },
+];
+---
+
+<ServiceMomentShell
+    id="moment-apps"
+    momentKey="apps"
+    index={4}
+    total={6}
+    eyebrow="Su sistema · En vivo"
+    title='Sistemas hechos <span class="italic font-light text-white/50">a su medida.</span>'
+    description="ERPs, paneles administrativos, gestores y plataformas internas para automatizar la operación. Desarrollados desde cero con el flujo real de su negocio."
+    bgClass="bg-black text-white"
+    ctaLabel="Quiero un sistema así"
+>
+    <!-- Mock panel admin -->
+    <div class="relative grid md:grid-cols-12 gap-4 md:gap-6 items-stretch">
+        <!-- Sidebar -->
+        <div
+            data-apps-sidebar
+            class="md:col-span-3 bg-white/5 border border-white/10 rounded-2xl p-3 sm:p-4 md:p-3 lg:p-4 backdrop-blur-sm"
+        >
+            <div class="flex items-center gap-2 mb-3 md:mb-3 lg:mb-4">
+                <span class="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center">
+                    <span class="w-2.5 h-2.5 rounded-sm bg-white/70"></span>
+                </span>
+                <span class="text-sm font-semibold">ERP · Su empresa</span>
+            </div>
+            <ul class="space-y-1">
+                {
+                    sidebarItems.map((item, i) => (
+                        <li
+                            data-apps-sidebar-item
+                            class:list={[
+                                "flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs sm:text-sm transition-colors",
+                                i === 0
+                                    ? "bg-white/10 text-white"
+                                    : "text-white/60",
+                            ]}
+                        >
+                            <span class="w-3.5 h-3.5 rounded-sm bg-current opacity-30" />
+                            {item.label}
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+
+        <!-- Main content -->
+        <div class="md:col-span-9 flex flex-col gap-3 sm:gap-4">
+            <!-- KPIs row -->
+            <div class="grid grid-cols-3 gap-2 sm:gap-3 md:gap-3">
+                <div data-apps-kpi class="bg-white/5 border border-white/10 rounded-xl p-2.5 sm:p-3 md:p-3">
+                    <div class="text-[10px] uppercase tracking-wider text-white/50 mb-0.5">Inventario</div>
+                    <div class="text-base sm:text-xl md:text-xl font-semibold tabular-nums" data-apps-kpi-inv>0</div>
+                    <div class="text-[10px] text-white/40 mt-0.5 truncate">items</div>
+                </div>
+                <div data-apps-kpi class="bg-white/5 border border-white/10 rounded-xl p-2.5 sm:p-3 md:p-3">
+                    <div class="text-[10px] uppercase tracking-wider text-white/50 mb-0.5">Pedidos hoy</div>
+                    <div class="text-base sm:text-xl md:text-xl font-semibold tabular-nums" data-apps-kpi-orders>0</div>
+                    <div class="text-[10px] text-green-400 mt-0.5">+12% ayer</div>
+                </div>
+                <div data-apps-kpi class="bg-white/5 border border-white/10 rounded-xl p-2.5 sm:p-3 md:p-3">
+                    <div class="text-[10px] uppercase tracking-wider text-white/50 mb-0.5">Clientes</div>
+                    <div class="text-base sm:text-xl md:text-xl font-semibold tabular-nums" data-apps-kpi-clients>0</div>
+                    <div class="text-[10px] text-white/40 mt-0.5">este mes</div>
+                </div>
+            </div>
+
+            <!-- Tabla de pedidos -->
+            <div data-apps-table class="bg-white/5 border border-white/10 rounded-xl overflow-hidden flex-1">
+                <div class="flex items-center justify-between px-3 py-2 sm:py-2.5 border-b border-white/5">
+                    <span class="text-xs sm:text-sm font-semibold">Pedidos recientes</span>
+                    <span class="text-[10px] text-white/40">Última actualización: ahora</span>
+                </div>
+                <table class="w-full text-xs sm:text-sm">
+                    <thead>
+                        <tr class="text-left text-[10px] uppercase tracking-wider text-white/40">
+                            <th class="px-3 py-1.5 font-medium">ID</th>
+                            <th class="px-3 py-1.5 font-medium hidden sm:table-cell">Cliente</th>
+                            <th class="px-3 py-1.5 font-medium text-right">Total</th>
+                            <th class="px-3 py-1.5 font-medium text-right hidden sm:table-cell">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            orders.map((order) => (
+                                <tr data-apps-row class="border-t border-white/5">
+                                    <td class="px-3 py-1.5 md:py-1.5 font-mono text-[10px] sm:text-xs">{order.id}</td>
+                                    <td class="px-3 py-1.5 md:py-1.5 text-white/80 hidden sm:table-cell">{order.customer}</td>
+                                    <td class="px-3 py-1.5 md:py-1.5 text-right tabular-nums font-semibold">{order.total}</td>
+                                    <td class="px-3 py-1.5 md:py-1.5 text-right hidden sm:table-cell">
+                                        <span
+                                            class:list={[
+                                                "inline-block px-2 py-0.5 rounded-full text-[9px] uppercase tracking-wider",
+                                                order.status === "Pagado"
+                                                    ? "bg-green-500/15 text-green-400"
+                                                    : "bg-white/10 text-white/60",
+                                            ]}
+                                        >
+                                            {order.status}
+                                        </span>
+                                    </td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Toast notificación -->
+        <div
+            data-apps-toast
+            class="md:absolute relative md:right-2 lg:right-4 md:bottom-2 lg:bottom-4 mt-3 md:mt-0 bg-white text-black px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl shadow-2xl flex items-center gap-2 max-w-full sm:max-w-[260px] md:max-w-[220px] lg:max-w-[240px] z-30"
+        >
+            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0"></span>
+            <div class="min-w-0">
+                <div class="text-[9px] sm:text-[10px] uppercase tracking-wider opacity-70">Nuevo pedido</div>
+                <div class="text-xs sm:text-sm font-medium leading-tight mt-0.5 truncate">
+                    Comercial Ríos · $4,820
+                </div>
+            </div>
+        </div>
+    </div>
+</ServiceMomentShell>
+
+<style>
+    :global(html:not(.moment-apps-ready)) [data-moment-key="apps"] [data-moment-eyebrow],
+    :global(html:not(.moment-apps-ready)) [data-moment-key="apps"] [data-moment-heading],
+    :global(html:not(.moment-apps-ready)) [data-moment-key="apps"] [data-moment-paragraph],
+    :global(html:not(.moment-apps-ready)) [data-moment-key="apps"] [data-moment-cta] {
+        opacity: 0;
+    }
+</style>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const section = document.querySelector<HTMLElement>('[data-moment-key="apps"]');
+    if (!section) {
+        document.documentElement.classList.add("moment-apps-ready");
+    } else {
+        const track = section.querySelector<HTMLElement>("[data-moment-track]");
+        const eyebrow = section.querySelector<HTMLElement>("[data-moment-eyebrow]");
+        const heading = section.querySelector<HTMLElement>("[data-moment-heading]");
+        const paragraph = section.querySelector<HTMLElement>("[data-moment-paragraph]");
+        const cta = section.querySelector<HTMLElement>("[data-moment-cta]");
+        const sidebar = section.querySelector<HTMLElement>("[data-apps-sidebar]");
+        const sidebarItems = section.querySelectorAll<HTMLElement>("[data-apps-sidebar-item]");
+        const kpis = section.querySelectorAll<HTMLElement>("[data-apps-kpi]");
+        const kpiInv = section.querySelector<HTMLElement>("[data-apps-kpi-inv]");
+        const kpiOrders = section.querySelector<HTMLElement>("[data-apps-kpi-orders]");
+        const kpiClients = section.querySelector<HTMLElement>("[data-apps-kpi-clients]");
+        const table = section.querySelector<HTMLElement>("[data-apps-table]");
+        const rows = section.querySelectorAll<HTMLElement>("[data-apps-row]");
+        const toast = section.querySelector<HTMLElement>("[data-apps-toast]");
+
+        // Estados iniciales
+        gsap.set([eyebrow, heading, paragraph, cta], { opacity: 0, y: 20 });
+        gsap.set(sidebar, { opacity: 0, x: -30 });
+        gsap.set(sidebarItems, { opacity: 0, x: -10 });
+        gsap.set(kpis, { opacity: 0, y: 20 });
+        gsap.set(table, { opacity: 0, y: 30 });
+        gsap.set(rows, { opacity: 0, y: 10 });
+        gsap.set(toast, { opacity: 0, x: 30, scale: 0.9 });
+
+        document.documentElement.classList.add("moment-apps-ready");
+
+        const animateKpi = (
+            el: HTMLElement | null,
+            target: number,
+            duration: number,
+            timeline: gsap.core.Timeline,
+            position: number,
+            formatter: (v: number) => string = (v) => Math.round(v).toString(),
+        ) => {
+            if (!el) return;
+            const state = { v: 0 };
+            timeline.to(
+                state,
+                {
+                    v: target,
+                    duration,
+                    ease: "power2.out",
+                    onUpdate: () => {
+                        el.textContent = formatter(state.v);
+                    },
+                },
+                position,
+            );
+        };
+
+        ScrollTrigger.matchMedia({
+            "(min-width: 768px)": () => {
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: track,
+                        start: "top top",
+                        end: "bottom bottom",
+                        scrub: 1,
+                        invalidateOnRefresh: true,
+                    },
+                });
+
+                // Encabezado
+                tl.to(eyebrow, { opacity: 1, y: 0, duration: 0.5 }, 0);
+                tl.to(heading, { opacity: 1, y: 0, duration: 0.6 }, 0.1);
+                tl.to(paragraph, { opacity: 1, y: 0, duration: 0.6 }, 0.2);
+
+                // Sidebar entra desde la izquierda
+                tl.to(sidebar, { opacity: 1, x: 0, duration: 0.7 }, 0.5);
+                tl.to(
+                    sidebarItems,
+                    { opacity: 1, x: 0, stagger: 0.06, duration: 0.4 },
+                    0.8,
+                );
+
+                // KPIs aparecen
+                tl.to(
+                    kpis,
+                    { opacity: 1, y: 0, stagger: 0.1, duration: 0.5 },
+                    1.2,
+                );
+
+                // Count-ups
+                animateKpi(
+                    kpiInv,
+                    1247,
+                    1.2,
+                    tl,
+                    1.4,
+                    (v) => Math.round(v).toLocaleString("es-MX"),
+                );
+                animateKpi(kpiOrders, 28, 1.0, tl, 1.5);
+                animateKpi(kpiClients, 154, 1.1, tl, 1.6);
+
+                // Tabla
+                tl.to(table, { opacity: 1, y: 0, duration: 0.6 }, 2.0);
+                tl.to(
+                    rows,
+                    { opacity: 1, y: 0, stagger: 0.12, duration: 0.5 },
+                    2.3,
+                );
+
+                // Toast
+                tl.to(
+                    toast,
+                    {
+                        opacity: 1,
+                        x: 0,
+                        scale: 1,
+                        duration: 0.6,
+                        ease: "back.out(1.5)",
+                    },
+                    3.0,
+                );
+
+                // CTA
+                tl.to(cta, { opacity: 1, y: 0, duration: 0.5 }, 3.5);
+            },
+
+            "(max-width: 767px)": () => {
+                const intro = gsap.timeline({
+                    defaults: { ease: "power3.out", duration: 0.6 },
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top 90%",
+                        toggleActions: "play none none reverse",
+                    },
+                });
+                intro
+                    .to(eyebrow, { opacity: 1, y: 0 })
+                    .to(heading, { opacity: 1, y: 0 }, "-=0.3")
+                    .to(paragraph, { opacity: 1, y: 0 }, "-=0.4");
+
+                gsap.to(sidebar, {
+                    opacity: 1,
+                    x: 0,
+                    duration: 0.7,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: sidebar,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse",
+                        onEnter: () => {
+                            gsap.to(sidebarItems, {
+                                opacity: 1,
+                                x: 0,
+                                stagger: 0.08,
+                                duration: 0.4,
+                                delay: 0.3,
+                            });
+                        },
+                    },
+                });
+
+                gsap.to(kpis, {
+                    opacity: 1,
+                    y: 0,
+                    stagger: 0.1,
+                    duration: 0.5,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: kpis[0],
+                        start: "top 90%",
+                        toggleActions: "play none none reverse",
+                        onEnter: () => {
+                            const stInv = { v: 0 };
+                            gsap.to(stInv, {
+                                v: 1247,
+                                duration: 1.6,
+                                delay: 0.3,
+                                ease: "power2.out",
+                                onUpdate: () => {
+                                    if (kpiInv)
+                                        kpiInv.textContent = Math.round(stInv.v).toLocaleString(
+                                            "es-MX",
+                                        );
+                                },
+                            });
+                            const stO = { v: 0 };
+                            gsap.to(stO, {
+                                v: 28,
+                                duration: 1.4,
+                                delay: 0.4,
+                                ease: "power2.out",
+                                onUpdate: () => {
+                                    if (kpiOrders)
+                                        kpiOrders.textContent = Math.round(stO.v).toString();
+                                },
+                            });
+                            const stC = { v: 0 };
+                            gsap.to(stC, {
+                                v: 154,
+                                duration: 1.5,
+                                delay: 0.5,
+                                ease: "power2.out",
+                                onUpdate: () => {
+                                    if (kpiClients)
+                                        kpiClients.textContent = Math.round(stC.v).toString();
+                                },
+                            });
+                        },
+                    },
+                });
+
+                gsap.to(table, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.6,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: table,
+                        start: "top 90%",
+                        toggleActions: "play none none reverse",
+                        onEnter: () => {
+                            gsap.to(rows, {
+                                opacity: 1,
+                                y: 0,
+                                stagger: 0.12,
+                                duration: 0.5,
+                                delay: 0.3,
+                            });
+                        },
+                    },
+                });
+
+                gsap.to(toast, {
+                    opacity: 1,
+                    x: 0,
+                    scale: 1,
+                    duration: 0.6,
+                    ease: "back.out(1.5)",
+                    scrollTrigger: {
+                        trigger: table,
+                        start: "top 70%",
+                        toggleActions: "play none none reverse",
+                    },
+                });
+
+                gsap.to(cta, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.5,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: cta,
+                        start: "top 95%",
+                        toggleActions: "play none none reverse",
+                    },
+                });
+            },
+        });
+    }
+</script>

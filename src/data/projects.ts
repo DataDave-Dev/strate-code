@@ -27,4 +27,29 @@ export const projects: Project[] = [
     ],
     color: "#3b82f6",
   },
+  {
+    slug: "myca-erp",
+    title: "MYCA ERP",
+    tagline: "ERP con integración de IA para construcción",
+    description:
+      "Sistema ERP a medida para una empresa constructora: gestión de obras, control presupuestario, cronogramas, subcontratistas, órdenes de compra y pagos en una sola plataforma — potenciado con IA para automatizar tareas y generar insights.",
+    category: "ERP empresarial",
+    year: 2025,
+    status: "in-progress",
+    cover: "/proyects/myca-cover.png",
+    stack: ["Next.js", "Supabase", "Tailwind CSS", "IA"],
+    services: [
+      "Diseño UI/UX",
+      "Desarrollo full-stack",
+      "Integración con IA",
+      "Autenticación segura",
+    ],
+    highlights: [
+      "Integración con IA para asistencia inteligente y automatizaciones",
+      "Gestión completa del ciclo de obras",
+      "Control presupuestario en tiempo real",
+      "Roles diferenciados por área operativa",
+    ],
+    color: "#1e40af",
+  },
 ];

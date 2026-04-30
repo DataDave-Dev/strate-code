@@ -156,19 +156,60 @@ import Logo from "../Icons/Logo.astro";
             "-=0.3",
         );
 
+    /**
+     * Detecta si el viewport está cubriendo un Moment con sticky pin activo.
+     * Un pin se considera "activo" cuando su top tocó el top del viewport
+     * y su bottom todavía no salió por arriba (está ocupando la pantalla).
+     */
+    const isInsidePinnedMoment = () => {
+        const pins = document.querySelectorAll<HTMLElement>(
+            "[data-moment-pin]",
+        );
+        for (const pin of pins) {
+            const r = pin.getBoundingClientRect();
+            // El pin está activo si su top está en o por encima del viewport
+            // y su bottom todavía cubre al menos parte de la pantalla
+            if (r.top <= 1 && r.bottom > 100) return true;
+        }
+        return false;
+    };
+
     let lastY = window.scrollY;
+    let headerHidden = false;
+    const hideHeader = () => {
+        if (headerHidden) return;
+        headerHidden = true;
+        gsap.to(header, { y: -90, duration: 0.4, ease: "power2.out" });
+    };
+    const showHeader = () => {
+        if (!headerHidden) return;
+        headerHidden = false;
+        gsap.to(header, { y: 0, duration: 0.4, ease: "power2.out" });
+    };
+
     window.addEventListener("scroll", () => {
         const y = window.scrollY;
         if (!header) return;
+
+        // Estado de fondo (con sombra) según scroll
         if (y > 40) {
             header.classList.add("is-scrolled");
         } else {
             header.classList.remove("is-scrolled");
         }
-        if (y > lastY && y > 120) {
-            gsap.to(header, { y: -90, duration: 0.4, ease: "power2.out" });
+
+        // 1) Si estamos dentro de un Moment pinned → ocultar SIEMPRE
+        // (independiente de la dirección de scroll)
+        if (isInsidePinnedMoment()) {
+            hideHeader();
         } else {
-            gsap.to(header, { y: 0, duration: 0.4, ease: "power2.out" });
+            // 2) Comportamiento normal fuera de los Moments:
+            //    ocultar al scrollear hacia abajo, mostrar al scrollear hacia arriba
+            if (y > lastY && y > 120) {
+                hideHeader();
+            } else {
+                showHeader();
+            }
         }
         lastY = y;
     });

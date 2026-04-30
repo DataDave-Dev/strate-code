@@ -1,0 +1,316 @@
+---
+import ServiceMomentShell from "./ServiceMomentShell.astro";
+
+const stages = [
+    {
+        num: "01",
+        title: "Diagnóstico",
+        desc: "Auditamos su producto, equipo y operación para entender el punto de partida real.",
+    },
+    {
+        num: "02",
+        title: "Estrategia",
+        desc: "Definimos prioridades de negocio y técnicas, alineadas a sus objetivos.",
+    },
+    {
+        num: "03",
+        title: "Roadmap",
+        desc: "Trazamos un plan accionable por trimestres, con hitos medibles.",
+    },
+    {
+        num: "04",
+        title: "Acompañamiento",
+        desc: "Lo asesoramos en la ejecución para asegurar la entrega de valor.",
+    },
+];
+---
+
+<ServiceMomentShell
+    id="moment-consulting"
+    momentKey="consulting"
+    index={6}
+    total={6}
+    eyebrow="Su roadmap · En vivo"
+    title='Acompañamiento <span class="italic font-light text-gray-500">con criterio.</span>'
+    description="Lo asesoramos en decisiones de producto, tecnología y estrategia digital. Pares de pensamiento estratégico, no solo manos que codean."
+    bgClass="bg-white text-black"
+    ctaLabel="Quiero asesoría"
+>
+    <!-- Timeline horizontal de 4 etapas -->
+    <div class="relative flex flex-col justify-center">
+        <!-- Línea SVG conectora: pasa por el centro vertical del nodo
+             (w-12 → 24px, w-14 → 28px). Solo en md+ porque en mobile son 2 cols. -->
+        <svg
+            data-consulting-line
+            class="hidden md:block absolute left-0 right-0 md:top-7 h-px w-full pointer-events-none z-0"
+            preserveAspectRatio="none"
+            viewBox="0 0 1000 2"
+        >
+            <line
+                x1="0"
+                y1="1"
+                x2="1000"
+                y2="1"
+                stroke="#e5e7eb"
+                stroke-width="1"
+            />
+            <line
+                data-consulting-line-fill
+                x1="0"
+                y1="1"
+                x2="1000"
+                y2="1"
+                stroke="#000"
+                stroke-width="1.5"
+                stroke-dasharray="1000"
+                stroke-dashoffset="1000"
+            />
+        </svg>
+
+        <!-- 4 etapas -->
+        <div class="relative grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-4 lg:gap-6">
+            {
+                stages.map((stage, i) => (
+                    <div data-consulting-stage class="relative flex flex-col items-start">
+                        <!-- Nodo (z-10 para estar encima de la línea conectora) -->
+                        <div data-consulting-node class="relative z-10 flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-white border-2 border-black mb-4 sm:mb-5 md:mb-6">
+                            <span class="text-xs sm:text-sm md:text-base font-mono font-semibold">{stage.num}</span>
+                            <!-- Halo -->
+                            <span data-consulting-halo class="absolute inset-0 rounded-full border border-black/30 scale-100 opacity-0" />
+                        </div>
+                        <h3 data-consulting-title class="text-base sm:text-lg md:text-xl font-semibold tracking-tight mb-1.5 sm:mb-2">
+                            {stage.title}
+                        </h3>
+                        <p data-consulting-desc class="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                            {stage.desc}
+                        </p>
+                    </div>
+                ))
+            }
+        </div>
+
+        <!-- Documento "PDF" al final -->
+        <div class="mt-6 sm:mt-8 md:mt-8 lg:mt-10 flex justify-center">
+            <div
+                data-consulting-doc
+                class="relative bg-white border border-black/10 rounded-xl sm:rounded-2xl shadow-2xl p-4 sm:p-5 md:p-5 lg:p-6 max-w-sm sm:max-w-md w-full"
+            >
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-black flex items-center justify-center text-white">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                            <path d="M14 2v6h6" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="text-[10px] uppercase tracking-wider text-gray-400">Entregable</div>
+                        <div class="text-sm sm:text-base font-semibold">Plan estratégico Q1-Q4</div>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <div data-consulting-doc-line class="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                        <span class="block h-full bg-black" style="width: 0%"></span>
+                    </div>
+                    <div data-consulting-doc-line class="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                        <span class="block h-full bg-black" style="width: 0%"></span>
+                    </div>
+                    <div data-consulting-doc-line class="h-1.5 bg-gray-100 rounded-full overflow-hidden w-2/3">
+                        <span class="block h-full bg-black" style="width: 0%"></span>
+                    </div>
+                </div>
+                <div class="mt-3 text-[10px] text-gray-400">12 páginas · Firmado digitalmente</div>
+            </div>
+        </div>
+    </div>
+</ServiceMomentShell>
+
+<style>
+    :global(html:not(.moment-consulting-ready)) [data-moment-key="consulting"] [data-moment-eyebrow],
+    :global(html:not(.moment-consulting-ready)) [data-moment-key="consulting"] [data-moment-heading],
+    :global(html:not(.moment-consulting-ready)) [data-moment-key="consulting"] [data-moment-paragraph],
+    :global(html:not(.moment-consulting-ready)) [data-moment-key="consulting"] [data-moment-cta] {
+        opacity: 0;
+    }
+</style>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const section = document.querySelector<HTMLElement>('[data-moment-key="consulting"]');
+    if (!section) {
+        document.documentElement.classList.add("moment-consulting-ready");
+    } else {
+        const track = section.querySelector<HTMLElement>("[data-moment-track]");
+        const eyebrow = section.querySelector<HTMLElement>("[data-moment-eyebrow]");
+        const heading = section.querySelector<HTMLElement>("[data-moment-heading]");
+        const paragraph = section.querySelector<HTMLElement>("[data-moment-paragraph]");
+        const cta = section.querySelector<HTMLElement>("[data-moment-cta]");
+        const lineFill = section.querySelector<SVGLineElement>("[data-consulting-line-fill]");
+        const stages = section.querySelectorAll<HTMLElement>("[data-consulting-stage]");
+        const nodes = section.querySelectorAll<HTMLElement>("[data-consulting-node]");
+        const halos = section.querySelectorAll<HTMLElement>("[data-consulting-halo]");
+        const titles = section.querySelectorAll<HTMLElement>("[data-consulting-title]");
+        const descs = section.querySelectorAll<HTMLElement>("[data-consulting-desc]");
+        const doc = section.querySelector<HTMLElement>("[data-consulting-doc]");
+        const docLines = section.querySelectorAll<HTMLElement>("[data-consulting-doc-line] > span");
+
+        gsap.set([eyebrow, heading, paragraph, cta], { opacity: 0, y: 20 });
+        gsap.set(stages, { opacity: 0, y: 30 });
+        gsap.set(nodes, { scale: 0.6 });
+        gsap.set(halos, { scale: 1, opacity: 0 });
+        gsap.set(titles, { opacity: 0, y: 8 });
+        gsap.set(descs, { opacity: 0, y: 8 });
+        gsap.set(doc, { opacity: 0, y: 30, scale: 0.96 });
+        gsap.set(docLines, { width: "0%" });
+
+        document.documentElement.classList.add("moment-consulting-ready");
+
+        ScrollTrigger.matchMedia({
+            "(min-width: 768px)": () => {
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: track,
+                        start: "top top",
+                        end: "bottom bottom",
+                        scrub: 1,
+                        invalidateOnRefresh: true,
+                    },
+                });
+
+                tl.to(eyebrow, { opacity: 1, y: 0, duration: 0.5 }, 0);
+                tl.to(heading, { opacity: 1, y: 0, duration: 0.6 }, 0.1);
+                tl.to(paragraph, { opacity: 1, y: 0, duration: 0.6 }, 0.2);
+
+                // Línea conectora se traza progresivamente
+                if (lineFill) {
+                    tl.to(
+                        lineFill,
+                        { strokeDashoffset: 0, duration: 2.5, ease: "none" },
+                        0.5,
+                    );
+                }
+
+                // Etapas se desbloquean una a una sincronizadas con la línea
+                stages.forEach((stage, i) => {
+                    const startTime = 0.6 + i * 0.55;
+                    tl.to(stage, { opacity: 1, y: 0, duration: 0.4 }, startTime);
+                    tl.to(
+                        nodes[i],
+                        { scale: 1, duration: 0.5, ease: "back.out(1.8)" },
+                        startTime,
+                    );
+                    // Halo
+                    tl.fromTo(
+                        halos[i],
+                        { scale: 1, opacity: 0.6 },
+                        { scale: 1.8, opacity: 0, duration: 0.8, ease: "power2.out" },
+                        startTime + 0.1,
+                    );
+                    tl.to(titles[i], { opacity: 1, y: 0, duration: 0.4 }, startTime + 0.15);
+                    tl.to(descs[i], { opacity: 1, y: 0, duration: 0.4 }, startTime + 0.25);
+                });
+
+                // Doc al final
+                tl.to(doc, { opacity: 1, y: 0, scale: 1, duration: 0.7 }, 3.0);
+                tl.to(
+                    docLines,
+                    {
+                        width: "100%",
+                        stagger: 0.15,
+                        duration: 0.6,
+                        ease: "power3.out",
+                    },
+                    3.3,
+                );
+
+                tl.to(cta, { opacity: 1, y: 0, duration: 0.5 }, 4.0);
+            },
+
+            "(max-width: 767px)": () => {
+                const intro = gsap.timeline({
+                    defaults: { ease: "power3.out", duration: 0.6 },
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top 90%",
+                        toggleActions: "play none none reverse",
+                    },
+                });
+                intro
+                    .to(eyebrow, { opacity: 1, y: 0 })
+                    .to(heading, { opacity: 1, y: 0 }, "-=0.3")
+                    .to(paragraph, { opacity: 1, y: 0 }, "-=0.4");
+
+                stages.forEach((stage, i) => {
+                    const stageTl = gsap.timeline({
+                        scrollTrigger: {
+                            trigger: stage,
+                            start: "top 88%",
+                            toggleActions: "play none none reverse",
+                        },
+                    });
+                    stageTl
+                        .to(stage, { opacity: 1, y: 0, duration: 0.5 }, 0)
+                        .to(nodes[i], { scale: 1, duration: 0.5, ease: "back.out(1.8)" }, 0)
+                        .fromTo(
+                            halos[i],
+                            { scale: 1, opacity: 0.6 },
+                            { scale: 1.8, opacity: 0, duration: 0.8, ease: "power2.out" },
+                            0.1,
+                        )
+                        .to(titles[i], { opacity: 1, y: 0, duration: 0.4 }, 0.2)
+                        .to(descs[i], { opacity: 1, y: 0, duration: 0.4 }, 0.3);
+                });
+
+                if (lineFill) {
+                    gsap.to(lineFill, {
+                        strokeDashoffset: 0,
+                        duration: 2.0,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: stages[0],
+                            start: "top 80%",
+                            toggleActions: "play none none reverse",
+                        },
+                    });
+                }
+
+                gsap.to(doc, {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 0.7,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: doc,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse",
+                        onEnter: () => {
+                            gsap.to(docLines, {
+                                width: "100%",
+                                stagger: 0.15,
+                                duration: 0.7,
+                                delay: 0.3,
+                                ease: "power3.out",
+                            });
+                        },
+                    },
+                });
+
+                gsap.to(cta, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.5,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: cta,
+                        start: "top 95%",
+                        toggleActions: "play none none reverse",
+                    },
+                });
+            },
+        });
+    }
+</script>

@@ -1,0 +1,421 @@
+---
+import ServiceMomentShell from "./ServiceMomentShell.astro";
+---
+
+<ServiceMomentShell
+    id="moment-sites"
+    momentKey="sites"
+    index={5}
+    total={6}
+    eyebrow="Sitio web · En vivo"
+    title='Sitios <span class="italic font-light text-gray-500">que cargan rápido.</span>'
+    description="Landings y sitios corporativos diseñados a medida, optimizados para velocidad real, SEO y conversión. No usamos plantillas — cada pixel responde a una decisión."
+    bgClass="bg-white text-black"
+    ctaLabel="Quiero un sitio así"
+>
+    <!-- Mock browser -->
+    <div class="flex flex-col items-center gap-3 sm:gap-4 w-full">
+        <div
+            data-sites-browser
+            class="relative bg-white rounded-2xl border border-black/10 shadow-2xl overflow-hidden w-full max-w-xl md:max-w-md lg:max-w-lg xl:max-w-xl"
+        >
+                <!-- Barra de URL -->
+                <div class="flex items-center gap-3 px-4 py-2.5 bg-gray-100 border-b border-black/5">
+                    <div class="flex gap-1.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-400/70"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-yellow-400/70"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-green-400/70"></span>
+                    </div>
+                    <div class="flex-1 bg-white border border-black/5 rounded-md px-3 py-1 text-[11px] sm:text-xs font-mono text-gray-600 truncate">
+                        <span data-sites-url></span>
+                        <span data-sites-cursor class="inline-block w-px h-3 bg-gray-600 align-middle"></span>
+                    </div>
+                </div>
+
+                <!-- Contenido del sitio -->
+                <div class="relative bg-white aspect-[16/9] md:aspect-[16/7] lg:aspect-[16/8] overflow-hidden">
+                    <!-- Header del sitio simulado -->
+                    <div class="flex items-center justify-between px-4 sm:px-6 md:px-5 lg:px-7 py-2 sm:py-2.5 border-b border-black/5">
+                        <div data-sites-logo class="flex items-center gap-2">
+                            <span class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-black"></span>
+                            <span class="text-[11px] sm:text-sm font-semibold">Su marca</span>
+                        </div>
+                        <div class="hidden sm:flex items-center gap-4 lg:gap-5 text-[10px] sm:text-[11px] text-gray-600">
+                            <span data-sites-nav>Inicio</span>
+                            <span data-sites-nav>Servicios</span>
+                            <span data-sites-nav>Casos</span>
+                            <span data-sites-nav>Contacto</span>
+                        </div>
+                    </div>
+
+                    <!-- Hero del sitio simulado -->
+                    <div class="px-4 sm:px-6 md:px-5 lg:px-7 py-3 sm:py-5 md:py-3 lg:py-5">
+                        <div class="grid grid-cols-12 gap-3 sm:gap-4 items-center">
+                            <div class="col-span-7">
+                                <div data-sites-eyebrow class="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1 sm:mb-2">
+                                    Landing 2026
+                                </div>
+                                <h3
+                                    data-sites-title
+                                    class="text-sm sm:text-lg md:text-base lg:text-xl font-semibold leading-tight tracking-tight"
+                                ></h3>
+                                <div data-sites-desc class="mt-1.5 sm:mt-2 text-[10px] sm:text-xs text-gray-500 leading-relaxed">
+                                    Subtítulo descriptivo que apoya el mensaje principal.
+                                </div>
+                                <div data-sites-cta class="mt-2 sm:mt-3 inline-flex items-center gap-1.5 bg-black text-white px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-[10px] sm:text-xs">
+                                    Comenzar
+                                    <svg width="8" height="8" viewBox="0 0 14 14" fill="none">
+                                        <path d="M1 13L13 1M13 1H3M13 1V11" stroke="currentColor" stroke-width="1.5" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div data-sites-image class="col-span-5 aspect-square bg-gradient-to-br from-stone-100 to-stone-200 rounded-lg flex items-center justify-center">
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" class="text-gray-400">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/>
+                                    <circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" stroke-width="1.5"/>
+                                    <path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lighthouse badges (debajo del browser, dentro del flujo) -->
+            <div
+                data-sites-lighthouse
+                class="mt-4 sm:mt-5 md:mt-3 lg:mt-4 mb-1 sm:mb-2 flex justify-center gap-1.5 sm:gap-3 flex-wrap"
+            >
+                {
+                    [
+                        { label: "Performance", value: 100 },
+                        { label: "SEO", value: 100 },
+                        { label: "Acc.", value: 100 },
+                    ].map((b) => (
+                        <div
+                            data-sites-badge
+                            class="bg-black text-white px-2 sm:px-4 py-1.5 sm:py-2.5 rounded-lg sm:rounded-xl shadow-xl flex items-center gap-1.5 sm:gap-2"
+                        >
+                            <span class="relative w-7 h-7 sm:w-9 sm:h-9 flex items-center justify-center">
+                                <svg
+                                    class="absolute inset-0 -rotate-90"
+                                    viewBox="0 0 36 36"
+                                >
+                                    <circle
+                                        cx="18"
+                                        cy="18"
+                                        r="15"
+                                        stroke="currentColor"
+                                        stroke-width="3"
+                                        fill="none"
+                                        opacity="0.2"
+                                    />
+                                    <circle
+                                        data-sites-badge-ring
+                                        cx="18"
+                                        cy="18"
+                                        r="15"
+                                        stroke="#22c55e"
+                                        stroke-width="3"
+                                        fill="none"
+                                        stroke-linecap="round"
+                                        stroke-dasharray="94.25"
+                                        stroke-dashoffset="94.25"
+                                    />
+                                </svg>
+                                <span data-sites-badge-num class="relative text-[10px] sm:text-xs font-semibold tabular-nums">0</span>
+                            </span>
+                            <div class="text-left hidden sm:block">
+                                <div class="text-[8px] sm:text-[9px] uppercase tracking-wider opacity-60">{b.label}</div>
+                                <div class="text-[10px] sm:text-xs font-semibold">100/100</div>
+                            </div>
+                        </div>
+                    ))
+                }
+            </div>
+    </div>
+</ServiceMomentShell>
+
+<style>
+    :global(html:not(.moment-sites-ready)) [data-moment="sites"],
+    :global(html:not(.moment-sites-ready)) [data-moment-key="sites"] [data-moment-eyebrow],
+    :global(html:not(.moment-sites-ready)) [data-moment-key="sites"] [data-moment-heading],
+    :global(html:not(.moment-sites-ready)) [data-moment-key="sites"] [data-moment-paragraph],
+    :global(html:not(.moment-sites-ready)) [data-moment-key="sites"] [data-moment-cta] {
+        opacity: 0;
+    }
+</style>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const section = document.querySelector<HTMLElement>('[data-moment-key="sites"]');
+    if (!section) {
+        document.documentElement.classList.add("moment-sites-ready");
+    } else {
+        const track = section.querySelector<HTMLElement>("[data-moment-track]");
+        const eyebrow = section.querySelector<HTMLElement>("[data-moment-eyebrow]");
+        const heading = section.querySelector<HTMLElement>("[data-moment-heading]");
+        const paragraph = section.querySelector<HTMLElement>("[data-moment-paragraph]");
+        const cta = section.querySelector<HTMLElement>("[data-moment-cta]");
+        const browser = section.querySelector<HTMLElement>("[data-sites-browser]");
+        const url = section.querySelector<HTMLElement>("[data-sites-url]");
+        const cursor = section.querySelector<HTMLElement>("[data-sites-cursor]");
+        const logo = section.querySelector<HTMLElement>("[data-sites-logo]");
+        const navItems = section.querySelectorAll<HTMLElement>("[data-sites-nav]");
+        const eyebrowSite = section.querySelector<HTMLElement>("[data-sites-eyebrow]");
+        const titleSite = section.querySelector<HTMLElement>("[data-sites-title]");
+        const descSite = section.querySelector<HTMLElement>("[data-sites-desc]");
+        const ctaSite = section.querySelector<HTMLElement>("[data-sites-cta]");
+        const imageSite = section.querySelector<HTMLElement>("[data-sites-image]");
+        const lighthouse = section.querySelector<HTMLElement>("[data-sites-lighthouse]");
+        const badges = section.querySelectorAll<HTMLElement>("[data-sites-badge]");
+        const badgeNums = section.querySelectorAll<HTMLElement>("[data-sites-badge-num]");
+        const badgeRings = section.querySelectorAll<SVGCircleElement>("[data-sites-badge-ring]");
+
+        const URL_TEXT = "https://su-marca.com";
+        const TITLE_TEXT = "Diseño que vende. Código que escala.";
+
+        // Estados iniciales
+        gsap.set([eyebrow, heading, paragraph, cta], { opacity: 0, y: 20 });
+        gsap.set(browser, { opacity: 0, y: 40, scale: 0.96 });
+        gsap.set(logo, { opacity: 0, scale: 0.7 });
+        gsap.set(navItems, { opacity: 0, y: -8 });
+        gsap.set(eyebrowSite, { opacity: 0 });
+        gsap.set(descSite, { opacity: 0, y: 8 });
+        gsap.set(ctaSite, { opacity: 0, scale: 0.9 });
+        gsap.set(imageSite, { opacity: 0, scale: 0.95 });
+        gsap.set(lighthouse, { opacity: 0, y: 30 });
+
+        document.documentElement.classList.add("moment-sites-ready");
+
+        const writeUrl = (progress: number) => {
+            const len = Math.round(URL_TEXT.length * progress);
+            if (url) url.textContent = URL_TEXT.slice(0, len);
+        };
+        const writeTitle = (progress: number) => {
+            const len = Math.round(TITLE_TEXT.length * progress);
+            if (titleSite) titleSite.textContent = TITLE_TEXT.slice(0, len);
+        };
+
+        // Cursor blink
+        if (cursor) {
+            gsap.to(cursor, {
+                opacity: 0,
+                duration: 0.5,
+                repeat: -1,
+                yoyo: true,
+                ease: "steps(1)",
+            });
+        }
+
+        ScrollTrigger.matchMedia({
+            // ============ DESKTOP ============
+            "(min-width: 768px)": () => {
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: track,
+                        start: "top top",
+                        end: "bottom bottom",
+                        scrub: 1,
+                        invalidateOnRefresh: true,
+                    },
+                });
+
+                // 0 — 0.1: Encabezado
+                tl.to(eyebrow, { opacity: 1, y: 0, duration: 0.5 }, 0);
+                tl.to(heading, { opacity: 1, y: 0, duration: 0.6 }, 0.1);
+                tl.to(paragraph, { opacity: 1, y: 0, duration: 0.6 }, 0.2);
+
+                // 0.15 — 0.30: Browser entra
+                tl.to(browser, { opacity: 1, y: 0, scale: 1, duration: 0.8 }, 0.5);
+
+                // 0.30 — 0.50: URL escribiéndose
+                const urlState = { p: 0 };
+                tl.to(
+                    urlState,
+                    {
+                        p: 1,
+                        duration: 0.6,
+                        ease: "none",
+                        onUpdate: () => writeUrl(urlState.p),
+                    },
+                    1.0,
+                );
+
+                // 0.50 — 0.55: Logo + nav del sitio
+                tl.to(logo, { opacity: 1, scale: 1, duration: 0.4 }, 1.7);
+                tl.to(
+                    navItems,
+                    { opacity: 1, y: 0, stagger: 0.06, duration: 0.4 },
+                    1.8,
+                );
+
+                // 0.55 — 0.75: Hero del sitio
+                tl.to(eyebrowSite, { opacity: 1, duration: 0.3 }, 2.0);
+                const titleState = { p: 0 };
+                tl.to(
+                    titleState,
+                    {
+                        p: 1,
+                        duration: 0.7,
+                        ease: "none",
+                        onUpdate: () => writeTitle(titleState.p),
+                    },
+                    2.1,
+                );
+                tl.to(descSite, { opacity: 1, y: 0, duration: 0.4 }, 2.6);
+                tl.to(imageSite, { opacity: 1, scale: 1, duration: 0.5 }, 2.4);
+                tl.to(ctaSite, { opacity: 1, scale: 1, duration: 0.4 }, 2.8);
+
+                // 0.85 — 0.95: Lighthouse badges aparecen + count-up
+                tl.to(
+                    lighthouse,
+                    { opacity: 1, y: 0, duration: 0.5 },
+                    3.0,
+                );
+                badges.forEach((badge, i) => {
+                    const numEl = badgeNums[i];
+                    const ringEl = badgeRings[i];
+                    const numState = { v: 0 };
+                    tl.to(
+                        numState,
+                        {
+                            v: 100,
+                            duration: 0.6,
+                            ease: "power2.out",
+                            onUpdate: () => {
+                                if (numEl)
+                                    numEl.textContent = Math.round(numState.v).toString();
+                            },
+                        },
+                        3.1 + i * 0.1,
+                    );
+                    if (ringEl) {
+                        tl.to(
+                            ringEl,
+                            { strokeDashoffset: 0, duration: 0.6, ease: "power2.out" },
+                            3.1 + i * 0.1,
+                        );
+                    }
+                });
+
+                // 0.95 — 1.0: CTA del shell
+                tl.to(cta, { opacity: 1, y: 0, duration: 0.5 }, 3.6);
+            },
+
+            // ============ MOBILE ============
+            "(max-width: 767px)": () => {
+                const intro = gsap.timeline({
+                    defaults: { ease: "power3.out", duration: 0.6 },
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top 90%",
+                        toggleActions: "play none none reverse",
+                    },
+                });
+                intro
+                    .to(eyebrow, { opacity: 1, y: 0 })
+                    .to(heading, { opacity: 1, y: 0 }, "-=0.3")
+                    .to(paragraph, { opacity: 1, y: 0 }, "-=0.4");
+
+                gsap.to(browser, {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 0.8,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: browser,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse",
+                        onEnter: () => {
+                            // URL typing
+                            const urlState = { p: 0 };
+                            gsap.to(urlState, {
+                                p: 1,
+                                duration: 1.0,
+                                ease: "none",
+                                onUpdate: () => writeUrl(urlState.p),
+                                delay: 0.3,
+                            });
+                            // Logo + nav
+                            gsap.to(logo, { opacity: 1, scale: 1, duration: 0.4, delay: 1.2 });
+                            gsap.to(navItems, {
+                                opacity: 1,
+                                y: 0,
+                                stagger: 0.08,
+                                duration: 0.4,
+                                delay: 1.3,
+                            });
+                            // Hero del sitio
+                            gsap.to(eyebrowSite, { opacity: 1, duration: 0.3, delay: 1.7 });
+                            const titleState = { p: 0 };
+                            gsap.to(titleState, {
+                                p: 1,
+                                duration: 1.2,
+                                ease: "none",
+                                onUpdate: () => writeTitle(titleState.p),
+                                delay: 1.8,
+                            });
+                            gsap.to(imageSite, { opacity: 1, scale: 1, duration: 0.5, delay: 2.0 });
+                            gsap.to(descSite, { opacity: 1, y: 0, duration: 0.4, delay: 2.6 });
+                            gsap.to(ctaSite, { opacity: 1, scale: 1, duration: 0.4, delay: 2.8 });
+                        },
+                    },
+                });
+
+                gsap.to(lighthouse, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.7,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: lighthouse,
+                        start: "top 90%",
+                        toggleActions: "play none none reverse",
+                        onEnter: () => {
+                            badges.forEach((_, i) => {
+                                const numEl = badgeNums[i];
+                                const ringEl = badgeRings[i];
+                                const numState = { v: 0 };
+                                gsap.to(numState, {
+                                    v: 100,
+                                    duration: 1.0,
+                                    delay: 0.2 + i * 0.15,
+                                    ease: "power2.out",
+                                    onUpdate: () => {
+                                        if (numEl) numEl.textContent = Math.round(numState.v).toString();
+                                    },
+                                });
+                                if (ringEl) {
+                                    gsap.to(ringEl, {
+                                        strokeDashoffset: 0,
+                                        duration: 1.0,
+                                        delay: 0.2 + i * 0.15,
+                                        ease: "power2.out",
+                                    });
+                                }
+                            });
+                        },
+                    },
+                });
+
+                gsap.to(cta, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.5,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: cta,
+                        start: "top 95%",
+                        toggleActions: "play none none reverse",
+                    },
+                });
+            },
+        });
+    }
+</script>

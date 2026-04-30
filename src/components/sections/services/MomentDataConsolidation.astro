@@ -1,0 +1,354 @@
+---
+import ServiceMomentShell from "./ServiceMomentShell.astro";
+
+const sources = [
+    { id: "salesforce", label: "Salesforce", sub: "CRM" },
+    { id: "sap", label: "SAP / Odoo", sub: "ERP" },
+    { id: "sheets", label: "Hojas", sub: "Excel · Sheets" },
+    { id: "api", label: "API REST", sub: "Externos" },
+];
+---
+
+<ServiceMomentShell
+    id="moment-data"
+    momentKey="data"
+    index={2}
+    total={6}
+    eyebrow="Su data layer · En vivo"
+    title='Datos dispersos, <span class="italic font-light text-white/50">una sola verdad.</span>'
+    description="Conectamos las fuentes que ya utiliza — varios ERPs, CRMs, hojas, APIs — y las unificamos en un único data layer limpio y consultable. Base para reportes, dashboards o IA."
+    bgClass="bg-black text-white"
+    ctaLabel="Quiero unificar mis datos"
+>
+    <!-- Pipeline 4 fuentes → Data layer -->
+    <div class="grid md:grid-cols-12 gap-4 md:gap-6 items-center">
+        <!-- 4 cajas-fuente -->
+        <div class="md:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 relative z-10 content-center">
+            {
+                sources.map((s) => (
+                    <div
+                        data-data-source
+                        data-source-id={s.id}
+                        class="relative bg-white/5 border border-white/10 rounded-2xl p-3 sm:p-4 backdrop-blur-sm"
+                    >
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-white/40 font-mono">
+                                {s.sub}
+                            </span>
+                            <span data-data-source-pulse class="w-1.5 h-1.5 rounded-full bg-green-400" />
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-white/10 border border-green-400/30 flex items-center justify-center text-green-400">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                                    <path d="M4 6h16M4 12h16M4 18h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="text-xs sm:text-sm font-semibold">{s.label}</div>
+                                <div class="text-[10px] text-white/40">conectado</div>
+                            </div>
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+
+        <!-- SVG de flujos (desktop) -->
+        <svg
+            data-data-flows
+            class="hidden md:block absolute inset-0 w-full h-full pointer-events-none z-0"
+            fill="none"
+        >
+            <defs>
+                <linearGradient id="data-flow-gradient" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#22c55e" stop-opacity="0.2" />
+                    <stop offset="60%" stop-color="#22c55e" stop-opacity="0.7" />
+                    <stop offset="100%" stop-color="#22c55e" stop-opacity="0.3" />
+                </linearGradient>
+            </defs>
+            <path data-data-path data-path-id="salesforce" stroke="url(#data-flow-gradient)" stroke-width="1.5" />
+            <path data-data-path data-path-id="sap" stroke="url(#data-flow-gradient)" stroke-width="1.5" />
+            <path data-data-path data-path-id="sheets" stroke="url(#data-flow-gradient)" stroke-width="1.5" />
+            <path data-data-path data-path-id="api" stroke="url(#data-flow-gradient)" stroke-width="1.5" />
+            <circle data-data-particle data-particle-id="salesforce" r="3" fill="#22c55e" opacity="0" />
+            <circle data-data-particle data-particle-id="sap" r="3" fill="#22c55e" opacity="0" />
+            <circle data-data-particle data-particle-id="sheets" r="3" fill="#22c55e" opacity="0" />
+            <circle data-data-particle data-particle-id="api" r="3" fill="#22c55e" opacity="0" />
+        </svg>
+
+        <!-- Data Layer -->
+        <div class="md:col-span-7 relative z-10 flex items-center">
+            <div
+                data-data-layer
+                class="relative bg-white/5 border border-white/10 rounded-2xl p-5 sm:p-6 md:p-7 backdrop-blur-sm w-full"
+            >
+                <div class="flex items-center justify-between mb-4 sm:mb-5">
+                    <span class="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-green-400 font-mono">
+                        Data Layer Unificado
+                    </span>
+                    <span class="flex items-center gap-1.5 text-[10px] sm:text-xs text-green-400">
+                        <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+                        Sincronizado
+                    </span>
+                </div>
+
+                <!-- Contador de filas -->
+                <div class="text-[11px] sm:text-xs text-white/40 uppercase tracking-wider mb-1">
+                    Filas procesadas
+                </div>
+                <div data-data-rows class="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-semibold tabular-nums mb-1">0</div>
+                <div data-data-sync class="text-[11px] sm:text-xs text-green-400 mb-5 sm:mb-6">
+                    Última sync: hace 2 min
+                </div>
+
+                <!-- Schema visual -->
+                <div class="space-y-2">
+                    {
+                        ["customers", "orders", "inventory", "events"].map((table) => (
+                            <div data-data-table-row class="flex items-center gap-3 px-3 py-2 bg-white/5 border border-white/10 rounded-lg">
+                                <span class="w-1.5 h-1.5 rounded-full bg-green-400" />
+                                <span class="text-xs sm:text-sm font-mono text-white/80">{table}</span>
+                                <span data-data-table-bar class="ml-auto h-1 bg-green-400/30 rounded-full overflow-hidden" style="width: 0%">
+                                    <span class="block h-full bg-green-400" style="width: 100%"></span>
+                                </span>
+                            </div>
+                        ))
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</ServiceMomentShell>
+
+<style>
+    :global(html:not(.moment-data-ready)) [data-moment-key="data"] [data-moment-eyebrow],
+    :global(html:not(.moment-data-ready)) [data-moment-key="data"] [data-moment-heading],
+    :global(html:not(.moment-data-ready)) [data-moment-key="data"] [data-moment-paragraph],
+    :global(html:not(.moment-data-ready)) [data-moment-key="data"] [data-moment-cta] {
+        opacity: 0;
+    }
+    [data-moment-key="data"] [data-data-path] {
+        opacity: 0;
+    }
+</style>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+    import { MotionPathPlugin } from "gsap/MotionPathPlugin";
+
+    gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+
+    const section = document.querySelector<HTMLElement>('[data-moment-key="data"]');
+    if (!section) {
+        document.documentElement.classList.add("moment-data-ready");
+    } else {
+        const track = section.querySelector<HTMLElement>("[data-moment-track]");
+        const eyebrow = section.querySelector<HTMLElement>("[data-moment-eyebrow]");
+        const heading = section.querySelector<HTMLElement>("[data-moment-heading]");
+        const paragraph = section.querySelector<HTMLElement>("[data-moment-paragraph]");
+        const cta = section.querySelector<HTMLElement>("[data-moment-cta]");
+        const sources = section.querySelectorAll<HTMLElement>("[data-data-source]");
+        const flowsSvg = section.querySelector<SVGSVGElement>("[data-data-flows]");
+        const paths = section.querySelectorAll<SVGPathElement>("[data-data-path]");
+        const particles = section.querySelectorAll<SVGCircleElement>("[data-data-particle]");
+        const layer = section.querySelector<HTMLElement>("[data-data-layer]");
+        const rowsEl = section.querySelector<HTMLElement>("[data-data-rows]");
+        const syncEl = section.querySelector<HTMLElement>("[data-data-sync]");
+        const tableRows = section.querySelectorAll<HTMLElement>("[data-data-table-row]");
+
+        gsap.set([eyebrow, heading, paragraph, cta], { opacity: 0, y: 20 });
+        gsap.set(sources, { opacity: 0, y: 20, scale: 0.95 });
+        gsap.set(layer, { opacity: 0, x: 30 });
+        gsap.set(tableRows, { opacity: 0, x: 10 });
+
+        document.documentElement.classList.add("moment-data-ready");
+
+        const recomputePaths = () => {
+            if (!flowsSvg || !layer) return;
+            const svgRect = flowsSvg.getBoundingClientRect();
+            if (svgRect.width === 0 || svgRect.height === 0) return;
+            flowsSvg.setAttribute("viewBox", `0 0 ${svgRect.width} ${svgRect.height}`);
+
+            const layerRect = layer.getBoundingClientRect();
+            const targetX = layerRect.left - svgRect.left;
+            const targetY = layerRect.top + layerRect.height / 2 - svgRect.top;
+
+            sources.forEach((source, i) => {
+                const path = paths[i];
+                if (!path) return;
+                const r = source.getBoundingClientRect();
+                const x1 = r.right - svgRect.left;
+                const y1 = r.top + r.height / 2 - svgRect.top;
+                const cx1 = x1 + (targetX - x1) * 0.5;
+                const cx2 = x1 + (targetX - x1) * 0.5;
+                const d = `M ${x1} ${y1} C ${cx1} ${y1}, ${cx2} ${targetY}, ${targetX} ${targetY}`;
+                path.setAttribute("d", d);
+                const len = path.getTotalLength();
+                path.style.strokeDasharray = `${len}`;
+                path.style.strokeDashoffset = `${len}`;
+                path.style.opacity = "1";
+            });
+        };
+
+        const initPaths = () => {
+            recomputePaths();
+            ScrollTrigger.refresh();
+        };
+        if (document.readyState === "complete") initPaths();
+        else window.addEventListener("load", initPaths);
+        window.addEventListener("resize", () => {
+            recomputePaths();
+            ScrollTrigger.refresh();
+        });
+
+        const animateParticle = (particle: SVGCircleElement, path: SVGPathElement) => {
+            gsap.to(particle, {
+                motionPath: { path, align: path, autoRotate: false, alignOrigin: [0.5, 0.5] },
+                duration: 2.4,
+                repeat: -1,
+                ease: "power1.inOut",
+                opacity: 1,
+            });
+        };
+
+        ScrollTrigger.matchMedia({
+            "(min-width: 768px)": () => {
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: track,
+                        start: "top top",
+                        end: "bottom bottom",
+                        scrub: 1,
+                        invalidateOnRefresh: true,
+                    },
+                });
+
+                tl.to(eyebrow, { opacity: 1, y: 0, duration: 0.5 }, 0);
+                tl.to(heading, { opacity: 1, y: 0, duration: 0.6 }, 0.1);
+                tl.to(paragraph, { opacity: 1, y: 0, duration: 0.6 }, 0.2);
+
+                tl.to(sources, { opacity: 1, y: 0, scale: 1, stagger: 0.15, duration: 0.6 }, 0.5);
+
+                paths.forEach((path, i) => {
+                    tl.to(path, { strokeDashoffset: 0, duration: 0.7, ease: "none" }, 1.4 + i * 0.12);
+                });
+
+                tl.to(layer, { opacity: 1, x: 0, duration: 0.7 }, 1.8);
+
+                const rowsState = { v: 0 };
+                tl.to(
+                    rowsState,
+                    {
+                        v: 12847,
+                        duration: 1.5,
+                        ease: "power2.out",
+                        onUpdate: () => {
+                            if (rowsEl)
+                                rowsEl.textContent = Math.round(rowsState.v).toLocaleString("es-MX");
+                        },
+                    },
+                    2.2,
+                );
+
+                tl.to(tableRows, { opacity: 1, x: 0, stagger: 0.1, duration: 0.4 }, 2.5);
+
+                tl.to(cta, { opacity: 1, y: 0, duration: 0.5 }, 3.6);
+
+                // Partículas en loop una vez dibujadas las paths
+                ScrollTrigger.create({
+                    trigger: track,
+                    start: "top top+=50%",
+                    end: "bottom bottom",
+                    onEnter: () => {
+                        recomputePaths();
+                        particles.forEach((p, i) => {
+                            const path = paths[i];
+                            if (path)
+                                gsap.delayedCall(0.2 * i, () => animateParticle(p, path));
+                        });
+                    },
+                    onLeaveBack: () => {
+                        particles.forEach((p) => {
+                            gsap.killTweensOf(p);
+                            gsap.set(p, { opacity: 0 });
+                        });
+                    },
+                });
+            },
+
+            "(max-width: 767px)": () => {
+                const intro = gsap.timeline({
+                    defaults: { ease: "power3.out", duration: 0.6 },
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top 90%",
+                        toggleActions: "play none none reverse",
+                    },
+                });
+                intro
+                    .to(eyebrow, { opacity: 1, y: 0 })
+                    .to(heading, { opacity: 1, y: 0 }, "-=0.3")
+                    .to(paragraph, { opacity: 1, y: 0 }, "-=0.4");
+
+                gsap.to(sources, {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    stagger: 0.12,
+                    duration: 0.5,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: sources[0],
+                        start: "top 90%",
+                        toggleActions: "play none none reverse",
+                    },
+                });
+
+                gsap.to(layer, {
+                    opacity: 1,
+                    x: 0,
+                    duration: 0.7,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: layer,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse",
+                        onEnter: () => {
+                            const st = { v: 0 };
+                            gsap.to(st, {
+                                v: 12847,
+                                duration: 1.8,
+                                delay: 0.3,
+                                ease: "power2.out",
+                                onUpdate: () => {
+                                    if (rowsEl)
+                                        rowsEl.textContent = Math.round(st.v).toLocaleString("es-MX");
+                                },
+                            });
+                            gsap.to(tableRows, {
+                                opacity: 1,
+                                x: 0,
+                                stagger: 0.1,
+                                duration: 0.4,
+                                delay: 0.6,
+                            });
+                        },
+                    },
+                });
+
+                gsap.to(cta, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.5,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: cta,
+                        start: "top 95%",
+                        toggleActions: "play none none reverse",
+                    },
+                });
+            },
+        });
+    }
+</script>
