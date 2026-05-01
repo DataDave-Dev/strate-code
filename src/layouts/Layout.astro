@@ -39,6 +39,32 @@ import Footer from "../components/ui/Footer.astro";
                 lenis.raf(time * 1000);
             });
             gsap.ticker.lagSmoothing(0);
+
+            // Interceptar clicks en anchor links (#xxx) para usar Lenis con
+            // animación suave en lugar del salto nativo del navegador.
+            // Selector excluye los hrefs vacíos ("#") usados como placeholder.
+            const handleAnchorClick = (event: MouseEvent) => {
+                const target = event.target as HTMLElement | null;
+                if (!target) return;
+                const link = target.closest<HTMLAnchorElement>('a[href^="#"]');
+                if (!link) return;
+                const href = link.getAttribute("href");
+                if (!href || href === "#") return;
+                const el = document.querySelector(href);
+                if (!el) return;
+                event.preventDefault();
+                lenis.scrollTo(el as HTMLElement, {
+                    offset: 0,
+                    duration: 1.4,
+                    easing: (t: number) =>
+                        Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                });
+                // Cerrar el menú móvil si está abierto al navegar
+                if (window.innerWidth < 768) {
+                    document.documentElement.classList.remove("menu-open");
+                }
+            };
+            document.addEventListener("click", handleAnchorClick);
         </script>
     </body>
 </html>
