@@ -185,10 +185,11 @@ const stats = [
     const stats = document.querySelectorAll<HTMLElement>("[data-about-stat]");
     const cta = document.querySelector<HTMLElement>("[data-about-cta]");
 
-    gsap.set([eyebrow, heading, paragraph], { opacity: 0, y: 30 });
-    gsap.set(pillars, { opacity: 0, y: 40 });
-    gsap.set(stats, { opacity: 0, y: 20 });
-    gsap.set(cta, { opacity: 0, y: 30 });
+    // autoAlpha = opacity + visibility:hidden cuando es 0
+    gsap.set([eyebrow, heading, paragraph], { autoAlpha: 0, y: 30 });
+    gsap.set(pillars, { autoAlpha: 0, y: 40 });
+    gsap.set(stats, { autoAlpha: 0, y: 20 });
+    gsap.set(cta, { autoAlpha: 0, y: 30 });
 
     document.documentElement.classList.add("about-ready");
 
@@ -197,28 +198,35 @@ const stats = [
         scrollTrigger: {
             trigger: "#about",
             start: "top 75%",
+            refreshPriority: 1, // About después de Hero y Services
         },
     });
 
     intro
-        .to(eyebrow, { opacity: 1, y: 0, duration: 0.5 })
-        .to(heading, { opacity: 1, y: 0 }, "-=0.2")
-        .to(paragraph, { opacity: 1, y: 0 }, "-=0.5");
+        .to(eyebrow, { autoAlpha: 1, y: 0, duration: 0.5 })
+        .to(heading, { autoAlpha: 1, y: 0 }, "-=0.2")
+        .to(paragraph, { autoAlpha: 1, y: 0 }, "-=0.5");
 
+    // Stagger avanzado: desde el centro hacia afuera
     gsap.to(pillars, {
-        opacity: 1,
+        autoAlpha: 1,
         y: 0,
         duration: 0.8,
-        stagger: 0.12,
+        stagger: {
+            each: 0.12,
+            from: "center", // Desde el centro hacia los bordes
+            ease: "power2.inOut"
+        },
         ease: "power3.out",
         scrollTrigger: {
             trigger: pillars[0],
             start: "top 85%",
+            toggleActions: "play none none reverse",
         },
     });
 
     gsap.to(stats, {
-        opacity: 1,
+        autoAlpha: 1,
         y: 0,
         duration: 0.7,
         stagger: 0.1,
@@ -226,17 +234,19 @@ const stats = [
         scrollTrigger: {
             trigger: stats[0],
             start: "top 90%",
+            toggleActions: "play none none reverse",
         },
     });
 
     gsap.to(cta, {
-        opacity: 1,
+        autoAlpha: 1,
         y: 0,
         duration: 0.8,
         ease: "power3.out",
         scrollTrigger: {
             trigger: cta,
             start: "top 88%",
+            toggleActions: "play none none reverse",
         },
     });
 </script>

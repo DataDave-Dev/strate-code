@@ -93,13 +93,15 @@ import Logo from "../Icons/Logo.astro";
             .join(" ");
     }
 
-    gsap.set([subtitle, ...ctas], { opacity: 0, y: 24 });
-    gsap.set(logoSvg, { opacity: 0, scale: 0.4, rotate: -25 });
+    // autoAlpha = opacity + visibility:hidden cuando es 0 (mejor rendimiento)
+    gsap.set([subtitle, ...ctas], { autoAlpha: 0, y: 24 });
+    gsap.set(logoSvg, { autoAlpha: 0, scale: 0.4, rotate: -25 });
+    // Usar scale pequeño en lugar de blur para mejor rendimiento
     gsap.set("[data-hero-heading] .word > span", {
         yPercent: 110,
         rotate: 8,
-        filter: "blur(8px)",
-        opacity: 0,
+        scale: 0.85,
+        autoAlpha: 0,
     });
     document.documentElement.classList.add("hero-ready");
 
@@ -112,16 +114,16 @@ import Logo from "../Icons/Logo.astro";
         tl.to("[data-hero-heading] .word > span", {
             yPercent: 0,
             rotate: 0,
-            filter: "blur(0px)",
-            opacity: 1,
+            scale: 1,
+            autoAlpha: 1,
             duration: 1.1,
             stagger: 0.09,
-            ease: "expo.out",
+            ease: "power3.out", // Más suave y consistente que expo
         })
             .to(
                 subtitle,
                 {
-                    opacity: 1,
+                    autoAlpha: 1,
                     y: 0,
                     duration: 0.7,
                 },
@@ -130,7 +132,7 @@ import Logo from "../Icons/Logo.astro";
             .to(
                 ctas,
                 {
-                    opacity: 1,
+                    autoAlpha: 1,
                     y: 0,
                     duration: 0.6,
                     stagger: 0.1,
@@ -140,7 +142,7 @@ import Logo from "../Icons/Logo.astro";
             .to(
                 logoSvg,
                 {
-                    opacity: 1,
+                    autoAlpha: 1,
                     scale: 1,
                     rotate: 0,
                     duration: 1.1,
@@ -150,12 +152,22 @@ import Logo from "../Icons/Logo.astro";
             )
             .add(() => {
                 if (logoSvg) {
-                    gsap.to(logoSvg, {
+                    // Guardar referencia para cleanup
+                    const floatAnimation = gsap.to(logoSvg, {
                         y: -14,
                         duration: 2.6,
                         repeat: -1,
                         yoyo: true,
                         ease: "sine.inOut",
+                    });
+
+                    // Pausar cuando el hero sale del viewport para ahorrar recursos
+                    ScrollTrigger.create({
+                        trigger: "#hero",
+                        start: "top top",
+                        end: "bottom top",
+                        onLeave: () => floatAnimation.pause(),
+                        onEnterBack: () => floatAnimation.play(),
                     });
                 }
             });
@@ -169,6 +181,7 @@ import Logo from "../Icons/Logo.astro";
                     start: "top top",
                     end: "bottom top",
                     scrub: true,
+                    refreshPriority: -1, // Hero es la primera sección
                 },
             });
         }

@@ -13,26 +13,37 @@ import Logo from "../Icons/Logo.astro";
         </a>
 
         <!-- Navegación desktop -->
-        <nav class="hidden md:flex items-center gap-6 lg:gap-10 text-sm text-gray-600">
+        <nav class="hidden md:flex items-center gap-6 lg:gap-10 text-sm text-gray-600 relative">
+            <!-- Indicador hover estilo Tesla -->
+            <div
+                data-header-indicator
+                class="absolute bg-gray-400/10 rounded-lg opacity-0 pointer-events-none"
+                style="will-change: transform, width, height;"
+            ></div>
+
             <a
                 data-header-link
                 href="#about"
-                class="hover:text-black transition">Nosotros</a
+                class="relative hover:text-black transition-colors duration-300 px-3 py-2"
+                >Nosotros</a
             >
             <a
                 data-header-link
                 href="#services"
-                class="hover:text-black transition">Servicios</a
+                class="relative hover:text-black transition-colors duration-300 px-3 py-2"
+                >Servicios</a
             >
             <a
                 data-header-link
                 href="#projects"
-                class="hover:text-black transition">Proyectos</a
+                class="relative hover:text-black transition-colors duration-300 px-3 py-2"
+                >Proyectos</a
             >
             <a
                 data-header-link
                 href="#contact"
-                class="hover:text-black transition">Contacto</a
+                class="relative hover:text-black transition-colors duration-300 px-3 py-2"
+                >Contacto</a
             >
         </nav>
 
@@ -41,7 +52,7 @@ import Logo from "../Icons/Logo.astro";
             <a
                 data-header-cta
                 href="#contact"
-                class="border border-black px-4 lg:px-5 py-2 rounded-full text-sm hover:bg-black hover:text-white transition"
+                class="border border-black px-4 lg:px-5 py-2 rounded-full text-sm hover:bg-black hover:text-white transition-all duration-300"
             >
                 Empezar
             </a>
@@ -128,6 +139,7 @@ import Logo from "../Icons/Logo.astro";
     const links = document.querySelectorAll<HTMLElement>("[data-header-link]");
     const cta = document.querySelector<HTMLElement>("[data-header-cta]");
     const mobile = document.querySelector<HTMLElement>("[data-header-mobile]");
+    const indicator = document.querySelector<HTMLElement>("[data-header-indicator]");
 
     gsap.set(header, { y: -80, opacity: 0 });
     gsap.set(logo, { opacity: 0, scale: 0.6, rotate: -90 });
@@ -155,6 +167,46 @@ import Logo from "../Icons/Logo.astro";
             { opacity: 1, y: 0, duration: 0.5 },
             "-=0.3",
         );
+
+    // ========== INDICADOR HOVER ESTILO TESLA ==========
+    // Div gris translúcido que se mueve detrás de los links siguiendo el cursor
+    if (indicator && links.length > 0) {
+        links.forEach((link) => {
+            link.addEventListener("mouseenter", (e: MouseEvent) => {
+                const target = e.currentTarget as HTMLElement;
+                const rect = target.getBoundingClientRect();
+                const nav = target.parentElement;
+                const navRect = nav?.getBoundingClientRect();
+
+                if (navRect) {
+                    // Calcular posición relativa al nav
+                    const x = rect.left - navRect.left;
+                    const y = rect.top - navRect.top;
+
+                    // Animar el indicador al tamaño y posición del link
+                    gsap.to(indicator, {
+                        x: x,
+                        y: y,
+                        width: rect.width,
+                        height: rect.height,
+                        opacity: 1,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                }
+            });
+        });
+
+        // Ocultar cuando el mouse sale de la navegación
+        const nav = indicator.parentElement;
+        nav?.addEventListener("mouseleave", () => {
+            gsap.to(indicator, {
+                opacity: 0,
+                duration: 0.2,
+                ease: "power2.out"
+            });
+        });
+    }
 
     /**
      * Detecta si el viewport está cubriendo un Moment con sticky pin activo.

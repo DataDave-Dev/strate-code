@@ -24,3 +24,28 @@ body {
 body {
     overflow-x: clip;
 }
+
+/* ========== OPTIMIZACIONES DE RENDIMIENTO GSAP ========== */
+/* will-change solo en elementos que activamente se animan */
+[data-hero-heading] .word > span,
+[data-hero-logo] svg,
+[data-project-image],
+[data-bi-particle],
+[data-bi-bar] {
+    will-change: transform;
+}
+
+/* Forzar aceleración GPU en elementos que hacen parallax */
+[data-project-bignum],
+[data-project-info] {
+    transform: translate3d(0, 0, 0);
+}
+
+/* Suavizar animaciones en dispositivos con menos recursos */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

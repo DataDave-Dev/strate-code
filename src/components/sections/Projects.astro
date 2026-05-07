@@ -312,11 +312,9 @@ const statusLabels: Record<string, { label: string; classes: string }> = {
     :global(html:not(.projects-ready)) [data-projects-note] {
         opacity: 0;
     }
-    [data-project-cover] {
-        will-change: transform, opacity;
-    }
-    [data-project-line] {
-        will-change: transform, opacity;
+    /* Solo aplicar will-change en elementos que activamente se animan */
+    [data-project-image] {
+        will-change: transform;
     }
 </style>
 
@@ -338,8 +336,9 @@ const statusLabels: Record<string, { label: string; classes: string }> = {
     const cards = document.querySelectorAll<HTMLElement>("[data-project-card]");
     const note = document.querySelector<HTMLElement>("[data-projects-note]");
 
-    gsap.set([eyebrow, heading, paragraph], { opacity: 0, y: 30 });
-    gsap.set(note, { opacity: 0, y: 20 });
+    // autoAlpha = opacity + visibility:hidden cuando es 0
+    gsap.set([eyebrow, heading, paragraph], { autoAlpha: 0, y: 30 });
+    gsap.set(note, { autoAlpha: 0, y: 20 });
 
     document.documentElement.classList.add("projects-ready");
 
@@ -349,12 +348,13 @@ const statusLabels: Record<string, { label: string; classes: string }> = {
         scrollTrigger: {
             trigger: "#projects",
             start: "top 75%",
+            refreshPriority: 2, // Projects después de About
         },
     });
     intro
-        .to(eyebrow, { opacity: 1, y: 0, duration: 0.5 })
-        .to(heading, { opacity: 1, y: 0 }, "-=0.2")
-        .to(paragraph, { opacity: 1, y: 0 }, "-=0.5");
+        .to(eyebrow, { autoAlpha: 1, y: 0, duration: 0.5 })
+        .to(heading, { autoAlpha: 1, y: 0 }, "-=0.2")
+        .to(paragraph, { autoAlpha: 1, y: 0 }, "-=0.5");
 
     // ========== CARDS CINEMATOGRÁFICAS ==========
     const isDesktop = window.matchMedia("(min-width: 768px)").matches;
@@ -374,30 +374,31 @@ const statusLabels: Record<string, { label: string; classes: string }> = {
         const linesFromX = isDesktop ? (flip ? -60 : 60) : 0;
 
         // Estados iniciales
-        gsap.set(cover, { opacity: 0, x: coverFromX });
-        gsap.set(lines, { opacity: 0, x: linesFromX, y: 12 });
-        gsap.set(chips, { opacity: 0, scale: 0.7, y: 8 });
-        if (bignum) gsap.set(bignum, { opacity: 0 });
+        gsap.set(cover, { autoAlpha: 0, x: coverFromX });
+        gsap.set(lines, { autoAlpha: 0, x: linesFromX, y: 12 });
+        gsap.set(chips, { autoAlpha: 0, scale: 0.7, y: 8 });
+        if (bignum) gsap.set(bignum, { autoAlpha: 0 });
 
-        // ----- 1) ENTRADA: imagen + líneas con scrub al primer cuarto del viewport -----
+        // ----- 1) ENTRADA: imagen + líneas con scrub suave -----
         const entrance = gsap.timeline({
             scrollTrigger: {
                 trigger: card,
                 start: "top 90%",
                 end: "top 35%",
                 scrub: 0.8,
+                toggleActions: "play none none reverse",
             },
         });
 
         entrance.to(
             cover,
-            { opacity: 1, x: 0, ease: "power3.out", duration: 1 },
+            { autoAlpha: 1, x: 0, ease: "power3.out", duration: 1 },
             0,
         );
         entrance.to(
             lines,
             {
-                opacity: 1,
+                autoAlpha: 1,
                 x: 0,
                 y: 0,
                 ease: "power3.out",
@@ -410,7 +411,7 @@ const statusLabels: Record<string, { label: string; classes: string }> = {
         // ----- 2) BIG NUMBER: aparece + contra-parallax durante toda la card -----
         if (bignum && isDesktop) {
             gsap.to(bignum, {
-                opacity: 1,
+                autoAlpha: 1,
                 duration: 0.6,
                 ease: "power2.out",
                 scrollTrigger: {
@@ -421,35 +422,41 @@ const statusLabels: Record<string, { label: string; classes: string }> = {
             });
 
             // Contra-parallax: el número se mueve al revés del scroll
+            // Function-based values para responsive (más movimiento en desktop)
             gsap.fromTo(
                 bignum,
-                { yPercent: 30 },
                 {
-                    yPercent: -30,
+                    yPercent: () => window.innerWidth < 1024 ? 20 : 30
+                },
+                {
+                    yPercent: () => window.innerWidth < 1024 ? -20 : -30,
                     ease: "none",
                     scrollTrigger: {
                         trigger: card,
                         start: "top bottom",
                         end: "bottom top",
                         scrub: true,
+                        invalidateOnRefresh: true, // Recalcular valores dinámicos
                     },
                 },
             );
         }
 
         // ----- 3) ZOOM-IN sutil de la imagen mientras la card está en viewport -----
+        // Function-based value: zoom más sutil en tablets
         if (image && isDesktop) {
             gsap.fromTo(
                 image,
                 { scale: 1 },
                 {
-                    scale: 1.08,
+                    scale: () => window.innerWidth < 1024 ? 1.04 : 1.08,
                     ease: "none",
                     scrollTrigger: {
                         trigger: card,
                         start: "top bottom",
                         end: "bottom top",
                         scrub: true,
+                        invalidateOnRefresh: true, // Recalcular en resize
                     },
                 },
             );
@@ -469,6 +476,7 @@ const statusLabels: Record<string, { label: string; classes: string }> = {
                         start: "top bottom",
                         end: "bottom top",
                         scrub: true,
+                        invalidateOnRefresh: true, // Recalcular en resize
                     },
                 },
             );
@@ -477,7 +485,7 @@ const statusLabels: Record<string, { label: string; classes: string }> = {
         // ----- 5) CHIPS de stack: bounce con stagger cuando entran -----
         if (chips.length) {
             gsap.to(chips, {
-                opacity: 1,
+                autoAlpha: 1,
                 scale: 1,
                 y: 0,
                 duration: 0.5,
@@ -486,6 +494,7 @@ const statusLabels: Record<string, { label: string; classes: string }> = {
                 scrollTrigger: {
                     trigger: chips[0],
                     start: "top 88%",
+                    toggleActions: "play none none reverse",
                 },
             });
         }
@@ -493,13 +502,14 @@ const statusLabels: Record<string, { label: string; classes: string }> = {
 
     // ========== NOTA AL PIE ==========
     gsap.to(note, {
-        opacity: 1,
+        autoAlpha: 1,
         y: 0,
         duration: 0.7,
         ease: "power3.out",
         scrollTrigger: {
             trigger: note,
             start: "top 90%",
+            toggleActions: "play none none reverse",
         },
     });
 </script>

@@ -1018,9 +1018,10 @@ const services = [
         "[data-services-divider]",
     );
 
-    gsap.set([eyebrow, heading, paragraph], { opacity: 0, y: 30 });
-    gsap.set(note, { opacity: 0, y: 20 });
-    gsap.set(divider, { opacity: 0, y: 20 });
+    // autoAlpha = opacity + visibility:hidden cuando es 0
+    gsap.set([eyebrow, heading, paragraph], { autoAlpha: 0, y: 30 });
+    gsap.set(note, { autoAlpha: 0, y: 20 });
+    gsap.set(divider, { autoAlpha: 0, y: 20 });
 
     document.documentElement.classList.add("services-ready");
 
@@ -1029,16 +1030,18 @@ const services = [
         scrollTrigger: {
             trigger: "#services",
             start: "top 75%",
+            refreshPriority: 0, // Services después de Hero
         },
     });
 
     intro
-        .to(eyebrow, { opacity: 1, y: 0, duration: 0.5 })
-        .to(heading, { opacity: 1, y: 0 }, "-=0.2")
-        .to(paragraph, { opacity: 1, y: 0 }, "-=0.5");
+        .to(eyebrow, { autoAlpha: 1, y: 0, duration: 0.5 })
+        .to(heading, { autoAlpha: 1, y: 0 }, "-=0.2")
+        .to(paragraph, { autoAlpha: 1, y: 0 }, "-=0.5");
 
-    // ========== CARDS DE SERVICIOS — entrada cinematográfica ==========
-    items.forEach((item, idx) => {
+    // ========== CARDS DE SERVICIOS — entrada cinematográfica con BATCH ==========
+    // Preparar estados iniciales de TODAS las cards primero
+    items.forEach((item) => {
         const meta = item.querySelector<HTMLElement>("[data-services-meta]");
         const icon = item.querySelector<HTMLElement>("[data-services-icon]");
         const title = item.querySelector<HTMLElement>("[data-services-title]");
@@ -1052,101 +1055,126 @@ const services = [
 
         // Estados iniciales: la card flota, los elementos internos están escondidos
         gsap.set(item, {
-            opacity: 0,
+            autoAlpha: 0,
             y: 60,
             scale: 0.94,
-            filter: "blur(8px)",
         });
-        gsap.set([meta, icon, title, desc], { opacity: 0, y: 16 });
-        gsap.set(chips, { opacity: 0, scale: 0.6, y: 10 });
+        gsap.set([meta, icon, title, desc], { autoAlpha: 0, y: 16 });
+        gsap.set(chips, { autoAlpha: 0, scale: 0.6, y: 10 });
+    });
 
-        // Timeline por card: card entra → elementos internos en cascada
-        const cardTl = gsap.timeline({
-            scrollTrigger: {
-                trigger: item,
-                start: "top 88%",
-                toggleActions: "play none none reverse",
-            },
-        });
+    // Usar ScrollTrigger.batch() para coordinar la entrada de múltiples cards
+    // que entran al viewport al mismo tiempo (mejor performance + código más limpio)
+    ScrollTrigger.batch("[data-services-item]", {
+        interval: 0.1, // agrupar callbacks dentro de 0.1s
+        batchMax: 3,   // máximo 3 cards por batch (responsive: 2 cols mobile, 3 desktop)
+        // markers: true, // Descomentar para debug visual de los triggers
+        onEnter: (batch) => {
+            // Animar cada card del batch con stagger
+            batch.forEach((item, idx) => {
+                const meta = item.querySelector<HTMLElement>("[data-services-meta]");
+                const icon = item.querySelector<HTMLElement>("[data-services-icon]");
+                const title = item.querySelector<HTMLElement>("[data-services-title]");
+                const desc = item.querySelector<HTMLElement>("[data-services-desc]");
+                const chipsContainer = item.querySelector<HTMLElement>(
+                    "[data-services-chips]",
+                );
+                const chips = chipsContainer
+                    ? chipsContainer.querySelectorAll<HTMLElement>("li")
+                    : [];
 
-        // 1) Card aterriza con un pequeño retraso por índice (cascada visual)
-        cardTl.to(
-            item,
-            {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                filter: "blur(0px)",
-                duration: 0.9,
-                ease: "power3.out",
-            },
-            idx * 0.08,
-        );
+                // Timeline por card: card entra → elementos internos en cascada
+                const cardTl = gsap.timeline();
 
-        // 2) Meta (número + flecha) aparece primero, sutil
-        cardTl.to(
-            meta,
-            { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
-            "-=0.55",
-        );
+                // 1) Card aterriza con stagger por índice dentro del batch
+                cardTl.to(
+                    item,
+                    {
+                        autoAlpha: 1,
+                        y: 0,
+                        scale: 1,
+                        duration: 0.9,
+                        ease: "power3.out",
+                    },
+                    idx * 0.08,
+                );
 
-        // 3) Ícono entra con bounce — el "corazón" visual de cada servicio
-        cardTl.to(
-            icon,
-            {
-                opacity: 1,
-                y: 0,
-                duration: 0.6,
-                ease: "back.out(1.6)",
-            },
-            "-=0.4",
-        );
+                // 2) Meta (número + flecha) aparece primero
+                cardTl.to(
+                    meta,
+                    { autoAlpha: 1, y: 0, duration: 0.4, ease: "power2.out" },
+                    "-=0.55",
+                );
 
-        // 4) Título sube con suavidad
-        cardTl.to(
-            title,
-            { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
-            "-=0.35",
-        );
+                // 3) Ícono entra con bounce
+                cardTl.to(
+                    icon,
+                    {
+                        autoAlpha: 1,
+                        y: 0,
+                        duration: 0.6,
+                        ease: "back.out(1.6)",
+                    },
+                    "-=0.4",
+                );
 
-        // 5) Descripción entra después
-        cardTl.to(
-            desc,
-            { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
-            "-=0.3",
-        );
+                // 4) Título sube
+                cardTl.to(
+                    title,
+                    { autoAlpha: 1, y: 0, duration: 0.5, ease: "power3.out" },
+                    "-=0.35",
+                );
 
-        // 6) Chips con bounce stagger — el detalle final
-        if (chips.length) {
-            cardTl.to(
-                chips,
-                {
-                    opacity: 1,
-                    scale: 1,
-                    y: 0,
-                    duration: 0.45,
-                    stagger: 0.06,
-                    ease: "back.out(2)",
-                },
-                "-=0.25",
-            );
-        }
+                // 5) Descripción entra
+                cardTl.to(
+                    desc,
+                    { autoAlpha: 1, y: 0, duration: 0.5, ease: "power2.out" },
+                    "-=0.3",
+                );
 
-        // 7) Auto-preview del ícono: cuando termina la entrada, hacemos
-        // un "flash" del estado hover por ~1.4s para que el visitante
-        // descubra que es interactivo
-        cardTl.add(() => {
-            item.classList.add("is-previewing");
-            window.setTimeout(() => {
-                item.classList.remove("is-previewing");
-            }, 1400);
-        }, "+=0.1");
+                // 6) Chips con bounce stagger
+                if (chips.length) {
+                    cardTl.to(
+                        chips,
+                        {
+                            autoAlpha: 1,
+                            scale: 1,
+                            y: 0,
+                            duration: 0.45,
+                            stagger: 0.06,
+                            ease: "back.out(2)",
+                        },
+                        "-=0.25",
+                    );
+                }
+
+                // 7) Auto-preview del ícono
+                cardTl.add(() => {
+                    item.classList.add("is-previewing");
+                    window.setTimeout(() => {
+                        item.classList.remove("is-previewing");
+                    }, 1400);
+                }, "+=0.1");
+            });
+        },
+        onLeaveBack: (batch) => {
+            // Reversa: volver al estado inicial cuando hacen scroll hacia arriba
+            gsap.to(batch, {
+                autoAlpha: 0,
+                y: 60,
+                scale: 0.94,
+                duration: 0.4,
+                overwrite: true,
+            });
+        },
+        start: "top 88%",
+        end: "bottom 20%",
     });
 
     // ========== SEPARADOR "EN DETALLE" ==========
     if (divider) {
         gsap.to(divider, {
-            opacity: 1,
+            autoAlpha: 1,
             y: 0,
             duration: 0.7,
             ease: "power3.out",
@@ -1159,7 +1187,7 @@ const services = [
 
     // ========== NOTA AL PIE (después de los Moments) ==========
     gsap.to(note, {
-        opacity: 1,
+        autoAlpha: 1,
         y: 0,
         duration: 0.7,
         ease: "power3.out",

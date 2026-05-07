@@ -27,6 +27,32 @@ import Footer from "../components/ui/Footer.astro";
 
             gsap.registerPlugin(ScrollTrigger);
 
+            // ========== CONFIGURACIÓN GLOBAL DE GSAP ==========
+            // Defaults del proyecto para consistencia
+            gsap.defaults({
+                duration: 0.6,
+                ease: "power2.out",
+                overwrite: "auto", // Previene conflictos automáticamente
+            });
+
+            // Accesibilidad: respetar prefers-reduced-motion
+            // Los usuarios con trastornos vestibulares verán animaciones instantáneas
+            const mm = gsap.matchMedia();
+            mm.add(
+                {
+                    reduceMotion: "(prefers-reduced-motion: reduce)",
+                    normalMotion: "(prefers-reduced-motion: no-preference)",
+                },
+                (context) => {
+                    const { reduceMotion } = context.conditions;
+
+                    if (reduceMotion) {
+                        // Duración casi instantánea para accesibilidad
+                        gsap.defaults({ duration: 0.01 });
+                    }
+                },
+            );
+
             const lenis = new Lenis({
                 duration: 1.15,
                 easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),

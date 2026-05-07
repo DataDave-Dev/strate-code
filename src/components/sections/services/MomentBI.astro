@@ -303,7 +303,7 @@ const bars = [55, 70, 45, 80, 60, 92, 75, 100];
                                     data-bi-bar
                                     data-bar-target={h}
                                     class="flex-1 bg-white/20 rounded-sm origin-bottom"
-                                    style="height: 0%"
+                                    style={`height: ${h}%; transform: scaleY(0);`}
                                 />
                             ))
                         }
@@ -563,7 +563,7 @@ const bars = [55, 70, 45, 80, 60, 92, 75, 100];
                 },
                 duration: 2.4,
                 repeat: -1,
-                ease: "power1.inOut",
+                ease: "power2.inOut", // Más definido que power1
                 opacity: 1,
             });
         };
@@ -578,10 +578,16 @@ const bars = [55, 70, 45, 80, 60, 92, 75, 100];
         } else {
             window.addEventListener("load", initPaths);
         }
+
+        // Debounce resize para mejor rendimiento
+        let resizeTimer: ReturnType<typeof setTimeout>;
         window.addEventListener("resize", () => {
-            recomputePaths();
-            recomputeTrendline();
-            ScrollTrigger.refresh();
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                recomputePaths();
+                recomputeTrendline();
+                ScrollTrigger.refresh();
+            }, 150);
         });
 
         ScrollTrigger.matchMedia({
@@ -593,6 +599,14 @@ const bars = [55, 70, 45, 80, 60, 92, 75, 100];
                         end: "bottom bottom",
                         scrub: 1,
                         invalidateOnRefresh: true,
+                        // markers: true, // Descomentar para debug visual
+                        // Snap a los puntos clave de la animación para mejor control
+                        snap: {
+                            snapTo: 1 / 7, // 7 pasos principales en la timeline
+                            duration: { min: 0.2, max: 0.6 },
+                            delay: 0.1,
+                            ease: "power2.inOut", // Más definido
+                        },
                     },
                 });
 
@@ -656,12 +670,12 @@ const bars = [55, 70, 45, 80, 60, 92, 75, 100];
                     2.2,
                 );
 
+                // Animar scaleY en lugar de height para mejor rendimiento (GPU)
                 bars.forEach((bar, i) => {
-                    const target = bar.dataset.barTarget ?? "50";
                     tl.to(
                         bar,
                         {
-                            height: `${target}%`,
+                            scaleY: 1,
                             duration: 0.5,
                             ease: "power2.out",
                         },
@@ -802,10 +816,10 @@ const bars = [55, 70, 45, 80, 60, 92, 75, 100];
                                         trend.textContent = `↑ ${t.v.toFixed(1)}% vs. trimestre anterior`;
                                 },
                             });
+                            // Animar scaleY en lugar de height para mejor rendimiento (GPU)
                             bars.forEach((bar) => {
-                                const target = bar.dataset.barTarget ?? "50";
                                 gsap.to(bar, {
-                                    height: `${target}%`,
+                                    scaleY: 1,
                                     duration: 0.8,
                                     ease: "power2.out",
                                     delay: 0.3,
