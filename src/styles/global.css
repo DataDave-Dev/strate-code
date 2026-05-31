@@ -1,9 +1,25 @@
 @import "tailwindcss";
 @import "@fontsource-variable/outfit/wght.css";
 
+/* ========== TOKENS DE DISEÑO (dark) ========== */
+/* Tailwind v4: cada token genera utilidades (bg-bg, text-fg, border-border…) */
+@theme {
+    --color-bg: #0a0a0c; /* base de la página (negro neutro) */
+    --color-surface: #131317; /* tarjetas */
+    --color-surface-2: #1c1c21; /* tarjetas elevadas / hover */
+    --color-fg: #f5f5f7; /* texto principal */
+    --color-fg-muted: #9aa0ac; /* texto secundario */
+    --color-fg-faint: #5b616e; /* texto terciario / metadatos */
+    --color-border: rgba(255, 255, 255, 0.08);
+    --color-border-strong: rgba(255, 255, 255, 0.16);
+    --color-accent: #c8ccd4; /* platino (acento único) */
+    --color-accent-2: #888e99; /* acero apagado (matiz secundario) */
+}
+
 html,
 body {
-    background-color: #f0f0f0;
+    background-color: var(--color-bg);
+    color: var(--color-fg);
     font-family:
         "Outfit Variable",
         system-ui,
@@ -25,10 +41,133 @@ body {
     overflow-x: clip;
 }
 
+/* ========== FONDO AURORA ==========
+   Tres capas fijas detrás del contenido (todas position:fixed +
+   pointer-events:none, así no interfieren con ScrollTrigger/Lenis):
+     body::before → base profunda + viñeta (estática, da el marco)
+     html::before → aurora: glows neutros (plata) en deriva lenta
+     body::after  → grano fractal que elimina el banding y da textura
+*/
+
+/* Capa base — degradado profundo + viñeta para enmarcar el contenido. */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+    pointer-events: none;
+    background:
+        radial-gradient(
+            125% 125% at 50% 35%,
+            transparent 48%,
+            rgba(4, 5, 9, 0.6) 100%
+        ),
+        radial-gradient(circle at 50% 38%, #101013 0%, #050506 100%);
+}
+
+/* Capa aurora — los radiales de acento que se mueven lento. inset negativo
+   para que la deriva no descubra los bordes del viewport. */
+html::before {
+    content: "";
+    position: fixed;
+    inset: -25%;
+    z-index: -2;
+    pointer-events: none;
+    background:
+        radial-gradient(
+            42vw 42vw at 18% 12%,
+            rgba(200, 206, 218, 0.08),
+            transparent 60%
+        ),
+        radial-gradient(
+            46vw 46vw at 84% 16%,
+            rgba(170, 178, 192, 0.06),
+            transparent 58%
+        ),
+        radial-gradient(
+            38vw 38vw at 72% 72%,
+            rgba(200, 206, 218, 0.05),
+            transparent 55%
+        ),
+        radial-gradient(
+            52vw 52vw at 42% 108%,
+            rgba(170, 178, 192, 0.05),
+            transparent 60%
+        );
+    animation: auroraDrift 30s ease-in-out infinite alternate;
+}
+
+/* Capa grano — mata el banding de los degradados y da textura sutil. */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+}
+
+@keyframes auroraDrift {
+    0% {
+        transform: translate3d(-1.5%, -1%, 0) scale(1.05) rotate(0deg);
+    }
+    100% {
+        transform: translate3d(1.5%, 1.5%, 0) scale(1.12) rotate(2deg);
+    }
+}
+
+/* ========== UTILIDADES PROPIAS ========== */
+@layer components {
+    /* Tarjeta de vidrio: superficie translúcida + blur + borde sutil */
+    .glass {
+        background-color: color-mix(
+            in oklab,
+            var(--color-surface) 72%,
+            transparent
+        );
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--color-border);
+    }
+
+    /* Texto con gradiente plata→acero */
+    .gradient-accent {
+        background-image: linear-gradient(
+            100deg,
+            var(--color-accent) 0%,
+            var(--color-accent-2) 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    /* Halo de acento alrededor de un elemento (botones / cards activas) */
+    .glow-ring {
+        box-shadow:
+            0 0 0 1px color-mix(in oklab, var(--color-accent) 40%, transparent),
+            0 12px 40px -12px color-mix(
+                    in oklab,
+                    var(--color-accent) 65%,
+                    transparent
+                );
+    }
+
+    /* Brillo de texto sutil para titulares destacados */
+    .text-glow {
+        text-shadow:
+            0 0 24px color-mix(in oklab, var(--color-accent) 35%, transparent),
+            0 0 60px color-mix(in oklab, var(--color-accent-2) 18%, transparent);
+    }
+}
+
 /* ========== OPTIMIZACIONES DE RENDIMIENTO GSAP ========== */
 /* will-change solo en elementos que activamente se animan */
 [data-hero-heading] .word > span,
 [data-hero-logo] svg,
+[data-hero-canvas],
 [data-project-image],
 [data-bi-particle],
 [data-bi-bar] {
@@ -47,5 +186,10 @@ body {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
+    }
+    /* La aurora se queda, pero quieta (sin deriva) para respetar
+       prefers-reduced-motion. */
+    html::before {
+        animation: none !important;
     }
 }

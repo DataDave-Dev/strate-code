@@ -1,0 +1,394 @@
+---
+import Logo from "../Icons/Logo.astro";
+
+interface Props {
+    class?: string;
+}
+const { class: className = "" } = Astro.props;
+---
+
+<!--
+  Logo 3D del hero.
+  - Isla vanilla (sin React): three.js se carga de forma diferida con import().
+  - El logo se extruye de los mismos paths del SVG (Logo.astro).
+  - Gira con ScrollTrigger (scrub) + parallax con el mouse + flotación idle.
+  - Fallback: si no hay WebGL, prefiere-reduced-motion, móvil o save-data,
+    se queda el SVG (data-hero-fallback) con una flotación CSS suave.
+-->
+<div
+    data-hero-canvas
+    class={`relative aspect-square w-full max-w-[18rem] sm:max-w-[22rem] md:max-w-[26rem] lg:max-w-[30rem] mx-auto ${className}`}
+>
+    <canvas
+        data-hero-gl
+        class="absolute inset-0 h-full w-full opacity-0 transition-opacity duration-700"
+    ></canvas>
+
+    <div
+        data-hero-fallback
+        class="absolute inset-0 flex items-center justify-center"
+    >
+        <Logo class="hero-fallback-logo w-3/5 h-3/5 text-accent" />
+    </div>
+
+    <!-- Sin JS: revelamos el SVG (no habrá 3D que lo reemplace) -->
+    <noscript>
+        <style>
+            [data-hero-fallback] {
+                opacity: 1 !important;
+                visibility: visible !important;
+            }
+        </style>
+    </noscript>
+</div>
+
+<style>
+    /* Flotación suave del SVG de respaldo (solo cuando el canvas no toma el control) */
+    @keyframes heroFallbackFloat {
+        0%,
+        100% {
+            transform: translateY(0) rotate(0deg);
+        }
+        50% {
+            transform: translateY(-12px) rotate(2deg);
+        }
+    }
+    /* El SVG plano está OCULTO por defecto: así, cuando WebGL va a renderizar,
+       nunca se ve el logo plano antes del 3D. Solo aparece con .show-fallback
+       (sin WebGL / móvil / reduce-motion / si la carga 3D falla) o sin JS. */
+    [data-hero-fallback] {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.5s ease;
+    }
+    [data-hero-canvas].show-fallback [data-hero-fallback] {
+        opacity: 1;
+        visibility: visible;
+    }
+    [data-hero-canvas].show-fallback .hero-fallback-logo {
+        animation: heroFallbackFloat 4.5s ease-in-out infinite;
+        filter: drop-shadow(0 0 26px rgba(200, 206, 218, 0.35))
+            drop-shadow(0 0 56px rgba(170, 178, 192, 0.18));
+    }
+
+    /* Mientras el 3D carga el área queda vacía (transparente): nada de logo
+       plano ni glow. El canvas 3D entra con su propio fade al estar listo. */
+    [data-hero-canvas].gl-active [data-hero-gl] {
+        opacity: 1;
+    }
+</style>
+
+<script>
+    const container =
+        document.querySelector<HTMLElement>("[data-hero-canvas]");
+    const canvas = container?.querySelector<HTMLCanvasElement>(
+        "[data-hero-gl]",
+    );
+
+    // ----- Gating: ¿debemos cargar WebGL? -----
+    const prefersMotion = window.matchMedia(
+        "(prefers-reduced-motion: no-preference)",
+    ).matches;
+    const wideEnough = window.matchMedia("(min-width: 768px)").matches;
+    const saveData =
+        (navigator as any).connection?.saveData === true;
+
+    const supportsWebGL = (() => {
+        try {
+            const c = document.createElement("canvas");
+            return !!(
+                window.WebGLRenderingContext &&
+                (c.getContext("webgl2") || c.getContext("webgl"))
+            );
+        } catch {
+            return false;
+        }
+    })();
+
+    const shouldRender =
+        !!container &&
+        !!canvas &&
+        prefersMotion &&
+        wideEnough &&
+        !saveData &&
+        supportsWebGL;
+
+    if (shouldRender) {
+        // Cargar perezosamente. El área queda vacía hasta que el 3D está listo:
+        // initHeroLogo3D añade .gl-active y el canvas entra con fade — nunca se
+        // ve el logo plano primero. Si la carga del 3D falla, caemos al SVG.
+        const boot = () =>
+            initHeroLogo3D(container!, canvas!).catch(() => {
+                container!.classList.add("show-fallback");
+            });
+        if ("requestIdleCallback" in window) {
+            (window as any).requestIdleCallback(boot, { timeout: 600 });
+        } else {
+            setTimeout(boot, 200);
+        }
+    } else {
+        // Sin WebGL / móvil / reduce-motion: el SVG es la experiencia final.
+        container?.classList.add("show-fallback");
+    }
+
+    async function initHeroLogo3D(
+        root: HTMLElement,
+        glCanvas: HTMLCanvasElement,
+    ) {
+        const [
+            THREE,
+            { SVGLoader },
+            { RoomEnvironment },
+            { EffectComposer },
+            { RenderPass },
+            { UnrealBloomPass },
+            { OutputPass },
+            { gsap },
+            { ScrollTrigger },
+        ] = await Promise.all([
+            import("three"),
+            import("three/examples/jsm/loaders/SVGLoader.js"),
+            import("three/examples/jsm/environments/RoomEnvironment.js"),
+            import("three/examples/jsm/postprocessing/EffectComposer.js"),
+            import("three/examples/jsm/postprocessing/RenderPass.js"),
+            import("three/examples/jsm/postprocessing/UnrealBloomPass.js"),
+            import("three/examples/jsm/postprocessing/OutputPass.js"),
+            import("gsap"),
+            import("gsap/ScrollTrigger"),
+        ]);
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Paths reales del logo (ver Logo.astro). El <g transform> recentra
+        // como en el SVG original.
+        const SVG_MARKUP = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 517.06 554.38">
+  <g transform="translate(-141.47 -22.81)">
+    <path d="M464.89,22.81H612.12c2,0,3.92,0,5.88.07a11.83,11.83,0,0,1,2.89.5,2,2,0,0,1,1.24,2.72,15.42,15.42,0,0,1-2.08,3.12q-5.87,6.89-11.82,13.68c-16.53,18.88-33.11,37.7-49.57,56.64a12.49,12.49,0,0,1-10.21,4.77c-8.83-.11-17.67,0-26.5,0l-188,0a146.43,146.43,0,0,0-17.64.63A83.9,83.9,0,0,0,275.73,121a137,137,0,0,0-15.94,14.31c-5.61,5.68-11.06,11.53-16.63,17.25a77.54,77.54,0,0,0-17.77,29.7A96.21,96.21,0,0,0,222.1,232a109.22,109.22,0,0,0,17.69,41.9,141.29,141.29,0,0,0,31.63,32.88,77.88,77.88,0,0,0,38.87,15.73,107.18,107.18,0,0,0,11.73.82q90,.11,180,.1a47.3,47.3,0,0,1,5.45.32c5.18.59,5.8,4.7,3.23,7.78-1.8,2.15-3.44,4.43-5.18,6.63q-17.9,22.57-35.81,45.13c-3.57,4.5-7.22,8.95-10.72,13.5a9.24,9.24,0,0,1-7.19,3.75c-1.12.06-2.24.08-3.36.08q-63.94,0-127.88,0a156.69,156.69,0,0,1-44-6.32,183.38,183.38,0,0,1-58-28.93,193.18,193.18,0,0,1-37.92-36.77,190.76,190.76,0,0,1-23.41-38.78,178.81,178.81,0,0,1-15.37-62.55,188.52,188.52,0,0,1,42.9-133.26,212.39,212.39,0,0,1,42-39.17,181.25,181.25,0,0,1,40.82-21.51,162,162,0,0,1,57.2-10.52q70-.13,140.08,0Z"/>
+    <path d="M339.88,577.19H186.76c-1.26,0-2.53.05-3.78-.07-2.51-.23-3.21-1.73-1.69-3.65,1.82-2.31,3.71-4.57,5.61-6.82q27.87-32.88,55.71-65.78a9.21,9.21,0,0,1,7.26-3.56c1.82,0,3.64,0,5.47,0q113.78,0,227.57,0c12,0,23.27-3.22,33.91-8.67a83.23,83.23,0,0,0,23.79-17.77c5.87-6.4,11.91-12.66,17.62-19.2a87.2,87.2,0,0,0,21.24-45.89,101.36,101.36,0,0,0-.11-30.17,99.6,99.6,0,0,0-16.24-40.67,124.81,124.81,0,0,0-21.36-23.65,66.42,66.42,0,0,0-39.64-16.58c-1.53-.12-3.08-.1-4.62-.1l-186.35,0c-5.61,0-11.22-.05-16.83,0a11.9,11.9,0,0,1-5.71-1.12c-2.73-1.42-3.13-4-1.58-5.93,2.6-3.3,5.12-6.67,7.8-9.91q24.65-29.82,49.36-59.58c.54-.65,1.1-1.28,1.64-1.93a7.45,7.45,0,0,1,5.07-2.68,29,29,0,0,1,3.36-.15q70.25-.19,140.5-.37a154.82,154.82,0,0,1,36.71,4,151.06,151.06,0,0,1,31.89,11.74,169.87,169.87,0,0,1,63.42,54.57,168.17,168.17,0,0,1,21.44,41.78c7.14,20.18,10.21,41,10.31,62.35a203.49,203.49,0,0,1-2.63,34.34,182.2,182.2,0,0,1-16.5,51.48,201.33,201.33,0,0,1-33.25,48.33,180,180,0,0,1-39.37,32,171.61,171.61,0,0,1-33.86,15.74,153.89,153.89,0,0,1-48.75,8.07H339.88Z"/>
+  </g>
+</svg>`;
+
+        // ----- Escena -----
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+        camera.position.set(0, 0, 6.2);
+
+        const renderer = new THREE.WebGLRenderer({
+            canvas: glCanvas,
+            antialias: true,
+            alpha: true,
+            powerPreference: "high-performance",
+        });
+        renderer.setClearColor(0x000000, 0);
+        // Pipeline de color de alta calidad (OutputPass aplica el tone mapping).
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.05;
+        const DPR = Math.min(window.devicePixelRatio || 1, 2);
+        renderer.setPixelRatio(DPR);
+
+        // Entorno para reflejos metálicos (sin assets externos)
+        const pmrem = new THREE.PMREMGenerator(renderer);
+        const envTex = pmrem.fromScene(
+            new RoomEnvironment(),
+            0.04,
+        ).texture;
+        scene.environment = envTex;
+
+        // ----- Construir geometría desde el SVG -----
+        const loader = new SVGLoader();
+        const svgData = loader.parse(SVG_MARKUP);
+
+        // Cromo OSCURO con glow de acento — la estructura que gustaba. El cuerpo
+        // oscuro da contraste y el bloom solo florece en los reflejos/bordes
+        // (no en todo el cuerpo, por eso no hace "nube"). emissive acero frío en
+        // vez del violeta original, para mantener el monocromo pero con vida.
+        const material = new THREE.MeshStandardMaterial({
+            color: 0x0e1018,
+            metalness: 1.0,
+            roughness: 0.28,
+            emissive: 0x1e2433,
+            emissiveIntensity: 0.5,
+            side: THREE.DoubleSide,
+            envMapIntensity: 1.3,
+        });
+
+        const logoGroup = new THREE.Group();
+        svgData.paths.forEach((path: any) => {
+            const shapes = SVGLoader.createShapes(path);
+            shapes.forEach((shape: any) => {
+                // Teselado alto: curvas y biseles suaves, sin facetas visibles.
+                const geometry = new THREE.ExtrudeGeometry(shape, {
+                    depth: 42,
+                    bevelEnabled: true,
+                    bevelThickness: 8,
+                    bevelSize: 5,
+                    bevelOffset: 0,
+                    bevelSegments: 12,
+                    curveSegments: 72,
+                });
+                geometry.computeVertexNormals();
+                const mesh = new THREE.Mesh(geometry, material);
+                logoGroup.add(mesh);
+            });
+        });
+
+        // Centrar y normalizar tamaño + flip Y (SVG tiene el eje Y invertido)
+        logoGroup.scale.y *= -1;
+        const box = new THREE.Box3().setFromObject(logoGroup);
+        const center = new THREE.Vector3();
+        box.getCenter(center);
+        const size = new THREE.Vector3();
+        box.getSize(size);
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const targetSize = 3.1;
+        const scaleFactor = targetSize / maxDim;
+
+        // pivot externo: recentra el grupo y luego rota el pivot
+        const pivot = new THREE.Group();
+        logoGroup.position.sub(center);
+        pivot.add(logoGroup);
+        pivot.scale.setScalar(scaleFactor);
+        scene.add(pivot);
+
+        // ----- Luces de acento neutras (realces blancos sobre el metal oscuro,
+        // mismas intensidades que en la versión que gustaba) -----
+        const keyAccent = new THREE.PointLight(0xffffff, 26, 60);
+        keyAccent.position.set(-5, 4, 6);
+        const fillAccent = new THREE.PointLight(0xcdd3dd, 22, 60);
+        fillAccent.position.set(6, -3, 5);
+        const key = new THREE.DirectionalLight(0xffffff, 1.1);
+        key.position.set(3, 6, 8);
+        scene.add(
+            keyAccent,
+            fillAccent,
+            key,
+            new THREE.AmbientLight(0x404a6b, 0.5),
+        );
+
+        // ----- Post-proceso (bloom) -----
+        // El EffectComposer renderiza a un render target propio; el antialias
+        // del canvas NO se aplica ahí. Usamos un render target multisampleado
+        // (MSAA) en HalfFloat para bordes nítidos y bloom sin banding.
+        const maxSamples = renderer.capabilities.maxSamples ?? 0;
+        const drawSize = renderer.getDrawingBufferSize(new THREE.Vector2());
+        const composerTarget = new THREE.WebGLRenderTarget(
+            drawSize.width,
+            drawSize.height,
+            {
+                type: THREE.HalfFloatType,
+                samples: Math.min(8, maxSamples),
+            },
+        );
+        const composer = new EffectComposer(renderer, composerTarget);
+        composer.setPixelRatio(DPR);
+        composer.addPass(new RenderPass(scene, camera));
+        const bloom = new UnrealBloomPass(
+            new THREE.Vector2(1, 1),
+            0.5, // strength (glow en bordes; el cuerpo oscuro evita la nube)
+            0.5, // radius
+            0.82, // threshold
+        );
+        composer.addPass(bloom);
+        composer.addPass(new OutputPass());
+
+        // ----- Tamaño / resize -----
+        const resize = () => {
+            const rect = root.getBoundingClientRect();
+            const w = Math.max(1, rect.width);
+            const h = Math.max(1, rect.height);
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+            renderer.setSize(w, h, false);
+            composer.setSize(w, h);
+        };
+        resize();
+        window.addEventListener("resize", resize);
+
+        // ----- Interacción -----
+        // Rotación objetivo (mouse) + rotación de scroll (ScrollTrigger)
+        const mouseTarget = { x: 0, y: 0 };
+        const onPointer = (e: PointerEvent) => {
+            const nx = (e.clientX / window.innerWidth) * 2 - 1;
+            const ny = (e.clientY / window.innerHeight) * 2 - 1;
+            mouseTarget.x = ny * 0.25;
+            mouseTarget.y = nx * 0.4;
+        };
+        window.addEventListener("pointermove", onPointer, { passive: true });
+
+        const scroll = { rot: 0 };
+        const scrollTrigger = ScrollTrigger.create({
+            trigger: "#hero",
+            start: "top top",
+            end: "bottom top",
+            scrub: 1,
+            onUpdate: (self) => {
+                scroll.rot = self.progress * Math.PI * 1.4;
+            },
+        });
+
+        // Pausar render fuera del viewport
+        let visible = true;
+        const io = new IntersectionObserver(
+            ([entry]) => {
+                visible = entry.isIntersecting;
+            },
+            { threshold: 0 },
+        );
+        io.observe(root);
+
+        // Estado inicial de entrada. La rotación arranca girada y el lerp del
+        // loop de render la lleva suavemente al reposo (entrada sin tween que
+        // pelee con el lerp). La escala sí se anima con GSAP (el loop no la toca).
+        pivot.rotation.set(-0.5, -0.9, 0);
+        gsap.to(pivot.scale, {
+            x: scaleFactor,
+            y: scaleFactor,
+            z: scaleFactor,
+            duration: 1.6,
+            ease: "power3.out",
+            delay: 0.3,
+        });
+        pivot.scale.setScalar(scaleFactor * 0.6);
+
+        root.classList.add("gl-active");
+
+        // ----- Loop -----
+        let raf = 0;
+        let t = 0;
+        const render = () => {
+            raf = requestAnimationFrame(render);
+            if (!visible) return;
+            t += 0.016;
+            // Suavizado hacia el objetivo del mouse + giro de scroll + un
+            // balanceo continuo (idle) bien visible para que se note el 3D.
+            const targetY = mouseTarget.y + scroll.rot + Math.sin(t * 0.5) * 0.3;
+            const targetX = mouseTarget.x + Math.sin(t * 0.6) * 0.1;
+            pivot.rotation.y += (targetY - pivot.rotation.y) * 0.06;
+            pivot.rotation.x += (targetX - pivot.rotation.x) * 0.06;
+            pivot.position.y = Math.sin(t * 0.8) * 0.1;
+            composer.render();
+        };
+        render();
+
+        // ----- Cleanup (HMR / navegación) -----
+        const cleanup = () => {
+            cancelAnimationFrame(raf);
+            window.removeEventListener("resize", resize);
+            window.removeEventListener("pointermove", onPointer);
+            io.disconnect();
+            scrollTrigger.kill();
+            logoGroup.traverse((obj: any) => {
+                if (obj.geometry) obj.geometry.dispose();
+            });
+            material.dispose();
+            envTex.dispose();
+            pmrem.dispose();
+            composer.dispose?.();
+            renderer.dispose();
+        };
+        window.addEventListener("beforeunload", cleanup);
+        // Astro view-transitions / HMR
+        document.addEventListener("astro:before-swap", cleanup, { once: true });
+    }
+</script>

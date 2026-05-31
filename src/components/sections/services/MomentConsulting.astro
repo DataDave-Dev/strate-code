@@ -31,9 +31,9 @@ const stages = [
     index={6}
     total={6}
     eyebrow="Su roadmap · En vivo"
-    title='Acompañamiento <span class="italic font-light text-gray-500">con criterio.</span>'
+    title='Acompañamiento <span class="italic font-light gradient-accent">con criterio.</span>'
     description="Lo asesoramos en decisiones de producto, tecnología y estrategia digital. Pares de pensamiento estratégico, no solo manos que codean."
-    bgClass="bg-white text-black"
+    bgClass="bg-surface text-fg"
     ctaLabel="Quiero asesoría"
 >
     <!-- Timeline horizontal de 4 etapas -->
@@ -51,7 +51,7 @@ const stages = [
                 y1="1"
                 x2="1000"
                 y2="1"
-                stroke="#e5e7eb"
+                stroke="rgba(255,255,255,0.12)"
                 stroke-width="1"
             />
             <line
@@ -60,7 +60,7 @@ const stages = [
                 y1="1"
                 x2="1000"
                 y2="1"
-                stroke="#000"
+                stroke="#c8ccd4"
                 stroke-width="1.5"
                 stroke-dasharray="1000"
                 stroke-dashoffset="1000"
@@ -73,15 +73,15 @@ const stages = [
                 stages.map((stage, i) => (
                     <div data-consulting-stage class="relative flex flex-col items-start">
                         <!-- Nodo (z-10 para estar encima de la línea conectora) -->
-                        <div data-consulting-node class="relative z-10 flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-white border-2 border-black mb-4 sm:mb-5 md:mb-6">
+                        <div data-consulting-node class="relative z-10 flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-surface-2 border-2 border-accent mb-4 sm:mb-5 md:mb-6">
                             <span class="text-xs sm:text-sm md:text-base font-mono font-semibold">{stage.num}</span>
                             <!-- Halo -->
-                            <span data-consulting-halo class="absolute inset-0 rounded-full border border-black/30 scale-100 opacity-0" />
+                            <span data-consulting-halo class="absolute inset-0 rounded-full border border-accent/40 scale-100 opacity-0" />
                         </div>
                         <h3 data-consulting-title class="text-base sm:text-lg md:text-xl font-semibold tracking-tight mb-1.5 sm:mb-2">
                             {stage.title}
                         </h3>
-                        <p data-consulting-desc class="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                        <p data-consulting-desc class="text-xs sm:text-sm text-fg-muted leading-relaxed">
                             {stage.desc}
                         </p>
                     </div>
@@ -93,32 +93,32 @@ const stages = [
         <div class="mt-6 sm:mt-8 md:mt-8 lg:mt-10 flex justify-center">
             <div
                 data-consulting-doc
-                class="relative bg-white border border-black/10 rounded-xl sm:rounded-2xl shadow-2xl p-4 sm:p-5 md:p-5 lg:p-6 max-w-sm sm:max-w-md w-full"
+                class="relative glass rounded-xl sm:rounded-2xl shadow-2xl p-4 sm:p-5 md:p-5 lg:p-6 max-w-sm sm:max-w-md w-full"
             >
                 <div class="flex items-center gap-3 mb-3">
-                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-black flex items-center justify-center text-white">
+                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-accent flex items-center justify-center text-bg">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                             <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
                             <path d="M14 2v6h6" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
                         </svg>
                     </div>
                     <div>
-                        <div class="text-[10px] uppercase tracking-wider text-gray-400">Entregable</div>
+                        <div class="text-[10px] uppercase tracking-wider text-fg-faint">Entregable</div>
                         <div class="text-sm sm:text-base font-semibold">Plan estratégico Q1-Q4</div>
                     </div>
                 </div>
                 <div class="space-y-2">
-                    <div data-consulting-doc-line class="h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                        <span class="block h-full bg-black" style="width: 0%"></span>
+                    <div data-consulting-doc-line class="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                        <span class="block h-full bg-accent" style="width: 0%"></span>
                     </div>
-                    <div data-consulting-doc-line class="h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                        <span class="block h-full bg-black" style="width: 0%"></span>
+                    <div data-consulting-doc-line class="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                        <span class="block h-full bg-accent" style="width: 0%"></span>
                     </div>
-                    <div data-consulting-doc-line class="h-1.5 bg-gray-100 rounded-full overflow-hidden w-2/3">
-                        <span class="block h-full bg-black" style="width: 0%"></span>
+                    <div data-consulting-doc-line class="h-1.5 bg-white/10 rounded-full overflow-hidden w-2/3">
+                        <span class="block h-full bg-accent" style="width: 0%"></span>
                     </div>
                 </div>
-                <div class="mt-3 text-[10px] text-gray-400">12 páginas · Firmado digitalmente</div>
+                <div class="mt-3 text-[10px] text-fg-faint">12 páginas · Firmado digitalmente</div>
             </div>
         </div>
     </div>
