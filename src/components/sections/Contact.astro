@@ -38,9 +38,9 @@ const projectTypes = [
             <div class="md:col-span-7">
                 <span
                     data-contact-eyebrow
-                    class="inline-flex items-center gap-2 text-[10px] sm:text-xs uppercase tracking-[0.2em] text-gray-500"
+                    class="inline-flex items-center gap-2 text-[10px] sm:text-xs uppercase tracking-[0.2em] text-fg-muted"
                 >
-                    <span class="w-5 sm:w-6 h-px bg-gray-400"></span>
+                    <span class="w-5 sm:w-6 h-px bg-accent"></span>
                     Contacto
                 </span>
 
@@ -49,7 +49,7 @@ const projectTypes = [
                     class="mt-4 sm:mt-6 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold leading-[1.05] tracking-tight"
                 >
                     Cuéntenos su idea, <span
-                        class="italic font-light text-gray-500"
+                        class="italic font-light gradient-accent"
                         >la hacemos realidad.</span
                     >
                 </h2>
@@ -58,7 +58,7 @@ const projectTypes = [
             <div class="md:col-span-5">
                 <p
                     data-contact-paragraph
-                    class="text-sm sm:text-base md:text-lg text-gray-600 leading-relaxed"
+                    class="text-sm sm:text-base md:text-lg text-fg-muted leading-relaxed"
                 >
                     Respondemos en menos de 24 horas. Si su proyecto se alinea
                     con lo que hacemos, agendamos una llamada gratuita para
@@ -70,12 +70,12 @@ const projectTypes = [
 
         <!-- Cuerpo: canales + formulario -->
         <div
-            class="grid md:grid-cols-12 gap-px bg-gray-200 rounded-2xl sm:rounded-3xl overflow-hidden border border-gray-200"
+            class="grid md:grid-cols-12 gap-px bg-border rounded-2xl sm:rounded-3xl overflow-hidden border border-border"
         >
             <!-- Canales -->
             <div
                 data-contact-channels
-                class="md:col-span-5 bg-white p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col justify-between gap-8 sm:gap-10 md:gap-12"
+                class="md:col-span-5 bg-surface p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col justify-between gap-8 sm:gap-10 md:gap-12"
             >
                 <div>
                     <h3 class="text-lg sm:text-xl font-semibold mb-6 sm:mb-8 tracking-tight">
@@ -86,13 +86,13 @@ const projectTypes = [
                         {
                             channels.map((c) => (
                                 <li data-contact-channel>
-                                    <span class="block text-[10px] sm:text-xs uppercase tracking-[0.2em] text-gray-400 mb-1.5 sm:mb-2">
+                                    <span class="block text-[10px] sm:text-xs uppercase tracking-[0.2em] text-fg-faint mb-1.5 sm:mb-2">
                                         {c.label}
                                     </span>
                                     {c.href ? (
                                         <a
                                             href={c.href}
-                                            class="group inline-flex items-center gap-2 text-sm sm:text-base md:text-lg font-medium hover:text-gray-500 transition-colors break-all sm:break-normal"
+                                            class="group inline-flex items-center gap-2 text-sm sm:text-base md:text-lg font-medium hover:text-accent transition-colors break-all sm:break-normal"
                                         >
                                             {c.value}
                                             <svg
@@ -110,7 +110,7 @@ const projectTypes = [
                                             </svg>
                                         </a>
                                     ) : c.value === "Próximamente" ? (
-                                        <span class="text-sm sm:text-base md:text-lg font-medium text-gray-400 italic">
+                                        <span class="text-sm sm:text-base md:text-lg font-medium text-fg-faint italic">
                                             {c.value}
                                         </span>
                                     ) : (
@@ -125,16 +125,16 @@ const projectTypes = [
                 </div>
 
                 <!-- Estado de disponibilidad -->
-                <div class="border-t border-black/10 pt-5 sm:pt-6">
+                <div class="border-t border-border pt-5 sm:pt-6">
                     <div class="flex items-center gap-2 text-xs sm:text-sm">
                         <span
                             class="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0"
                         ></span>
-                        <span class="text-gray-600">
+                        <span class="text-fg-muted">
                             Disponible para nuevos proyectos
                         </span>
                     </div>
-                    <p class="text-[11px] sm:text-xs text-gray-400 mt-1.5 sm:mt-2">
+                    <p class="text-[11px] sm:text-xs text-fg-faint mt-1.5 sm:mt-2">
                         Cupos limitados este trimestre
                     </p>
                 </div>
@@ -143,13 +143,13 @@ const projectTypes = [
             <!-- Formulario -->
             <form
                 data-contact-form
-                class="md:col-span-7 bg-white p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col gap-5 sm:gap-6"
+                class="md:col-span-7 bg-surface p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col gap-5 sm:gap-6"
             >
                 <div data-contact-field class="grid sm:grid-cols-2 gap-5 sm:gap-6">
                     <div class="flex flex-col gap-2">
                         <label
                             for="name"
-                            class="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-gray-500"
+                            class="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-fg-muted"
                         >
                             Nombre
                         </label>
@@ -159,13 +159,13 @@ const projectTypes = [
                             name="name"
                             required
                             placeholder="Su nombre"
-                            class="bg-transparent border-b border-black/15 focus:border-black py-2 text-sm sm:text-base outline-none transition-colors placeholder:text-gray-300"
+                            class="bg-transparent text-fg border-b border-border focus:border-accent py-2 text-sm sm:text-base outline-none transition-colors placeholder:text-fg-faint"
                         />
                     </div>
                     <div class="flex flex-col gap-2">
                         <label
                             for="email"
-                            class="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-gray-500"
+                            class="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-fg-muted"
                         >
                             Email
                         </label>
@@ -175,14 +175,14 @@ const projectTypes = [
                             name="email"
                             required
                             placeholder="correo@ejemplo.com"
-                            class="bg-transparent border-b border-black/15 focus:border-black py-2 text-sm sm:text-base outline-none transition-colors placeholder:text-gray-300"
+                            class="bg-transparent text-fg border-b border-border focus:border-accent py-2 text-sm sm:text-base outline-none transition-colors placeholder:text-fg-faint"
                         />
                     </div>
                 </div>
 
                 <div data-contact-field class="flex flex-col gap-2.5 sm:gap-3">
                     <span
-                        class="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-gray-500"
+                        class="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-fg-muted"
                     >
                         Tipo de proyecto
                     </span>
@@ -197,7 +197,7 @@ const projectTypes = [
                                         class="peer sr-only"
                                         checked={i === 0}
                                     />
-                                    <span class="inline-block text-[10px] sm:text-xs uppercase tracking-wider px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-black/15 text-gray-600 peer-checked:bg-black peer-checked:text-white peer-checked:border-black hover:border-black/40 transition-all">
+                                    <span class="inline-block text-[10px] sm:text-xs uppercase tracking-wider px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-border text-fg-muted peer-checked:bg-accent peer-checked:text-bg peer-checked:border-accent hover:border-accent transition-all">
                                         {type}
                                     </span>
                                 </label>
@@ -209,7 +209,7 @@ const projectTypes = [
                 <div data-contact-field class="flex flex-col gap-2">
                     <label
                         for="message"
-                        class="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-gray-500"
+                        class="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-fg-muted"
                     >
                         Cuéntenos sobre su proyecto
                     </label>
@@ -219,7 +219,7 @@ const projectTypes = [
                         rows="4"
                         required
                         placeholder="¿Qué tiene en mente? Cuanto más detalle, mejor."
-                        class="bg-transparent border-b border-black/15 focus:border-black py-2 text-sm sm:text-base outline-none transition-colors placeholder:text-gray-300 resize-none"
+                        class="bg-transparent text-fg border-b border-border focus:border-accent py-2 text-sm sm:text-base outline-none transition-colors placeholder:text-fg-faint resize-none"
                     ></textarea>
                 </div>
 
@@ -227,13 +227,13 @@ const projectTypes = [
                     data-contact-field
                     class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-3 sm:pt-4"
                 >
-                    <p class="text-[11px] sm:text-xs text-gray-400 max-w-xs">
+                    <p class="text-[11px] sm:text-xs text-fg-faint max-w-xs">
                         Al enviar acepta que lo contactemos por correo
                         electrónico. Respetamos su privacidad.
                     </p>
                     <button
                         type="submit"
-                        class="group inline-flex items-center justify-center gap-2 sm:gap-3 bg-black text-white px-6 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base hover:bg-gray-800 transition duration-300"
+                        class="group inline-flex items-center justify-center gap-2 sm:gap-3 bg-accent text-bg font-medium px-6 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base hover:glow-ring transition duration-300"
                     >
                         Enviar mensaje
                         <svg

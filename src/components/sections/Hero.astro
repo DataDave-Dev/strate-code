@@ -1,27 +1,35 @@
 ---
 import Section from "../common/Section.astro";
-import Logo from "../Icons/Logo.astro";
+import HeroLogo3D from "../three/HeroLogo3D.astro";
 ---
 
 <Section
     id="hero"
-    class="relative text-black px-5 sm:px-6 md:px-8 lg:px-12 rounded-3xl sm:rounded-4xl overflow-hidden"
+    class="relative text-fg px-5 sm:px-6 md:px-8 lg:px-12 rounded-3xl sm:rounded-4xl overflow-hidden"
 >
     <div
         class="relative w-full max-w-6xl mx-auto grid md:grid-cols-2 gap-10 sm:gap-12 md:gap-16 items-center"
     >
         <!-- Texto -->
         <div class="order-2 md:order-1">
+            <span
+                data-hero-eyebrow
+                class="inline-flex items-center gap-2 text-[10px] sm:text-xs uppercase tracking-[0.2em] text-fg-muted"
+            >
+                <span class="w-5 sm:w-6 h-px bg-accent"></span>
+                Estudio digital · 2026
+            </span>
+
             <h1
                 data-hero-heading
-                class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight tracking-tight"
+                class="mt-4 sm:mt-6 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight tracking-tight"
             >
                 Diseñamos experiencias digitales que elevan su marca
             </h1>
 
             <p
                 data-hero-text
-                class="mt-5 sm:mt-6 text-gray-600 text-base sm:text-lg max-w-md"
+                class="mt-5 sm:mt-6 text-fg-muted text-base sm:text-lg max-w-md"
             >
                 Sitios web, apps a medida y Business Intelligence — todo en una
                 sola web, con criterio y resultados reales.
@@ -31,7 +39,7 @@ import Logo from "../Icons/Logo.astro";
                 <a
                     data-hero-cta
                     href="#contact"
-                    class="border border-black px-5 sm:px-6 py-2.5 sm:py-3 rounded-full text-sm sm:text-base hover:bg-black hover:text-white transition duration-300"
+                    class="bg-accent text-bg font-medium px-5 sm:px-6 py-2.5 sm:py-3 rounded-full text-sm sm:text-base hover:glow-ring hover:-translate-y-0.5 transition duration-300"
                 >
                     Comenzar
                 </a>
@@ -39,16 +47,16 @@ import Logo from "../Icons/Logo.astro";
                 <a
                     data-hero-cta
                     href="#projects"
-                    class="text-gray-500 text-sm sm:text-base hover:text-black transition duration-300"
+                    class="text-fg-muted text-sm sm:text-base hover:text-fg transition duration-300"
                 >
                     Ver proyectos
                 </a>
             </div>
         </div>
 
-        <!-- Logo -->
+        <!-- Logo 3D -->
         <div data-hero-logo class="flex justify-center order-1 md:order-2">
-            <Logo class="w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 lg:w-48 lg:h-48" />
+            <HeroLogo3D />
         </div>
     </div>
 </Section>
@@ -66,25 +74,21 @@ import Logo from "../Icons/Logo.astro";
         will-change: transform;
     }
     /* hide until GSAP applies initial state, prevents FOUC */
+    :global(html:not(.hero-ready)) [data-hero-eyebrow],
     :global(html:not(.hero-ready)) [data-hero-heading],
     :global(html:not(.hero-ready)) [data-hero-text],
-    :global(html:not(.hero-ready)) [data-hero-cta],
-    :global(html:not(.hero-ready)) [data-hero-logo] svg {
+    :global(html:not(.hero-ready)) [data-hero-cta] {
         visibility: hidden;
     }
 </style>
 
 <script>
     import { gsap } from "gsap";
-    import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-    gsap.registerPlugin(ScrollTrigger);
-
+    const eyebrow = document.querySelector<HTMLElement>("[data-hero-eyebrow]");
     const heading = document.querySelector<HTMLElement>("[data-hero-heading]");
     const subtitle = document.querySelector<HTMLElement>("[data-hero-text]");
     const ctas = document.querySelectorAll<HTMLElement>("[data-hero-cta]");
-    const logoWrap = document.querySelector<HTMLElement>("[data-hero-logo]");
-    const logoSvg = logoWrap?.querySelector<SVGElement>("svg");
 
     if (heading) {
         const words = heading.textContent?.trim().split(/\s+/) ?? [];
@@ -94,8 +98,7 @@ import Logo from "../Icons/Logo.astro";
     }
 
     // autoAlpha = opacity + visibility:hidden cuando es 0 (mejor rendimiento)
-    gsap.set([subtitle, ...ctas], { autoAlpha: 0, y: 24 });
-    gsap.set(logoSvg, { autoAlpha: 0, scale: 0.4, rotate: -25 });
+    gsap.set([eyebrow, subtitle, ...ctas], { autoAlpha: 0, y: 24 });
     // Usar scale pequeño en lugar de blur para mejor rendimiento
     gsap.set("[data-hero-heading] .word > span", {
         yPercent: 110,
@@ -108,18 +111,23 @@ import Logo from "../Icons/Logo.astro";
     const run = () => {
         const tl = gsap.timeline({
             defaults: { ease: "power3.out" },
-            delay: 0.6,
+            delay: 0.35,
         });
 
-        tl.to("[data-hero-heading] .word > span", {
-            yPercent: 0,
-            rotate: 0,
-            scale: 1,
-            autoAlpha: 1,
-            duration: 1.1,
-            stagger: 0.09,
-            ease: "power3.out", // Más suave y consistente que expo
-        })
+        tl.to(eyebrow, { autoAlpha: 1, y: 0, duration: 0.6 })
+            .to(
+                "[data-hero-heading] .word > span",
+                {
+                    yPercent: 0,
+                    rotate: 0,
+                    scale: 1,
+                    autoAlpha: 1,
+                    duration: 1.1,
+                    stagger: 0.09,
+                    ease: "power3.out",
+                },
+                "-=0.3",
+            )
             .to(
                 subtitle,
                 {
@@ -138,53 +146,7 @@ import Logo from "../Icons/Logo.astro";
                     stagger: 0.1,
                 },
                 "-=0.4",
-            )
-            .to(
-                logoSvg,
-                {
-                    autoAlpha: 1,
-                    scale: 1,
-                    rotate: 0,
-                    duration: 1.1,
-                    ease: "back.out(1.5)",
-                },
-                "-=1.1",
-            )
-            .add(() => {
-                if (logoSvg) {
-                    // Guardar referencia para cleanup
-                    const floatAnimation = gsap.to(logoSvg, {
-                        y: -14,
-                        duration: 2.6,
-                        repeat: -1,
-                        yoyo: true,
-                        ease: "sine.inOut",
-                    });
-
-                    // Pausar cuando el hero sale del viewport para ahorrar recursos
-                    ScrollTrigger.create({
-                        trigger: "#hero",
-                        start: "top top",
-                        end: "bottom top",
-                        onLeave: () => floatAnimation.pause(),
-                        onEnterBack: () => floatAnimation.play(),
-                    });
-                }
-            });
-
-        if (logoWrap) {
-            gsap.to(logoWrap, {
-                yPercent: -25,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: "#hero",
-                    start: "top top",
-                    end: "bottom top",
-                    scrub: true,
-                    refreshPriority: -1, // Hero es la primera sección
-                },
-            });
-        }
+            );
     };
 
     if (document.fonts && "ready" in document.fonts) {

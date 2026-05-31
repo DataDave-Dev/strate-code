@@ -42,14 +42,14 @@ const year = new Date().getFullYear();
     <div class="max-w-6xl mx-auto w-full">
         <!-- Encabezado -->
         <div
-            class="grid md:grid-cols-12 gap-8 sm:gap-10 md:gap-12 lg:gap-16 pb-10 sm:pb-12 md:pb-16 border-b border-black/10"
+            class="grid md:grid-cols-12 gap-8 sm:gap-10 md:gap-12 lg:gap-16 pb-10 sm:pb-12 md:pb-16 border-b border-border"
         >
             <div class="md:col-span-6">
                 <span
                     data-footer-eyebrow
-                    class="inline-flex items-center gap-2 text-[10px] sm:text-xs uppercase tracking-[0.2em] text-gray-500"
+                    class="inline-flex items-center gap-2 text-[10px] sm:text-xs uppercase tracking-[0.2em] text-fg-muted"
                 >
-                    <span class="w-5 sm:w-6 h-px bg-gray-400"></span>
+                    <span class="w-5 sm:w-6 h-px bg-accent"></span>
                     Hablemos
                 </span>
 
@@ -58,7 +58,7 @@ const year = new Date().getFullYear();
                     class="mt-4 sm:mt-6 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold leading-[1.05] tracking-tight"
                 >
                     Su idea, nosotros la <span
-                        class="italic font-light text-gray-500"
+                        class="italic font-light gradient-accent"
                         >hacemos realidad.</span
                     >
                 </h2>
@@ -66,7 +66,7 @@ const year = new Date().getFullYear();
                 <a
                     data-footer-cta
                     href="#contact"
-                    class="mt-8 sm:mt-10 inline-flex items-center gap-2 sm:gap-3 bg-black text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-full text-sm sm:text-base hover:bg-gray-800 transition duration-300"
+                    class="mt-8 sm:mt-10 inline-flex items-center gap-2 sm:gap-3 bg-accent text-bg font-medium px-5 sm:px-6 py-2.5 sm:py-3 rounded-full text-sm sm:text-base hover:glow-ring hover:-translate-y-0.5 transition duration-300"
                 >
                     Iniciar un proyecto
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -91,7 +91,7 @@ const year = new Date().getFullYear();
                                     <li>
                                         <a
                                             href={link.href}
-                                            class="text-xs sm:text-sm text-gray-500 hover:text-black transition-colors duration-300"
+                                            class="text-xs sm:text-sm text-fg-muted hover:text-fg transition-colors duration-300"
                                         >
                                             {link.label}
                                         </a>
@@ -110,7 +110,7 @@ const year = new Date().getFullYear();
             class="flex items-center justify-center py-8 sm:py-10 md:py-14 lg:py-16 select-none"
         >
             <span
-                class="text-[22vw] sm:text-[20vw] md:text-[16vw] lg:text-[14vw] leading-none font-semibold tracking-tighter text-black/5"
+                class="text-[22vw] sm:text-[20vw] md:text-[16vw] lg:text-[14vw] leading-none font-semibold tracking-tighter text-fg/[0.06]"
             >
                 StrateCode
             </span>
@@ -118,23 +118,23 @@ const year = new Date().getFullYear();
 
         <!-- Bottom bar -->
         <div
-            class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 sm:gap-6 pt-6 sm:pt-8 border-t border-black/10"
+            class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 sm:gap-6 pt-6 sm:pt-8 border-t border-border"
         >
-            <div data-footer-bottom class="flex items-center gap-2 sm:gap-3">
-                <Logo class="w-7 h-7 sm:w-8 sm:h-8" />
-                <span class="text-xs sm:text-sm text-gray-500">
+            <div data-footer-bottom class="flex items-center gap-2 sm:gap-3 text-fg">
+                <Logo variant="gradient" class="w-7 h-7 sm:w-8 sm:h-8" />
+                <span class="text-xs sm:text-sm text-fg-muted">
                     © {year} Strate Code. Todos los derechos reservados.
                 </span>
             </div>
 
             <div
                 data-footer-bottom
-                class="flex flex-wrap items-center gap-4 sm:gap-6 text-xs sm:text-sm text-gray-500"
+                class="flex flex-wrap items-center gap-4 sm:gap-6 text-xs sm:text-sm text-fg-muted"
             >
-                <a href="#" class="hover:text-black transition-colors"
+                <a href="#" class="hover:text-fg transition-colors"
                     >Privacidad</a
                 >
-                <a href="#" class="hover:text-black transition-colors"
+                <a href="#" class="hover:text-fg transition-colors"
                     >Términos</a
                 >
                 <span class="hidden lg:inline-flex items-center gap-2">
